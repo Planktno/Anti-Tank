@@ -9,6 +9,7 @@ public class HelloWorld {
 		System.out.println("Hello World!");
 		System.out.println("2nd Line");
 		System.out.println("another line");
+		System.out.println("Hello from Niko @ Eclipse");
 	}
 
 }
