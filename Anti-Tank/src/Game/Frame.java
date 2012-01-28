@@ -14,6 +14,12 @@ public class Frame extends JFrame {
         
         Panel_StartScreen s = new Panel_StartScreen();
         this.add(s);
+        
+        //Panel_HistoryScreen h = new Panel_HistoryScreen();
+        //this.add(h);
+        
+        //Panel_AnimationTest a = new Panel_AnimationTest();
+        //this.add(a);
 
         this.validate();
 	}
