@@ -13,6 +13,7 @@ public class HelloWorld {
 		System.out.println("Hello from Victor @ Eclipse");
 		System.out.println("Hello from Gordon @ Eclipse");
 		System.out.println("Hello from Oana @ Eclipse");
+		System.out.println("Hello from Peter @ Eclipse @ Home :)");
 	}
 
 }
