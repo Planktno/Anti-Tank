@@ -2,6 +2,8 @@ package Game;
 
 import javax.swing.JFrame;
 
+import Level.GameContainer;
+
 public class Frame extends JFrame {
 
 	public Frame() {
@@ -14,18 +16,26 @@ public class Frame extends JFrame {
         
         Panel_StartScreen s = new Panel_StartScreen();
         this.add(s);
-        
-        //Panel_HistoryScreen h = new Panel_HistoryScreen();
-        //this.add(h);
-        
-        //Panel_AnimationTest a = new Panel_AnimationTest();
-        //this.add(a);
+//        
+//        Panel_HistoryScreen h = new Panel_HistoryScreen();
+//        this.add(h);
+//        
+//        Panel_AnimationTest a = new Panel_AnimationTest();
+//        this.add(a);
 
         this.validate();
 	}
 	
 	public static void main (String[] args) {
 		Frame f = new Frame();
+
+//		GameContainer gc = new GameContainer(f);
+//		
+//		try {
+//			gc.mainLoop();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 }
