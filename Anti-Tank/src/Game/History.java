@@ -54,5 +54,30 @@ public class History {
 		for (int i = 0; i < MAXIMUM_HISTORY; i++) str[i] = in.readLine(); //every line is one String in the Array str
 		return str;
 	}
+	
+//	public static void main(String[] args) throws IOException {
+//		//Delete the file
+//		File file = new File(FILEPATH);
+//		boolean exists = file.exists(); //Look if a history.txt file exists
+//		if (!exists) file.delete(); //if not -> create one
+//		
+//		//Create new History Object
+//		History test = new History();
+//		
+//		//Add 9 matches (1 too many)
+//		test.addMatch("Player1, Player2, 01:00");
+//		test.addMatch("Player1, Player2, 02:00");
+//		test.addMatch("Player1, Player2, 03:00");
+//		test.addMatch("Player1, Player2, 04:00");
+//		test.addMatch("Player1, Player2, 05:00");
+//		test.addMatch("Player1, Player2, 06:00");
+//		test.addMatch("Player1, Player2, 07:00");
+//		test.addMatch("Player1, Player2, 08:00");
+//		test.addMatch("Player1, Player2, 09:00");
+//		
+//		//Last 8 matches should be shown
+//		String[] history = test.getMatches();
+//		for(int i=0; i<history.length; i++) System.out.println(history[i]);
+//	}
 
 }
