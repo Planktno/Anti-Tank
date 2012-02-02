@@ -14,8 +14,8 @@ public class Frame extends JFrame {
         this.setSize(800, 600);
         this.setVisible(true);
         
-        Panel_StartScreen s = new Panel_StartScreen();
-        this.add(s);
+//        Panel_StartScreen s = new Panel_StartScreen();
+//        this.add(s);
 //        
 //        Panel_HistoryScreen h = new Panel_HistoryScreen();
 //        this.add(h);
@@ -27,8 +27,8 @@ public class Frame extends JFrame {
 	}
 	
 	public static void main (String[] args) {
-		Frame f = new Frame();
-
+//		Frame f = new Frame();
+//
 //		GameContainer gc = new GameContainer(f);
 //		
 //		try {
