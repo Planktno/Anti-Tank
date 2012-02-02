@@ -29,7 +29,7 @@ public class Animation extends JComponent{
 		//subtract multiples of timePerFrame from deltaSum
 	}
 	
-	public void paint(Graphics g) {
+	public void render() {
 		//paint the current img at the respective x,y coordinates
 	}
 	
