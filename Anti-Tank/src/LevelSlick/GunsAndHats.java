@@ -8,6 +8,8 @@ import org.newdawn.slick.SlickException;
 
 public class GunsAndHats extends BasicGame {
 
+	World world;
+	
 	public GunsAndHats() {
 		super("Guns and Hats");
 		// TODO Auto-generated constructor stub
@@ -16,13 +18,12 @@ public class GunsAndHats extends BasicGame {
 	@Override
 	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
 		// TODO Auto-generated method stub
-		
+		world.render();
 	}
 
 	@Override
 	public void init(GameContainer arg0) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		world = new World();
 	}
 
 	@Override
