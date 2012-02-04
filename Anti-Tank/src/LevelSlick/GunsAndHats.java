@@ -40,6 +40,7 @@ public class GunsAndHats extends BasicGame {
 		AppGameContainer app = new AppGameContainer( new GunsAndHats() );
 		 
         app.setDisplayMode(800, 600, false);
+        app.setTargetFrameRate(60);
         app.start();
 	}
 }

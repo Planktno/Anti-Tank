@@ -1,5 +1,5 @@
 package LevelSlick;
 
-public interface Projectile {
+public class Projectile {
 
 }
