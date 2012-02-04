@@ -12,7 +12,7 @@ public class Panel_AnimationTest extends JPanel{
 		
 		imgs = null;
 		
-		Animation a = new Animation(imgs, 250, 200, 200);
+//		Animation a = new Animation(imgs, 250, 200, 200);
 	}
 
 }
