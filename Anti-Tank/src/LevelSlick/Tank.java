@@ -23,7 +23,7 @@ public class Tank {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		pos = new Vector2f(600,275);
+		pos = new Vector2f(400,274);
 		scale = 1;
 		rotation = 0;
 		height = img.getHeight();
