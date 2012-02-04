@@ -47,8 +47,8 @@ public class Animation extends JComponent{
 		
 		deltaSum += delta;
 		deltaSum -= timePerFrame; 
-		if (i <= 3) {
-			//display imgs[sequence[i]]
+		if (i < sequence.length) {
+			
 			i++;
 		} else {
 			i = 0;
@@ -63,7 +63,7 @@ public class Animation extends JComponent{
 	
 	public void render() {
 		
-		imgs[0].draw(60, 60);
+		imgs[sequence[i]].draw(60, 60);
 	}
 	
 }
