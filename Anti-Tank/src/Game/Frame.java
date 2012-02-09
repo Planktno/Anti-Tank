@@ -27,15 +27,15 @@ public class Frame extends JFrame {
 	}
 	
 	public static void main (String[] args) {
-//		Frame f = new Frame();
-//
-//		GameContainer gc = new GameContainer(f);
-//		
-//		try {
-//			gc.mainLoop();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		Frame f = new Frame();
+
+		GameContainer gc = new GameContainer(f);
+		
+		try {
+			gc.mainLoop();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

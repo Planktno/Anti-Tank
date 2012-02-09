@@ -1,4 +1,4 @@
-package Game;
+package states;
 
 import java.io.*;
 
