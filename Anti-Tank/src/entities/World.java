@@ -1,4 +1,4 @@
-package LevelSlick;
+package entities;
 
 import java.awt.Color;
 import java.util.HashSet;
@@ -26,7 +26,7 @@ public class World {
 			e.printStackTrace();
 		}
 		
-		cam = new Camera();
+		cam = new Camera(800, 600, 800, 600);
 		tanks = new Tank[1];
 		tanks[0] = new Tank();
 		this.checkCollision(tanks[0]);

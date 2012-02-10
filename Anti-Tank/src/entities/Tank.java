@@ -1,4 +1,4 @@
-package LevelSlick;
+package entities;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -42,7 +42,7 @@ public class Tank {
 	}
 	
 	public void render(Camera camera) {
-		Vector2f rel_pos = camera.getRelativePos(pos);
+		Vector2f rel_pos = camera.getRelPos(pos);
 		float rel_scale = camera.getScale();
 		
 		img.setRotation(rotation);

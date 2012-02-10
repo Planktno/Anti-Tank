@@ -1,4 +1,4 @@
-package LevelSlick;
+package game;
 
 public class ResourceManager {
 

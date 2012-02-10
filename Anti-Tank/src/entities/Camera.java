@@ -1,4 +1,4 @@
-package LevelSlick;
+package entities;
 
 import org.newdawn.slick.geom.Vector2f;
 

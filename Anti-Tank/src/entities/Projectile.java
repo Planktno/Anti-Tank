@@ -1,4 +1,4 @@
-package LevelSlick;
+package entities;
 
 public class Projectile {
 
