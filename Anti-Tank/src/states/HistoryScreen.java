@@ -28,6 +28,12 @@ public class HistoryScreen extends BasicGameState {
 		
 		try {
 			matches = history.getMatches();
+			//create a JPanel
+			for (int i=0;i <= 8;i++) {
+				//Split the current string into substrings: str[i].split(",")
+				//print out the substrings on JPanel, formatted output
+				//take new line
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
