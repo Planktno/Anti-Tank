@@ -5,7 +5,7 @@ import org.newdawn.slick.geom.Vector2f;
 public class Camera {
 
 	//Attributes for general adaptability to screen size
-	private int screenWidth, screenHeight; //size of the actual presented area
+	private int screenWidth, screenHeight; //size of the actual presented area (Window or full screen)
 	private int frameWidth, frameHeight; //size of the in-game frames
 	private float scale; //multiplication factor to get from the frame size to the screen size
 	private Vector2f offset; //offset from the top left corner for centering the image in fullscreen
@@ -14,7 +14,7 @@ public class Camera {
 	private World_old world;
 	private Tank_old tank;
 	private Projectile projectile;
-	private Vector2f focusOffset; //The added offset to center on the focused object
+	private Vector2f focusOffset; //The added offset (to int offset) to center on the focused object
 	private float focusScale; //The multiplied scale to offer a good visibility of the focused object
 	private boolean smoothFocusChange; //Changed focus should be done smoothly
 	
