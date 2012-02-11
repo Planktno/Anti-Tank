@@ -12,24 +12,27 @@ import entities.Camera;
 public class StartScreen extends BasicGameState{
 
 	private int id;
+	Camera camera;
 	
 	Image background;
 	
 	public StartScreen(int id, Camera camera) {
 		this.id = id;
+		this.camera = camera;
 	}
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sb)
 			throws SlickException {
-		background = new Image("data/testlevel.png");
+		background = new Image("data/startscreen.jpg");
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr)
 			throws SlickException {
 		gr.drawString("LOL",0,0);
-		background.draw(0, 0);
+		Image bgScaled = background.getScaledCopy(camera.getScale());
+		bgScaled.draw(0, 0);
 	}
 
 	@Override
