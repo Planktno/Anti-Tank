@@ -11,8 +11,8 @@ public class Camera {
 	private Vector2f offset; //offset from the top left corner for centering the image in fullscreen
 	
 	//objects that can be focused on. only one at a time (others must be null)
-	private World world;
-	private Tank tank;
+	private World_old world;
+	private Tank_old tank;
 	private Projectile projectile;
 	private Vector2f focusOffset; //The added offset to center on the focused object
 	private float focusScale; //The multiplied scale to offer a good visibility of the focused object
@@ -64,13 +64,13 @@ public class Camera {
 		return offset;
 	}
 	
-	public void setFocus(World world) {
+	public void setFocus(World_old world) {
 		this.world = world;
 		this.tank = null;
 		this.projectile = null;
 	}
 	
-	public void setFocus(Tank tank) {
+	public void setFocus(Tank_old tank) {
 		this.world = null;
 		this.tank = tank;
 		this.projectile = null;

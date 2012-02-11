@@ -6,11 +6,11 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import entities.World;
+import entities.World_old;
 
 public class GunsAndHats_simple extends BasicGame {
 
-	World world;
+	World_old world;
 	
 	public GunsAndHats_simple() {
 		super("Guns and Hats");
@@ -25,7 +25,7 @@ public class GunsAndHats_simple extends BasicGame {
 
 	@Override
 	public void init(GameContainer arg0) throws SlickException {
-		world = new World();
+		world = new World_old();
 	}
 
 	@Override
