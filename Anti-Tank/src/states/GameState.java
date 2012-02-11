@@ -26,21 +26,21 @@ public class GameState extends BasicGameState{
 	
 	
 	
-	public GameState(int id, int numplayers){
+	public GameState(int id){
 		stateID = id;
-		numberOfPlayers = numplayers;
 	}
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
+		numberOfPlayers = 1;
 		world = new World();
 		players = new Player[numberOfPlayers];
 		projectiles = new ArrayList<Projectile>();
 		currentPlayer = 0;
 		timeStarted = System.nanoTime();
 		roundsPlayed = 0;
-		
+				
 //		world.init();
 //		for (int i = 0; i < players.length; i++) players[i].init();
 	}
@@ -77,11 +77,10 @@ public class GameState extends BasicGameState{
 	public boolean checkCollision(Projectile proj, Player pl){
 		return false;
 	}
-	
-	public boolean checkCollision()
+
 	
 	@Override
-	public int getID() {
+	public int getID(){
 		return stateID ;
 	}
 
