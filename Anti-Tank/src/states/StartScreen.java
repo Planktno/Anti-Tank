@@ -3,6 +3,7 @@ package states;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -48,7 +49,19 @@ public class StartScreen extends BasicGameState{
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
+		Input input = gc.getInput();
+		int mouseX = input.getMouseX();
+		int mouseY = input.getMouseY();
+		
+		//if inside the right Y range for all buttons
+		if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
+			//if inside the right X range for the start button
+			if(mouseX >= camera.getOffset().getX() + 50*camera.getScale() && mouseX <= camera.getOffset().getX() + 50*camera.getScale() + b_start.getWidth()*camera.getScale()) {
+				b_start.setRotation(5.0f);
+			} 
+		} else {
+			b_start.setRotation(0);
+		}
 		
 	}
 
