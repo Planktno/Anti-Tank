@@ -27,7 +27,7 @@ public class StartScreen extends BasicGameState{
 	@Override
 	public void init(GameContainer gc, StateBasedGame sb)
 			throws SlickException {
-		background = new Image("data/startscreen.png");
+		background = new Image("data/startscreen.JPG");
 		b_start    = new Image("data/button_new_game.png");
 		b_history  = new Image("data/button_history.png");
 		b_exit     = new Image("data/button_exit.png");
