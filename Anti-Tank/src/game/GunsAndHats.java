@@ -45,7 +45,7 @@ public class GunsAndHats extends StateBasedGame {
 	}
 	
 	public void setCamera(int frameWidth, int frameHeight, int screenWidth, int screenHeight) {
-		camera = new Camera(frameWidth, frameHeight, screenWidth, screenHeight);
+		camera = new Camera(screenWidth, screenHeight, frameWidth, frameHeight);
 	}
 	
 	public static void main(String[] args) throws SlickException {

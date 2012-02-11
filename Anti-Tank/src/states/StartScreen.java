@@ -15,6 +15,9 @@ public class StartScreen extends BasicGameState{
 	Camera camera;
 	
 	Image background;
+	Image b_start;
+	Image b_history;
+	Image b_exit;
 	
 	public StartScreen(int id, Camera camera) {
 		this.id = id;
@@ -24,15 +27,20 @@ public class StartScreen extends BasicGameState{
 	@Override
 	public void init(GameContainer gc, StateBasedGame sb)
 			throws SlickException {
-		background = new Image("data/startscreen.jpg");
+		background = new Image("data/startscreen.png");
+		b_start    = new Image("data/button_new_game.png");
+		b_history  = new Image("data/button_history.png");
+		b_exit     = new Image("data/button_exit.png");
+		
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr)
 			throws SlickException {
 		gr.drawString("LOL",0,0);
-		Image bgScaled = background.getScaledCopy(camera.getScale());
-		bgScaled.draw(0, 0);
+		background.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
+		b_start.draw(camera.getOffset().getX()+300*camera.getScale(), camera.getOffset().getY(), camera.getScale());
+		// +n*camera.getScale()
 	}
 
 	@Override
