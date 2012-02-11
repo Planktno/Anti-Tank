@@ -39,7 +39,9 @@ public class StartScreen extends BasicGameState{
 			throws SlickException {
 		gr.drawString("LOL",0,0);
 		background.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
-		b_start.draw(camera.getOffset().getX()+300*camera.getScale(), camera.getOffset().getY(), camera.getScale());
+		b_start.draw(camera.getOffset().getX()+50*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), camera.getScale());
+		b_history.draw(camera.getOffset().getX()+330*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), camera.getScale());
+		b_exit.draw(camera.getOffset().getX()+590*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), camera.getScale());
 		// +n*camera.getScale()
 	}
 
