@@ -9,12 +9,12 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class StartScreen extends BasicGameState{
 
-	private static int STARTSCREENSTATE = 1;
+	private int id;
 	
 	Image background;
 	
-	public StartScreen() {
-		
+	public StartScreen(int id) {
+		this.id = id;
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class StartScreen extends BasicGameState{
 
 	@Override
 	public int getID() {
-		return STARTSCREENSTATE;
+		return id;
 	}
 
 }

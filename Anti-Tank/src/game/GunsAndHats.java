@@ -9,6 +9,7 @@ import states.EndGameScreen;
 import states.GameState;
 import states.HistoryScreen;
 import states.InGameMenu;
+import states.PreGameMenu;
 import states.StartScreen;
 import entities.Camera;
 
@@ -18,6 +19,13 @@ public class GunsAndHats extends StateBasedGame {
 	private static int FRAMEHEIGHT = 768;
 	private static int FRAMERATE = 60;
 	
+	private static int STARTSCREEN = 1;
+	private static int PREGAMESTATE = 2;
+	private static int GAMESTATE = 3;
+	private static int INGAMEMENU = 4;
+	private static int ENDGAMESCREEN = 5;
+	private static int HISTORYSCREEN = 6;
+	
 	private Camera camera;
 	
 	public GunsAndHats() {
@@ -26,14 +34,14 @@ public class GunsAndHats extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
-		this.addState(new StartScreen());
-		this.addState(new PreGameState());
-		this.addState(new GameState());
-		this.addState(new InGameMenu());
-		this.addState(new EndGameScreen());
-		this.addState(new HistoryScreen());
+		this.addState(new StartScreen(STARTSCREEN));
+		this.addState(new PreGameMenu(PREGAMESTATE));
+		this.addState(new GameState(GAMESTATE));
+		this.addState(new InGameMenu(INGAMEMENU));
+		this.addState(new EndGameScreen(ENDGAMESCREEN));
+		this.addState(new HistoryScreen(HISTORYSCREEN));
 		
-		this.enterState(1);
+		this.enterState(STARTSCREEN);
 	}
 	
 	public void setCamera(int frameWidth, int frameHeight, int screenWidth, int screenHeight) {

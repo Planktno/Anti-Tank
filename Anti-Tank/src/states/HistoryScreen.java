@@ -13,8 +13,14 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class HistoryScreen extends BasicGameState {
 
+	private int id;
+	
 	History history;
 	String[] matches;
+	
+	public HistoryScreen(int id) {
+		this.id = id;
+	}
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
