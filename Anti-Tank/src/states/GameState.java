@@ -48,6 +48,8 @@ public class GameState extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g)
 			throws SlickException {
+		
+		
 		// Render World, then players, then projectiles.
 //		world.render();
 //		for (int i = 0; i < players.length; i++) players[i].render();
@@ -58,6 +60,8 @@ public class GameState extends BasicGameState{
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
+		
+		
 		// Update World, then players, then projectiles.
 //		world.update();
 //		for (int i = 0; i < players.length; i++) players[i].update();
