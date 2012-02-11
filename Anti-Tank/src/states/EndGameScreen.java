@@ -8,6 +8,12 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class EndGameScreen extends BasicGameState {
 
+	private int id;
+	
+	public EndGameScreen(int id) {
+		this.id = id;
+	}
+	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {

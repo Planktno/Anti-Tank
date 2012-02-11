@@ -8,6 +8,11 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class InGameMenu extends BasicGameState {
 
+	private int id;
+	
+	public InGameMenu(int id) {
+		this.id = id;
+	}
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
