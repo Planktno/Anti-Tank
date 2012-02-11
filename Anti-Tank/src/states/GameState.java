@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import entities.Camera;
 import entities.Player;
 import entities.Projectile;
 import entities.World;
@@ -26,7 +27,7 @@ public class GameState extends BasicGameState{
 	
 	
 	
-	public GameState(int id){
+	public GameState(int id, Camera camera){
 		stateID = id;
 	}
 

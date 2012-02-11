@@ -15,8 +15,8 @@ import entities.Camera;
 
 public class GunsAndHats extends StateBasedGame {
 
-	private static int FRAMEWIDTH = 1024;
-	private static int FRAMEHEIGHT = 768;
+	private static int FRAMEWIDTH = 800;
+	private static int FRAMEHEIGHT = 600;
 	private static int FRAMERATE = 60;
 	
 	private static int STARTSCREEN = 1;
@@ -34,27 +34,27 @@ public class GunsAndHats extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
-		this.addState(new StartScreen(STARTSCREEN));
-		this.addState(new PreGameMenu(PREGAMESTATE));
-		this.addState(new GameState(GAMESTATE));
-		this.addState(new InGameMenu(INGAMEMENU));
-		this.addState(new EndGameScreen(ENDGAMESCREEN));
-		this.addState(new HistoryScreen(HISTORYSCREEN));
+		this.addState(new StartScreen(STARTSCREEN, camera));
+		this.addState(new PreGameMenu(PREGAMESTATE, camera));
+		this.addState(new GameState(GAMESTATE, camera));
+		this.addState(new InGameMenu(INGAMEMENU, camera));
+		this.addState(new EndGameScreen(ENDGAMESCREEN, camera));
+		this.addState(new HistoryScreen(HISTORYSCREEN, camera));
 		
 		this.enterState(STARTSCREEN);
 	}
 	
 	public void setCamera(int frameWidth, int frameHeight, int screenWidth, int screenHeight) {
-		camera = new Camera(frameWidth, frameHeight, screenWidth, screenHeight);
+		camera = new Camera(screenWidth, screenHeight, frameWidth, frameHeight);
 	}
 	
 	public static void main(String[] args) throws SlickException {
 		GunsAndHats game = new GunsAndHats();
 		AppGameContainer app = new AppGameContainer(game);
-//		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, app.getScreenWidth(), app.getScreenHeight());
-//		app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), true);
-		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, FRAMEWIDTH, FRAMEHEIGHT);
-		app.setDisplayMode(FRAMEWIDTH, FRAMEHEIGHT, true);
+		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, app.getScreenWidth(), app.getScreenHeight());
+		app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), true);
+//		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, FRAMEWIDTH, FRAMEHEIGHT);
+//		app.setDisplayMode(FRAMEWIDTH, FRAMEHEIGHT, false);
 		app.setTargetFrameRate(FRAMERATE);
 		app.setShowFPS(false);
 		app.start();
