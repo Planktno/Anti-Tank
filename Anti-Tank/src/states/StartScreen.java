@@ -7,13 +7,15 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import entities.Camera;
+
 public class StartScreen extends BasicGameState{
 
 	private int id;
 	
 	Image background;
 	
-	public StartScreen(int id) {
+	public StartScreen(int id, Camera camera) {
 		this.id = id;
 	}
 	

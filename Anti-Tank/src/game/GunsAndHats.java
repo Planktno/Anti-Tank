@@ -34,12 +34,12 @@ public class GunsAndHats extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
-		this.addState(new StartScreen(STARTSCREEN));
-		this.addState(new PreGameMenu(PREGAMESTATE));
-		this.addState(new GameState(GAMESTATE));
-		this.addState(new InGameMenu(INGAMEMENU));
-		this.addState(new EndGameScreen(ENDGAMESCREEN));
-		this.addState(new HistoryScreen(HISTORYSCREEN));
+		this.addState(new StartScreen(STARTSCREEN, camera));
+		this.addState(new PreGameMenu(PREGAMESTATE, camera));
+		this.addState(new GameState(GAMESTATE, camera));
+		this.addState(new InGameMenu(INGAMEMENU, camera));
+		this.addState(new EndGameScreen(ENDGAMESCREEN, camera));
+		this.addState(new HistoryScreen(HISTORYSCREEN, camera));
 		
 		this.enterState(STARTSCREEN);
 	}
@@ -54,7 +54,7 @@ public class GunsAndHats extends StateBasedGame {
 //		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, app.getScreenWidth(), app.getScreenHeight());
 //		app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), true);
 		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, FRAMEWIDTH, FRAMEHEIGHT);
-		app.setDisplayMode(FRAMEWIDTH, FRAMEHEIGHT, true);
+		app.setDisplayMode(FRAMEWIDTH, FRAMEHEIGHT, false);
 		app.setTargetFrameRate(FRAMERATE);
 		app.setShowFPS(false);
 		app.start();

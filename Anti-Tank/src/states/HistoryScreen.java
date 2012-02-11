@@ -1,5 +1,6 @@
 package states;
 
+import entities.Camera;
 import game.History;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class HistoryScreen extends BasicGameState {
 	History history;
 	String[] matches;
 	
-	public HistoryScreen(int id) {
+	public HistoryScreen(int id, Camera camera) {
 		this.id = id;
 	}
 	

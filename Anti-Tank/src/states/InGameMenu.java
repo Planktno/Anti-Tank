@@ -6,11 +6,13 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import entities.Camera;
+
 public class InGameMenu extends BasicGameState {
 
 	private int id;
 	
-	public InGameMenu(int id) {
+	public InGameMenu(int id, Camera camera) {
 		this.id = id;
 	}
 	@Override
