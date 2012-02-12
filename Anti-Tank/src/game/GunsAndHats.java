@@ -19,12 +19,16 @@ public class GunsAndHats extends StateBasedGame {
 	private static int FRAMEHEIGHT = 600;
 	private static int FRAMERATE = 60;
 	
+	
+	//perhaps change these to public?? - peter
 	private static int STARTSCREEN = 1;
 	private static int PREGAMESTATE = 2;
 	private static int GAMESTATE = 3;
 	private static int INGAMEMENU = 4;
 	private static int ENDGAMESCREEN = 5;
 	private static int HISTORYSCREEN = 6;
+	
+	
 	
 	private Camera camera;
 	
@@ -53,8 +57,8 @@ public class GunsAndHats extends StateBasedGame {
 		AppGameContainer app = new AppGameContainer(game);
 		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, app.getScreenWidth(), app.getScreenHeight());
 		app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), true);
-//		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, FRAMEWIDTH, FRAMEHEIGHT);
-//		app.setDisplayMode(FRAMEWIDTH, FRAMEHEIGHT, false);
+		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, FRAMEWIDTH, FRAMEHEIGHT);
+		app.setDisplayMode(FRAMEWIDTH, FRAMEHEIGHT, false);
 		app.setTargetFrameRate(FRAMERATE);
 		app.setShowFPS(false);
 		app.start();

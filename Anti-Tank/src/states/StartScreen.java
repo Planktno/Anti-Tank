@@ -58,6 +58,7 @@ public class StartScreen extends BasicGameState{
 			//if inside the right X range for the start button
 			if(mouseX >= camera.getOffset().getX() + 50*camera.getScale() && mouseX <= camera.getOffset().getX() + 50*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 				b_start.setRotation(5.0f);
+				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(3); // id 3 => GAMESTATE
 			} else {
 				b_start.setRotation(0);
 			}

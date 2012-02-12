@@ -12,9 +12,9 @@ import org.newdawn.slick.state.StateBasedGame;
 public class World {
 
 	Image level;
-	int gravity;
-	int wind;
-	int windAngle;
+	static int gravity;
+	static int wind;
+	static int windAngle;
 	
 	HashSet<String> pixelMap;
 	
@@ -34,15 +34,15 @@ public class World {
 		return level;
 	}
 
-	public int getGravity() {
+	public static int getGravity() {
 		return gravity;
 	}
 
-	public int getWind() {
+	public static int getWind() {
 		return wind;
 	}
 
-	public int getWindAngle() {
+	public static int getWindAngle() {
 		return windAngle;
 	}
 	
