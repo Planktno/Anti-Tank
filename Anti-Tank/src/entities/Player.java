@@ -2,6 +2,7 @@ package entities;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Player {
@@ -20,12 +21,15 @@ public class Player {
 	}
 	
 	public void update(GameContainer gc, StateBasedGame game , int delta, World world){
-//		tanks[currentTank].update(gc, game, delta); // For testing only
+		// For testing only
+		Input input = gc.getInput();
+		tanks[currentTank].update(gc, game, delta, world, input); 
 		
 		if (hasFocus){
-			//Check Inputs
+			//Get Inputs
 			//Update Active Tank with regard to input
 			//If shot fired tell GameState to move to next player and remove focus on this player
+			//nextTank();
 		}
 	}
 	

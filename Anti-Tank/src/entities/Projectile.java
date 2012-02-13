@@ -19,13 +19,12 @@ public class Projectile {
 	private float baseDamage;	// Base amount of hitpoint damage done to tanks
 	
 	public Projectile(int id, float x, float y, float launchSpeed, float bAngle) {
-		float vx = launchSpeed * (float)Math.cos(Math.toRadians(bAngle));
-		float vy = launchSpeed * (float)Math.sin(Math.toRadians(bAngle));
+		float vx = launchSpeed * (float)Math.cos(Math.toRadians(bAngle)); // x component of initial velocity
+		float vy = launchSpeed * (float)Math.sin(Math.toRadians(bAngle)); // y component of initial velocity
 		
 		pos = new Vector2f(x,y);
 		vel = new Vector2f(vx,vy);
 		rotation = bAngle;
-		
 		
 		//TODO Using the given projectile id, we should be able to load all of this data from somewhere...
 		//For now, another quick fix...
@@ -41,23 +40,34 @@ public class Projectile {
 	
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
 		img.setRotation(rotation);
-		img.draw(pos.x,pos.y);
+		img.draw(cam.getRelFocusPos(pos).x,cam.getRelFocusPos(pos).y,cam.getScale());
 	}
 	
 	public void update(GameContainer gc, StateBasedGame game, int delta, World world){
-		
 		// Check Collisions
 		if (GameState.checkCollision(this, world)){ 
-			// Damage tanks in BlastRadius by some value relating to base damage
-			// Destroy part of the world (maybe)
+			// TODO Damage tanks in BlastRadius by some value relating to base damage
+			// TODO Destroy part of the world (maybe)
 			GameState.destroyProjectile(this); // Delete the projectile
 		}
 		
-		pos.add(vel); // Update Position
-		vel.set(vel.x, vel.y + World.getGravity()); // Update Velocity
-		rotation = (float) Math.toDegrees(Math.atan(vel.y/vel.x)); // Update Rotation
-		if (vel.x < 0) rotation += 180;
-			
+		 // Update Position
+		pos.set(pos.x+(vel.x*delta/100),pos.y+(vel.y*delta/100));
+		
+		 // Update Velocity
+		vel.set(vel.x, vel.y + world.getGravity()*delta/100);
+
+		// Update Rotation
+		rotation = (float) Math.toDegrees(Math.atan(vel.y/vel.x)); 
+		if (vel.x < 0) rotation += 180;	
+	}
+
+	public Vector2f getPos() {
+		return pos;
+	}
+
+	public Image getImage() {
+		return img;
 	}
 
 }

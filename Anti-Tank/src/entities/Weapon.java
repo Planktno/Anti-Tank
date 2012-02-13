@@ -11,18 +11,14 @@ public class Weapon {
 	private int maxSpeed;	  // The maximum muzzle velocity of the weapon
 	private Vector2f pos;     // The position the weapon fires from
 	
-	public Weapon(int id, float x, float y){
-		pos = new Vector2f(x,y);
+	public Weapon(int id, Vector2f pos){
+		this.pos = pos;
 				
 		//TODO Using the given weapon id, we should be able to load all of this data from somewhere...
 		//For now, another quick fix...
 		ammoCount = 20;
-		maxSpeed = 10;
+		maxSpeed = 75;
 		projID = 0;
-	}
-	
-	public void updatePosition(Vector2f vel){
-		pos.add(vel);
 	}
 	
 	public void shoot(float launchSpeed, float bAngle){

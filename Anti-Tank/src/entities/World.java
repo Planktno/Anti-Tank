@@ -9,40 +9,61 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
+import states.GameState;
+
 public class World {
 
 	Image level;
-	static int gravity;
-	static int wind;
-	static int windAngle;
+	int gravity;
+	int wind;
+	int windAngle;
 	
 	HashSet<String> pixelMap;
 	
-	public World() {
+	public World(int id) {
+		
+		// Using the given ID we should be able to load the data from a file
+		// Quick fix again...
+		
 		try {
 			level = new Image("data/testlevel.png");
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		gravity = 1;
+		gravity = 10;
 		wind = 0;
 		windAngle = 0;
+		pixelMap = GameState.getMask(new Vector2f(0,0),level);
 	}
-
+	
+	public void update(GameContainer gc, StateBasedGame game, int delta) {
+		
+	}
+	
+	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam) {
+		Vector2f relPos = cam.getRelFocusPos(new Vector2f(0,0));
+		level.draw(relPos.getX(), relPos.getY(), cam.getFocusScale());
+		
+		g.drawString("Current Controls:",300,10);
+		g.drawString("Change Weapon - Space", 300, 25);
+		g.drawString("Fire Weapon - Enter", 300, 40);
+		g.drawString("Launch Speed UP/DOWN - Up/Down Arrows", 300, 55);
+		g.drawString("Change Barrel Angle - Right/Left Arrows", 300, 70);
+	}
+	
 	public Image getImage() {
 		return level;
 	}
 
-	public static int getGravity() {
+	public int getGravity() {
 		return gravity;
 	}
 
-	public static int getWind() {
+	public int getWind() {
 		return wind;
 	}
 
-	public static int getWindAngle() {
+	public int getWindAngle() {
 		return windAngle;
 	}
 	
@@ -66,12 +87,5 @@ public class World {
 		this.windAngle = windAngle;
 	}
 
-	public void update(GameContainer gc, StateBasedGame sb, int delta) {
-		
-	}
 	
-	public void render(GameContainer gc, StateBasedGame sb, Graphics gr, Camera cam) {
-		Vector2f relPos = cam.getRelFocusPos(new Vector2f(0,0));
-		level.draw(relPos.getX(), relPos.getY(), cam.getFocusScale());
-	}
 }
