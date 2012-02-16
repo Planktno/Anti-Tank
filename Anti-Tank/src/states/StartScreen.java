@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Camera;
 import game.GunsAndHats;
+import game.ResourceManager;
 
 public class StartScreen extends BasicGameState{
 
@@ -32,7 +33,8 @@ public class StartScreen extends BasicGameState{
 	@Override
 	public void init(GameContainer gc, StateBasedGame sb)
 			throws SlickException {
-		background      = new Image("data/startscreen.JPG");
+//		background      = new Image("data/startscreen.JPG");
+		background		= ResourceManager.getInstance().getImage("START_SCREEN");
 		b_start         = new Image("data/button_new_game.png");
 		b_start_hover   = new Image("data/button_new_game_hover.png");
 		b_history       = new Image("data/button_history.png");
