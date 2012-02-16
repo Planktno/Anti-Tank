@@ -49,7 +49,7 @@ public class GameState extends BasicGameState{
 		roundsPlayed = 0;
 		
 		// Quick Fix - for testing.
-		players[0] = new Player("Name", new Tank[] {new Tank(1,400,100)});
+		players[0] = new Player("Name", new Tank[] {new Tank(-1,400,100)});
 	}
 
 	@Override

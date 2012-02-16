@@ -80,26 +80,42 @@ public class Tank {
 	
 	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in){
 		// Keep old position
-				Vector2f old_pos = new Vector2f(pos.x, pos.y);
-				Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
+		Vector2f old_pos = new Vector2f(pos.x, pos.y);
+		Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
 		
-		// Check Inputs
-		checkInputs(in);
+		checkInputs(in); // Check Inputs
+		updatePositions(delta);// Update Position (body, barrel and all weapons)
+		checkCollisions(world, old_pos, old_bPos);// Check Collisions
 		
-		// Update Position (body, barrel and all weapons)
+		// Update Velocity
+		vel.set(vel.x, vel.y + world.getGravity()*delta/100);
+	}
+	
+	public void updateInBackground(GameContainer gc, StateBasedGame game, int delta, World world){
+		// Keep old position
+		Vector2f old_pos = new Vector2f(pos.x, pos.y);
+		Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
+				
+		updatePositions(delta);// Update Position (body, barrel and all weapons)
+		checkCollisions(world, old_pos, old_bPos);// Check Collisions
+				
+		// Update Velocity
+		vel.set(vel.x, vel.y + world.getGravity()*delta/100);
+	}
+
+	private void updatePositions(int delta) {
 		pos.add(new Vector2f((vel.x*delta/100),(vel.y*delta/100)));
 		bPos.add(new Vector2f((vel.x*delta/100),(vel.y*delta/100)));
 		for (int i = 0; i < weapons.length; i++) weapons[i].updatePosition(bPos.x+wepx, bPos.y+wepy);
-		
-		// Check Collisions
+	}
+
+	private void checkCollisions(World world, Vector2f old_pos,
+			Vector2f old_bPos) {
 		if (GameState.checkCollision(this, world)){ 
 			vel.set(vel.x,0); // TODO Not properly implemented
 			pos.set(old_pos);
 			bPos.set(old_bPos);
 		}
-		
-		// Update Velocity
-		vel.set(vel.x, vel.y + world.getGravity()*delta/100);
 	}
 	
 	private void checkInputs(Input in) {
@@ -156,6 +172,8 @@ public class Tank {
 	public Image getImage() {
 		return body;
 	}
+
+	
 	
 }
 

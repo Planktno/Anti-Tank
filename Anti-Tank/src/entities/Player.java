@@ -1,5 +1,6 @@
 package entities;
 
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -17,21 +18,19 @@ public class Player {
 		this.playerName = playerName;
 		this.tanks = tanks;
 		currentTank = 0;
-		hasFocus = false;
+		hasFocus = true;
 	}
 	
-	public void update(GameContainer gc, StateBasedGame game , int delta, World world){
-		// For testing only
-		Input input = gc.getInput();
-		tanks[currentTank].update(gc, game, delta, world, input); 
-		if(input.isKeyPressed(Input.KEY_PERIOD)) world.randomizeWind();
-		
+	public void update(GameContainer gc, StateBasedGame game , int delta, World world){	
 		if (hasFocus){
-			//Get Inputs
-			//Update Active Tank with regard to input
-			//If shot fired tell GameState to move to next player and remove focus on this player
+			Input input = gc.getInput(); //Get Inputs
+			tanks[currentTank].update(gc, game, delta, world, input); //Update Active Tank with regard to input
+			for (int i = 0; i < tanks.length; i++) if (i != currentTank) tanks[i].updateInBackground(gc, game, delta, world); // Update all other tanks in background
 			//nextTank();
-		}
+			if(input.isKeyPressed(Input.KEY_PERIOD)) world.randomizeWind();// For testing only
+		} else {
+			for (int i = 0; i < tanks.length; i++) tanks[i].updateInBackground(gc, game, delta, world);
+		}		
 	}
 	
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
