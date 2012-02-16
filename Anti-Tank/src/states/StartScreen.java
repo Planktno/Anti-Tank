@@ -74,10 +74,10 @@ public class StartScreen extends BasicGameState{
 				b_start=b_start_hover.copy();//.setRotation(5.0f);
 				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(GunsAndHats.GAMESTATE);
 			} else {
-				b_start = new Image("data/button_new_game.png");
+				b_start = ResourceManager.getInstance().getImage("SS_BUTTON_NEW_GAME");
 			}
 		} else {
-			b_start = new Image("data/button_new_game.png");
+			b_start = ResourceManager.getInstance().getImage("SS_BUTTON_NEW_GAME");
 		}
 		
 		if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
@@ -85,10 +85,10 @@ public class StartScreen extends BasicGameState{
 				b_history=b_history_hover.copy();
 				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(GunsAndHats.HISTORYSCREEN);
 			} else {
-				b_history = new Image("data/button_history.png");   
+				b_history = ResourceManager.getInstance().getImage("SS_BUTTON_HISTORY");  
 			}
 		} else {
-			b_history = new Image("data/button_history.png");
+			b_history = ResourceManager.getInstance().getImage("SS_BUTTON_HISTORY");
 		}
 		
 		if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
@@ -96,10 +96,10 @@ public class StartScreen extends BasicGameState{
 				b_exit=b_exit_hover.copy();
 				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) gc.exit();
 			} else {
-				b_exit = new Image("data/button_exit.png"); 
+				b_exit = ResourceManager.getInstance().getImage("SS_BUTTON_EXIT"); 
 			}
 		} else {
-			b_exit = new Image("data/button_exit.png");
+			b_exit = ResourceManager.getInstance().getImage("SS_BUTTON_EXIT");
 		}
 		
 	}
