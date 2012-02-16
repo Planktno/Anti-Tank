@@ -20,18 +20,21 @@ public class Tank {
 	private float bAngle;		// Angle of the barrel relative to horizontal (in degrees)
 	private float bx;			// Position of the barrel in x direction w.r.t body
 	private float by;			// Position of the barrel in y direction w.r.t body
+	private float wepx;			// Position in x direction of location projectiles will fire from (w.r.t barrel position)
+	private float wepy;			// Position in y direction of location projectiles will fire from (w.r.t barrel position)
 	private float launchSpeed;  // Percentage of weapon maximum muzzle velocity
 	private int hitpoints;		// Health of tank remaining
 	private Weapon[] weapons;	// Weapons associated with the tank
 	private int currentWeapon;	// Index of currently selected weapon
+	private float movementSpeed;// Movement speed of tank.
 	
 	
 	
 	public Tank(int id, float x, float y){
 		pos = new Vector2f(x,y);
 		vel = new Vector2f(0,0);
-		launchSpeed = 0.6f;
-		bAngle = 330;
+		launchSpeed = 0;
+		bAngle = 0;
 		currentWeapon = 0;
 			
 		//TODO Using the given tank id, we should be able to load most of this data from somewhere...
@@ -44,20 +47,28 @@ public class Tank {
 			e.printStackTrace();
 		}
 		bx = 15;
-		by = 5; 
+		by = 7; 
 		hitpoints = 100;
+		movementSpeed = 10;
+		
+		updateWepXY();
+		barrel.setCenterOfRotation(0,barrel.getHeight()/2); // So that it rotates about its end.
 		bPos = new Vector2f(pos.x+bx, pos.y+by);
-		barrel.setCenterOfRotation(0, barrel.getHeight()/2); // So that it rotates about its end.
-		weapons = new Weapon[] {new Weapon(-1,bPos), new Weapon(-1,bPos)}; // ID of -1 is a placeholder
-		
+		Vector2f wepPos = new Vector2f(bPos.x + wepx, bPos.y + wepy);
+		weapons = new Weapon[] {new Weapon(-1,wepPos), new Weapon(-1,wepPos)}; // ID of -1 is a placeholder
 	}
-	
+
 	public void render (GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
+		float scale = cam.getScale();
+		Vector2f relpos = cam.getRelFocusPos(pos);
+		Vector2f relbpos = cam.getRelFocusPos(bPos);
+		float bhalfheight = barrel.getHeight()/2; // Used to allow barrel to be drawn around point it rotates about.
 		
-		// Not implemented properly yet, below is for testing purposes.
+		
+		// TODO Not implemented properly yet (perhaps), below is for testing purposes.
 		barrel.setRotation(bAngle);
-		barrel.draw(cam.getRelFocusPos(bPos).x, cam.getRelFocusPos(bPos).y, cam.getScale());
-		body.draw(cam.getRelFocusPos(pos).x, cam.getRelFocusPos(pos).y, cam.getScale());
+		barrel.draw(relbpos.x , relbpos.y - (bhalfheight*scale), scale); 
+		body.draw(relpos.x, relpos.y, scale);
 		
 		
 		//For Debugging
@@ -68,35 +79,34 @@ public class Tank {
 	}
 	
 	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in){
+		// Keep old position
+				Vector2f old_pos = new Vector2f(pos.x, pos.y);
+				Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
+		
 		// Check Inputs
 		checkInputs(in);
 		
-		// Keep old position
-		Vector2f old_pos = new Vector2f(pos.x, pos.y);
-		Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
-		
-		// Update Position (body and barrel)
+		// Update Position (body, barrel and all weapons)
 		pos.add(new Vector2f((vel.x*delta/100),(vel.y*delta/100)));
 		bPos.add(new Vector2f((vel.x*delta/100),(vel.y*delta/100)));
+		for (int i = 0; i < weapons.length; i++) weapons[i].updatePosition(bPos.x+wepx, bPos.y+wepy);
 		
 		// Check Collisions
-				if (GameState.checkCollision(this, world)){ 
-					vel.set(vel.x,0); // TODO Not properly implemented
-					pos.set(old_pos);
-					bPos.set(old_bPos);
-				}
+		if (GameState.checkCollision(this, world)){ 
+			vel.set(vel.x,0); // TODO Not properly implemented
+			pos.set(old_pos);
+			bPos.set(old_bPos);
+		}
 		
 		// Update Velocity
 		vel.set(vel.x, vel.y + world.getGravity()*delta/100);
-		
-		
 	}
 	
 	private void checkInputs(Input in) {
-		if(in.isKeyPressed(Input.KEY_UP)) launchSpeedUp();
-		if(in.isKeyPressed(Input.KEY_DOWN)) launchSpeedDown();
-		if(in.isKeyPressed(Input.KEY_LEFT)) barrelRotateAnticlockwise();
-		if(in.isKeyPressed(Input.KEY_RIGHT)) barrelRotateClockwise();
+		if(in.isKeyDown(Input.KEY_UP)) launchSpeedUp();
+		if(in.isKeyDown(Input.KEY_DOWN)) launchSpeedDown();
+		if(in.isKeyDown(Input.KEY_LEFT)) {barrelRotateAnticlockwise(); updateWepXY();} 
+		if(in.isKeyDown(Input.KEY_RIGHT)) {barrelRotateClockwise(); updateWepXY();}
 		
 		// TODO Tank Movement Inputs
 		
@@ -105,6 +115,12 @@ public class Tank {
 		if(in.isKeyPressed(Input.KEY_ENTER)) if (weapons[currentWeapon].getAmmoCount() > 0) weapons[currentWeapon].shoot(launchSpeed, bAngle);
 	}
 
+	private void updateWepXY(){
+		float bLength = barrel.getWidth();
+		wepx = (float) (bLength*Math.cos(Math.toRadians(bAngle)));
+		wepy = (float) (bLength*Math.sin(Math.toRadians(bAngle)));
+	}
+	
 	private void changeWeapon() {
 		if (currentWeapon + 1 == weapons.length) currentWeapon = 0;
 		else currentWeapon += 1;
@@ -112,25 +128,25 @@ public class Tank {
 	}
 
 	private void barrelRotateAnticlockwise() {
-		bAngle -= 5;
+		bAngle -= 1;
 		if (bAngle <= 0) bAngle += 360;
-		if (bAngle == 175) bAngle = 180;
+		if (bAngle == 179) bAngle = 180;
 	}
 
 	private void barrelRotateClockwise() {
-		bAngle += 5;
+		bAngle += 1;
 		if (bAngle >= 360) bAngle -= 360;
-		if (bAngle == 5) bAngle = 0;
+		if (bAngle == 1) bAngle = 0;
 	}
 
 	private void launchSpeedUp() {
 		if (launchSpeed >= 1) launchSpeed = 1;
-		else launchSpeed += 0.05;
+		else launchSpeed += 0.005;
 	}
 	
 	private void launchSpeedDown() {
 		if (launchSpeed <= 0) launchSpeed = 0;
-		else launchSpeed -= 0.05;
+		else launchSpeed -= 0.005;
 	}
 
 	public Vector2f getPos() {
@@ -140,7 +156,6 @@ public class Tank {
 	public Image getImage() {
 		return body;
 	}
-	
 	
 }
 

@@ -59,8 +59,9 @@ public class GunsAndHats extends StateBasedGame {
 		app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), true);
 		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, FRAMEWIDTH, FRAMEHEIGHT);
 		app.setDisplayMode(FRAMEWIDTH, FRAMEHEIGHT, false);
+		app.setVSync(true); // Keepin' it smooooooothhh...
 		app.setTargetFrameRate(FRAMERATE);
-//		app.setShowFPS(false);
+		app.setShowFPS(false);
 		app.start();
 	}
 

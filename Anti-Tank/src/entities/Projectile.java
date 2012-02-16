@@ -11,7 +11,7 @@ import states.GameState;
 
 public class Projectile {
 
-	private Vector2f pos;		// Position of the projectile
+	private Vector2f pos;		// Position of the projectile (centre of the image)
 	private Vector2f vel;		// Velocity of the projectile
 	private Image img;			// Projectile image
 	private float rotation;		// Current angle of rotation of projectile (in degrees)
@@ -25,7 +25,7 @@ public class Projectile {
 		pos = new Vector2f(x,y);
 		vel = new Vector2f(vx,vy);
 		rotation = bAngle;
-		
+				
 		//TODO Using the given projectile id, we should be able to load all of this data from somewhere...
 		//For now, another quick fix...
 		try {
@@ -36,11 +36,18 @@ public class Projectile {
 		}
 		blastRadius = 10;
 		baseDamage = 20;
+		
+		img.setCenterOfRotation(img.getWidth()/2, img.getHeight()/2); // Set at centre of projectile image.
 	}
 	
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
+		float scale = cam.getScale();
+		Vector2f relpos = cam.getRelFocusPos(pos);
+		float halfwidth = img.getWidth()/2;
+		float halfheight = img.getHeight()/2;
+		
 		img.setRotation(rotation);
-		img.draw(cam.getRelFocusPos(pos).x,cam.getRelFocusPos(pos).y,cam.getScale());
+		img.draw(relpos.x - halfwidth*scale,relpos.y - halfheight*scale,scale); // Draw projectile around the centre 
 	}
 	
 	public void update(GameContainer gc, StateBasedGame game, int delta, World world){
@@ -55,7 +62,10 @@ public class Projectile {
 		pos.set(pos.x+(vel.x*delta/100),pos.y+(vel.y*delta/100));
 		
 		 // Update Velocity
-		vel.set(vel.x, vel.y + world.getGravity()*delta/100);
+		float windX = world.getWindX()*delta/100;
+		float windY = world.getWindY()*delta/100;
+		float grav = world.getGravity()*delta/100;
+		vel.set(vel.x + windX, vel.y + windY + grav);
 
 		// Update Rotation
 		rotation = (float) Math.toDegrees(Math.atan(vel.y/vel.x)); 

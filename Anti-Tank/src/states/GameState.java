@@ -49,10 +49,7 @@ public class GameState extends BasicGameState{
 		roundsPlayed = 0;
 		
 		// Quick Fix - for testing.
-		players[0] = new Player("Name", new Tank[] {new Tank(1,100,100)});
-		
-//		world.init(gc, game);
-//		for (int i = 0; i < players.size(); i++) players[i].init(gc,game);
+		players[0] = new Player("Name", new Tank[] {new Tank(1,400,100)});
 	}
 
 	@Override

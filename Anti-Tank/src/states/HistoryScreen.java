@@ -14,13 +14,13 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class HistoryScreen extends BasicGameState {
 
-	private int id;
+	private int stateId;
 	
 	History history;
 	String[] matches;
 	
 	public HistoryScreen(int id, Camera camera) {
-		this.id = id;
+		stateId = id;
 	}
 	
 	@Override
@@ -64,7 +64,7 @@ public class HistoryScreen extends BasicGameState {
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
-		return 0;
+		return stateId;
 	}
 
 }

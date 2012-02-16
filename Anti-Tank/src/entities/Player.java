@@ -24,6 +24,7 @@ public class Player {
 		// For testing only
 		Input input = gc.getInput();
 		tanks[currentTank].update(gc, game, delta, world, input); 
+		if(input.isKeyPressed(Input.KEY_PERIOD)) world.randomizeWind();
 		
 		if (hasFocus){
 			//Get Inputs

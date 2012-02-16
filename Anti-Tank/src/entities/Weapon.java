@@ -34,4 +34,8 @@ public class Weapon {
 	public int getMaxSpeed(){
 		return maxSpeed;
 	}
+
+	public void updatePosition(float x, float y) {
+		pos.set(x,y);
+	}
 }
