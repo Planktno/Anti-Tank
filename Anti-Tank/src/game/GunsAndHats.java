@@ -1,5 +1,10 @@
 package game;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -38,6 +43,18 @@ public class GunsAndHats extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
+		File f = new File("data/resources.xml");
+		try {
+			InputStream in = new FileInputStream(f);
+			ResourceManager.getInstance().loadResources(in);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		this.addState(new StartScreen(STARTSCREEN, camera));
 		this.addState(new PreGameMenu(PREGAMESTATE, camera));
 		this.addState(new GameState(GAMESTATE, camera));

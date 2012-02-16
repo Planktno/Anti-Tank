@@ -1,5 +1,10 @@
 package states;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -33,14 +38,14 @@ public class StartScreen extends BasicGameState{
 	@Override
 	public void init(GameContainer gc, StateBasedGame sb)
 			throws SlickException {
-//		background      = new Image("data/startscreen.JPG");
+
 		background		= ResourceManager.getInstance().getImage("START_SCREEN");
-		b_start         = new Image("data/button_new_game.png");
-		b_start_hover   = new Image("data/button_new_game_hover.png");
-		b_history       = new Image("data/button_history.png");
-		b_history_hover = new Image("data/button_history_hover.png");
-		b_exit          = new Image("data/button_exit.png");
-		b_exit_hover    = new Image("data/button_exit_hover.png");
+		b_start         = ResourceManager.getInstance().getImage("SS_BUTTON_NEW_GAME");
+		b_start_hover   = ResourceManager.getInstance().getImage("SS_BUTTON_NEW_GAME_HOVER");
+		b_history       = ResourceManager.getInstance().getImage("SS_BUTTON_HISTORY");
+		b_history_hover = ResourceManager.getInstance().getImage("SS_BUTTON_HISTORY_HOVER");
+		b_exit          = ResourceManager.getInstance().getImage("SS_BUTTON_EXIT");
+		b_exit_hover    = ResourceManager.getInstance().getImage("SS_BUTTON_EXIT_HOVER");
 		
 	}
 

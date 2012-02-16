@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 <!-- STARTSCREEN -->
-	<resource type="image" id="START_SCREEN">data\startscreen.JPG</resource>
-	<resource type="image" id="SS_BUTTON_EXIT_HOVER">data\button_exit_hover.png</resource>
-	<resource type="image" id="SS_BUTTON_EXIT">data\button_exit.png</resource>
-	<resource type="image" id="SS_BUTTON_HISTORY_HOVER">data\button_history_hover.png</resource>
-	<resource type="image" id="SS_BUTTON_HISTORY">data\button_history.png</resource>
-	<resource type="image" id="SS_BUTTON_NEW_GAME_HOVER">data\button_new_game_hover.png</resource>
-	<resource type="image" id="SS_BUTTON_NEW_GAME">data\button_new_game.png</resource>
+	<resource type="image" id="START_SCREEN">data/startscreen.JPG</resource>
+	<resource type="image" id="SS_BUTTON_EXIT_HOVER">data/button_exit_hover.png</resource>
+	<resource type="image" id="SS_BUTTON_EXIT">data/button_exit.png</resource>
+	<resource type="image" id="SS_BUTTON_HISTORY_HOVER">data/button_history_hover.png</resource>
+	<resource type="image" id="SS_BUTTON_HISTORY">data/button_history.png</resource>
+	<resource type="image" id="SS_BUTTON_NEW_GAME_HOVER">data/button_new_game_hover.png</resource>
+	<resource type="image" id="SS_BUTTON_NEW_GAME">data/button_new_game.png</resource>
 </resources>
