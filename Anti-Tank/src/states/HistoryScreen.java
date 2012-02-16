@@ -5,8 +5,10 @@ import game.History;
 
 import java.io.IOException;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -14,13 +16,23 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class HistoryScreen extends BasicGameState {
 
-	private int stateId;
+	private int id;
+	private Camera camera;
 	
 	History history;
 	String[] matches;
 	
+	Image bg;
+	
 	public HistoryScreen(int id, Camera camera) {
-		stateId = id;
+		this.camera = camera;
+		try {
+			bg = new Image("data/HistoryScreen.JPG");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.id=id;
 	}
 	
 	@Override
@@ -35,7 +47,7 @@ public class HistoryScreen extends BasicGameState {
 		
 		try {
 			matches = history.getMatches();
-			//create a JPanel
+			
 			for (int i=0;i <= 8;i++) {
 				//Split the current string into substrings: str[i].split(",")
 				//print out the substrings on JPanel, formatted output
@@ -48,10 +60,37 @@ public class HistoryScreen extends BasicGameState {
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
-			throws SlickException {
-		// TODO Auto-generated method stub
-		
+	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gr)
+		throws SlickException {
+		bg.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
+		gr.drawString("Match", camera.getOffset().getX() + 165 * camera.getScale(), camera.getOffset().getY() + 330);
+		gr.drawString("Winner", camera.getOffset().getX() + 225 * camera.getScale(), camera.getOffset().getY() + 330);
+		gr.drawString("2nd Place", camera.getOffset().getX() + 310 * camera.getScale(), camera.getOffset().getY() + 330);
+		gr.drawString("3rd Place", camera.getOffset().getX() + 400 * camera.getScale(), camera.getOffset().getY() + 330);
+		gr.drawString("4th Place", camera.getOffset().getX() + 490 * camera.getScale(), camera.getOffset().getY() + 330);
+		gr.drawString("Time", camera.getOffset().getX() + 586 * camera.getScale(), camera.getOffset().getY() + 330);
+		for (int i = 0; i < 8; i++) {
+			String[] match = matches[i].split(",");
+			gr.setColor(Color.black);
+			gr.drawString("No."+(i+1) + ":", camera.getOffset().getX() + 165 * camera.getScale(), camera.getOffset().getY() + 365 + (i * 52));
+			gr.drawString(match[0], camera.getOffset().getX() + 225 * camera.getScale(), camera.getOffset().getY() + 365 + (i * 52));
+			gr.drawString(match[1], camera.getOffset().getX() + 310 * camera.getScale(), camera.getOffset().getY() + 365 + (i * 52));
+			
+			if(match.length == 3) {
+				gr.drawString(match[2], camera.getOffset().getX() + 580 * camera.getScale(), camera.getOffset().getY() + 365 + (4 * 52));
+			}
+			if (match.length == 4) {
+				gr.drawString(match[2], camera.getOffset().getX() + 400 * camera.getScale(), camera.getOffset().getY() + 365 + (i * 52));
+				gr.drawString(match[3], camera.getOffset().getX() + 580 * camera.getScale(), camera.getOffset().getY() + 365 + (i * 52));
+				
+			} else if (match.length == 5) {
+				gr.drawString(match[2], camera.getOffset().getX() + 400 * camera.getScale(), camera.getOffset().getY() + 365 + (i * 52));
+				gr.drawString(match[3], camera.getOffset().getX() + 490 * camera.getScale(), camera.getOffset().getY() + 365 + (i * 52));
+				gr.drawString(match[4], camera.getOffset().getX() + 580 * camera.getScale(), camera.getOffset().getY() + 365 + (i * 52));
+
+			}
+
+		}
 	}
 
 	@Override
@@ -63,8 +102,7 @@ public class HistoryScreen extends BasicGameState {
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return stateId;
+		return id;
 	}
 
 }
