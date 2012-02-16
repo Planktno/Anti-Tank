@@ -9,6 +9,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Camera;
+import game.GunsAndHats;
 
 public class StartScreen extends BasicGameState{
 
@@ -64,7 +65,7 @@ public class StartScreen extends BasicGameState{
 			//if inside the right X range for the start button
 			if(mouseX >= camera.getOffset().getX() + 50*camera.getScale() && mouseX <= camera.getOffset().getX() + 50*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 				b_start=b_start_hover.copy();//.setRotation(5.0f);
-				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(3); // id 3 => GAMESTATE
+				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(GunsAndHats.GAMESTATE);
 			} else {
 				b_start = new Image("data/button_new_game.png");
 			}
@@ -75,7 +76,7 @@ public class StartScreen extends BasicGameState{
 		if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
 			if(mouseX >= camera.getOffset().getX() + 310*camera.getScale() && mouseX <= camera.getOffset().getX() + 310*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 				b_history=b_history_hover.copy();
-				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(6); // 6 should be HISTORYSCREEN according to GunsAndHats.java
+				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(GunsAndHats.HISTORYSCREEN);
 			} else {
 				b_history = new Image("data/button_history.png");   
 			}
@@ -86,7 +87,7 @@ public class StartScreen extends BasicGameState{
 		if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
 			if(mouseX >= camera.getOffset().getX() + 550*camera.getScale() && mouseX <= camera.getOffset().getX() + 550*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 				b_exit=b_exit_hover.copy();
-				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(0); // !not sure what to do about this one
+				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) gc.exit();
 			} else {
 				b_exit = new Image("data/button_exit.png"); 
 			}

@@ -21,12 +21,12 @@ public class GunsAndHats extends StateBasedGame {
 	
 	
 	//perhaps change these to public?? - peter
-	private static int STARTSCREEN = 1;
-	private static int PREGAMESTATE = 2;
-	private static int GAMESTATE = 3;
-	private static int INGAMEMENU = 4;
-	private static int ENDGAMESCREEN = 5;
-	private static int HISTORYSCREEN = 6;
+	public static int STARTSCREEN = 1;
+	public static int PREGAMESTATE = 2;
+	public static int GAMESTATE = 3;
+	public static int INGAMEMENU = 4;
+	public static int ENDGAMESCREEN = 5;
+	public static int HISTORYSCREEN = 6;
 	
 	
 	
