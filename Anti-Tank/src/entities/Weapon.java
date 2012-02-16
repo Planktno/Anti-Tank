@@ -1,5 +1,7 @@
 package entities;
 
+import game.ResourceManager;
+
 import org.newdawn.slick.geom.Vector2f;
 
 import states.GameState;
@@ -13,12 +15,16 @@ public class Weapon {
 	
 	public Weapon(int id, Vector2f pos){
 		this.pos = pos;
-				
-		//TODO Using the given weapon id, we should be able to load all of this data from somewhere...
-		//For now, another quick fix...
-		ammoCount = 20;
-		maxSpeed = 75;
-		projID = 0;
+		loadResources(id);
+	}
+	
+	private void loadResources(int id) {
+		// YAY finally loading from resource manager :D		
+		String[] info = ResourceManager.getInstance().getText("WEAPON_" + id + "_INFO").split(",");
+	
+		ammoCount = Integer.parseInt(info[0]);
+		maxSpeed = Integer.parseInt(info[1]); 
+		projID = Integer.parseInt(info[2]);
 	}
 	
 	public void shoot(float launchSpeed, float bAngle){

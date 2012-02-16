@@ -1,5 +1,7 @@
 package entities;
 
+import game.ResourceManager;
+
 import java.util.HashSet;
 
 import org.newdawn.slick.GameContainer;
@@ -14,6 +16,7 @@ import states.GameState;
 public class World {
 
 	Image level;
+	Image background;
 	float gravity; 
 	float windSpeed; // Between 0 and maxWindSpeed
 	float maxWindSpeed; // Currently set at 5, easily changed. (needs to be less than gravity or we might have projectiles going off into space :D
@@ -22,20 +25,18 @@ public class World {
 	HashSet<String> pixelMap;
 	
 	public World(int id) {
-		
-		// Using the given ID we should be able to load the data from a file
-		// Quick fix again...
-		
-		try {
-			level = new Image("data/testlevel.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		gravity = 10;
-		maxWindSpeed = 5;
-		
+		loadResources(id);
 		updatePixelMap();
 		randomizeWind();
+	}
+	
+	private void loadResources(int id){
+		level = ResourceManager.getInstance().getImage("WORLD_"+id+"_LEVEL");
+		background = ResourceManager.getInstance().getImage("WORLD_"+id+"_BACKGROUND");
+		
+		String[] info = ResourceManager.getInstance().getText("WORLD_" + id + "_INFO").split(",");
+		gravity = Float.parseFloat(info[0]);
+		maxWindSpeed = Float.parseFloat(info[1]);
 	}
 	
 	public void update(GameContainer gc, StateBasedGame game, int delta) {
@@ -45,6 +46,7 @@ public class World {
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam) {
 		
 		Vector2f relPos = cam.getRelFocusPos(new Vector2f(0,0));
+		background.draw(relPos.getX(), relPos.getY(), cam.getFocusScale());
 		level.draw(relPos.getX(), relPos.getY(), cam.getFocusScale());
 		
 		

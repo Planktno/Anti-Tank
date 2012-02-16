@@ -19,17 +19,15 @@ import entities.World;
 
 public class GameState extends BasicGameState{
 
-	
 	private int stateID;
 	private World world;
 	private static Player[] players;
 	private static ArrayList<Projectile> projectiles;
-	private int currentPlayer;
+	private static int currentPlayer;
 	private long timeStarted;
 	private int roundsPlayed;
-	private int numberOfPlayers;
+	private static int numberOfPlayers;
 	private Camera camera;
-	
 	
 	
 	public GameState(int id, Camera camera){
@@ -41,15 +39,18 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
 		numberOfPlayers = 1; // Placeholder for testing
-		world = new World(-1); // Placeholder ID value.
+		world = new World(0); // ID 0 - Test Level   ID 1 - Possible New Level
 		players = new Player[numberOfPlayers];
 		projectiles = new ArrayList<Projectile>();
-		currentPlayer = 0;
 		timeStarted = System.nanoTime();
 		roundsPlayed = 0;
 		
 		// Quick Fix - for testing.
-		players[0] = new Player("Name", new Tank[] {new Tank(-1,400,100)});
+		players[0] = new Player("Name", new Tank[] {new Tank(0,400,100)});
+//		players[1] = new Player("Name2", new Tank[] {new Tank(0,100,100)});
+		
+		currentPlayer = 0;
+		players[currentPlayer].setFocus();
 	}
 
 	@Override
@@ -60,6 +61,7 @@ public class GameState extends BasicGameState{
 		world.render(gc,game,g,camera);
 		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).render(gc,game,g,camera);
 		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,camera);
+		g.drawString("Current Player: " + currentPlayer, 10, 580);
 	}
 
 	@Override
@@ -93,7 +95,6 @@ public class GameState extends BasicGameState{
 		return false;
 	}
 
-	
 	@Override
 	public int getID(){
 		return stateID ;
@@ -119,6 +120,18 @@ public class GameState extends BasicGameState{
 		}
 		
 		return mask;
+	}
+
+	
+	public static void nextPlayer() {
+		players[currentPlayer].nextTank(); // Move to next tank on old player's team
+		players[currentPlayer].removeFocus(); // Remove focus from old player
+		
+		// Move to next player
+		if (currentPlayer + 1 == numberOfPlayers) currentPlayer = 0;
+		else currentPlayer++; 
+		
+		players[currentPlayer].setFocus(); // Give focus to the new player
 	}
 	
 }

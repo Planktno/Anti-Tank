@@ -1,5 +1,7 @@
 package entities;
 
+import game.ResourceManager;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -25,19 +27,18 @@ public class Projectile {
 		pos = new Vector2f(x,y);
 		vel = new Vector2f(vx,vy);
 		rotation = bAngle;
-				
-		//TODO Using the given projectile id, we should be able to load all of this data from somewhere...
-		//For now, another quick fix...
-		try {
-			img = new Image("data/projectiles/proj.png");
-		} catch (SlickException e) {
-			System.out.println("Image of PROJECTILE not found..");
-			e.printStackTrace();
-		}
-		blastRadius = 10;
-		baseDamage = 20;
-		
+
+		loadResources(id); // Using ResourceManager and id.	
+	}
+	
+	private void loadResources(int id){
+		// YAY finally loading from resource manager :D	
+		img = ResourceManager.getInstance().getImage("PROJECTILE_"+id+"_IMAGE");
 		img.setCenterOfRotation(img.getWidth()/2, img.getHeight()/2); // Set at centre of projectile image.
+		
+		String[] info = ResourceManager.getInstance().getText("TANK_" + id + "_INFO").split(",");
+		blastRadius = Float.parseFloat(info[0]);
+		baseDamage = Float.parseFloat(info[1]);
 	}
 	
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam){

@@ -1,5 +1,7 @@
 package entities;
 
+import game.ResourceManager;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -37,25 +39,26 @@ public class Tank {
 		bAngle = 0;
 		currentWeapon = 0;
 			
-		//TODO Using the given tank id, we should be able to load most of this data from somewhere...
-		//For now, another quick fix...
-		try{
-			body = new Image("data/tanks/body.png");
-			barrel = new Image("data/tanks/barrel.png");
-		} catch (SlickException e){
-			System.out.println("Images Could not be found for TANK");
-			e.printStackTrace();
-		}
-		bx = 15;
-		by = 7; 
-		hitpoints = 100;
-		movementSpeed = 10;
+		loadResources(id); // Using ResourceManager
 		
 		updateWepXY();
 		barrel.setCenterOfRotation(0,barrel.getHeight()/2); // So that it rotates about its end.
 		bPos = new Vector2f(pos.x+bx, pos.y+by);
 		Vector2f wepPos = new Vector2f(bPos.x + wepx, bPos.y + wepy);
-		weapons = new Weapon[] {new Weapon(-1,wepPos), new Weapon(-1,wepPos)}; // ID of -1 is a placeholder
+		weapons = new Weapon[] {new Weapon(0,wepPos), new Weapon(0,wepPos)}; // ID of 0 is a placeholder
+	}
+
+	private void loadResources(int id) {
+		// YAY finally loading from resource manager :D
+		body = ResourceManager.getInstance().getImage("TANK_" + id + "_BODY");
+		barrel = ResourceManager.getInstance().getImage("TANK_" + id + "_BARREL");
+		
+		String[] info = ResourceManager.getInstance().getText("TANK_" + id + "_INFO").split(",");
+		
+		bx = Float.parseFloat(info[0]);
+		by = Float.parseFloat(info[1]); 
+		hitpoints = Integer.parseInt(info[2]);
+		movementSpeed = Float.parseFloat(info[3]);
 	}
 
 	public void render (GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
@@ -70,7 +73,6 @@ public class Tank {
 		barrel.draw(relbpos.x , relbpos.y - (bhalfheight*scale), scale); 
 		body.draw(relpos.x, relpos.y, scale);
 		
-		
 		//For Debugging
 		g.drawString("Current Weapon: " + currentWeapon,10,25);
 		g.drawString("Ammo Count: " + Integer.toString(weapons[currentWeapon].getAmmoCount()),10,40);
@@ -84,6 +86,7 @@ public class Tank {
 		Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
 		
 		checkInputs(in); // Check Inputs
+		
 		updatePositions(delta);// Update Position (body, barrel and all weapons)
 		checkCollisions(world, old_pos, old_bPos);// Check Collisions
 		
@@ -91,7 +94,7 @@ public class Tank {
 		vel.set(vel.x, vel.y + world.getGravity()*delta/100);
 	}
 	
-	public void updateInBackground(GameContainer gc, StateBasedGame game, int delta, World world){
+	public void updateInBackground (GameContainer gc, StateBasedGame game, int delta, World world){
 		// Keep old position
 		Vector2f old_pos = new Vector2f(pos.x, pos.y);
 		Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
@@ -128,7 +131,10 @@ public class Tank {
 		
 		if(in.isKeyPressed(Input.KEY_SPACE)) changeWeapon();
 		
-		if(in.isKeyPressed(Input.KEY_ENTER)) if (weapons[currentWeapon].getAmmoCount() > 0) weapons[currentWeapon].shoot(launchSpeed, bAngle);
+		if(in.isKeyPressed(Input.KEY_ENTER)) {
+			if (weapons[currentWeapon].getAmmoCount() > 0) weapons[currentWeapon].shoot(launchSpeed, bAngle);
+			GameState.nextPlayer();
+		}
 	}
 
 	private void updateWepXY(){

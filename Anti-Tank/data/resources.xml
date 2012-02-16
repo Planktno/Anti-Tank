@@ -8,4 +8,27 @@
 	<resource type="image" id="SS_BUTTON_HISTORY">data/button_history.png</resource>
 	<resource type="image" id="SS_BUTTON_NEW_GAME_HOVER">data/button_new_game_hover.png</resource>
 	<resource type="image" id="SS_BUTTON_NEW_GAME">data/button_new_game.png</resource>
+	
+<!-- WORLD INFORMATION - Format is: (gravity,maxWindSpeed)-->	
+	<resource type="text" id="WORLD_0_INFO">10,5</resource>
+	<resource type="text" id="WORLD_1_INFO">10,5</resource>
+<!-- WORLD IMAGES -->
+	<resource type="image" id="WORLD_0_BACKGROUND">data/worlds/testbackground.png</resource>
+	<resource type="image" id="WORLD_0_LEVEL">data/worlds/testlevel.png</resource>
+	<resource type="image" id="WORLD_1_BACKGROUND">data/worlds/testbackground.png</resource>
+	<resource type="image" id="WORLD_1_LEVEL">data/worlds/worldOne.png</resource>
+	
+<!-- TANK INFORMATION - Format is: (bX,bY,hitPoints,movementSpeed) -->
+	<resource type="text" id="TANK_0_INFO">15,7,100,10</resource>
+<!-- TANK IMAGES -->
+	<resource type="image" id="TANK_0_BODY">data/tanks/body.png</resource>
+	<resource type="image" id="TANK_0_BARREL">data/tanks/barrel.png</resource>
+	
+<!-- WEAPON INFORMATION - Format is: (ammoCount,maxSpeed,projectileID) -->
+	<resource type="text" id="WEAPON_0_INFO">20,75,0</resource>
+	
+<!-- PROJECTILE INFORMATION - Format is: (blastRadius,baseDamage) -->
+	<resource type="text" id="PROJECTILE_0_INFO">10,20</resource>
+<!-- PROJECTILE IMAGES -->
+	<resource type="image" id="PROJECTILE_0_IMAGE">data/projectiles/proj.png</resource>
 </resources>
