@@ -35,7 +35,7 @@ public class World {
 	private void loadResources(int id){
 		level = ResourceManager.getInstance().getImage("WORLD_"+id+"_LEVEL");
 		setLevelBuffer(level);
-		destroyCircle(100, new Vector2f(380, 302));//Testing the destroy function
+		destroyCircle(50, new Vector2f(300, 400));//Testing the destroy function
 		background = ResourceManager.getInstance().getImage("WORLD_"+id+"_BACKGROUND");
 		
 		String[] info = ResourceManager.getInstance().getText("WORLD_" + id + "_INFO").split(",");
@@ -131,23 +131,30 @@ public class World {
 		this.windAngle = windAngle;
 	}
 	
-	public void destroyCircle(int radius, Vector2f pos) {
-		//Deletes the pixels in the specified circle
-		for(int i = 0; i <= radius; i++){ //For testing only
-			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+0, 0, 0, 0, 0);
-			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+1, 0, 0, 0, 0);
-			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+2, 0, 0, 0, 0);
-			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+3, 0, 0, 0, 0);
-			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+4, 0, 0, 0, 0);
-			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+5, 0, 0, 0, 0);
-			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+6, 0, 0, 0, 0);
-			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+7, 0, 0, 0, 0);
-			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+8, 0, 0, 0, 0);
-		}
-		level = levelBuffer.getImage();
-	}
+	public void destroyCircle(float radius, Vector2f pos) {
+	float distance = 0;
+	float x = (int) pos.getX();
+	float y = (int) pos.getY();
 	
-	public void destroyLine(Vector2f pos, int length, int width) {
+	for (int i = (int)Math.floor(y-radius); i < y + radius; i++) {
+		
+		for (int j = (int)Math.floor(x-radius); j < x + radius; j++){
+			if (i < levelBuffer.getHeight() && (i >= 0)){
+				if (j < levelBuffer.getWidth() && (j >= 0)) {
+					distance = (float)Math.sqrt(Math.pow((y-i),2)+ Math.pow((x-j), 2));
+					System.out.println(i+","+j+","+distance);
+					if (distance <= radius) {
+						levelBuffer.setRGBA(i, j, 0, 0, 0, 0);
+					}
+				}
+			}	
+		}
+	}
+	level = levelBuffer.getImage();
+	}
+		
+	
+	public void destroyLine(Vector2f pos, float angle, int length, int width) {
 		
 	}
 
