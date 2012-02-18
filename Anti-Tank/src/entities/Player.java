@@ -55,7 +55,11 @@ public class Player {
 		return playerName;
 	}
 
-	public int getCurrentTank() {
+	public int getCurrentTankNo() {
 		return currentTank;
+	}
+	
+	public Tank getCurrentTank() {
+		return tanks[currentTank];
 	}
 }

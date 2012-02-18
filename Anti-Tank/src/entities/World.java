@@ -116,5 +116,10 @@ public class World {
 	public void setWindAngle(int windAngle) {
 		this.windAngle = windAngle;
 	}
+	
+	public void destroyCircle(int radius, Vector2f pos) {
+		//Deletes the pixels in the specified circle
+		
+	}
 
 }

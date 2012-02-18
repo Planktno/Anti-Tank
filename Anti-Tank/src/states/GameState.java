@@ -16,6 +16,7 @@ import entities.Player;
 import entities.Projectile;
 import entities.Tank;
 import entities.World;
+import game.GUI;
 
 public class GameState extends BasicGameState{
 
@@ -28,6 +29,7 @@ public class GameState extends BasicGameState{
 	private int roundsPlayed;
 	private static int numberOfPlayers;
 	private Camera camera;
+	private GUI gui;
 	
 	
 	public GameState(int id, Camera camera){
@@ -51,6 +53,12 @@ public class GameState extends BasicGameState{
 		
 		currentPlayer = 0;
 		players[currentPlayer].setFocus();
+		
+		gui = new GUI();
+		gui.setCamera(camera);
+		gui.setGameState(this);
+		gui.setPlayers(players);
+		gui.setWorld(world);
 	}
 
 	@Override
@@ -62,6 +70,8 @@ public class GameState extends BasicGameState{
 		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).render(gc,game,g,camera);
 		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,camera);
 		g.drawString("Current Player: " + currentPlayer, 10, 580);
+		
+		gui.render(gc, game, g);
 	}
 
 	@Override
@@ -132,6 +142,26 @@ public class GameState extends BasicGameState{
 		else currentPlayer++; 
 		
 		players[currentPlayer].setFocus(); // Give focus to the new player
+	}
+	
+	public int getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public long getTimeStarted() {
+		return timeStarted;
+	}
+
+	public void setTimeStarted(long timeStarted) {
+		this.timeStarted = timeStarted;
+	}
+
+	public int getRoundsPlayed() {
+		return roundsPlayed;
+	}
+
+	public void setRoundsPlayed(int roundsPlayed) {
+		this.roundsPlayed = roundsPlayed;
 	}
 	
 }

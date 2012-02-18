@@ -179,6 +179,38 @@ public class Tank {
 		return body;
 	}
 
+	public float getbAngle() {
+		return bAngle;
+	}
+
+	public void setbAngle(float bAngle) {
+		this.bAngle = bAngle;
+	}
+
+	public float getLaunchSpeed() {
+		return launchSpeed;
+	}
+
+	public void setLaunchSpeed(float launchSpeed) {
+		this.launchSpeed = launchSpeed;
+	}
+
+	public Weapon[] getWeapons() {
+		return weapons;
+	}
+
+	public void setWeapons(Weapon[] weapons) {
+		this.weapons = weapons;
+	}
+
+	public int getCurrentWeapon() {
+		return currentWeapon;
+	}
+
+	public void setCurrentWeapon(int currentWeapon) {
+		this.currentWeapon = currentWeapon;
+	}
+
 	
 	
 }

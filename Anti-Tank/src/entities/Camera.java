@@ -19,7 +19,7 @@ public class Camera {
 	private boolean smoothFocusChange; //Changed focus should be done smoothly
 	
 	
-	public Camera(int screenWidth, int screenHeight, int frameWidth, int frameHeight) {
+	public Camera(int frameWidth, int frameHeight, int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.frameWidth = frameWidth;
