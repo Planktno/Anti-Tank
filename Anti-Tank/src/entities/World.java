@@ -4,10 +4,11 @@ import game.ResourceManager;
 
 import java.util.HashSet;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -15,6 +16,7 @@ import states.GameState;
 
 public class World {
 
+	ImageBuffer levelBuffer;
 	Image level;
 	Image background;
 	float gravity; 
@@ -32,11 +34,23 @@ public class World {
 	
 	private void loadResources(int id){
 		level = ResourceManager.getInstance().getImage("WORLD_"+id+"_LEVEL");
+		setLevelBuffer(level);
+		destroyCircle(100, new Vector2f(380, 302));//Testing the destroy function
 		background = ResourceManager.getInstance().getImage("WORLD_"+id+"_BACKGROUND");
 		
 		String[] info = ResourceManager.getInstance().getText("WORLD_" + id + "_INFO").split(",");
 		gravity = Float.parseFloat(info[0]);
 		maxWindSpeed = Float.parseFloat(info[1]);
+	}
+	
+	public void setLevelBuffer(Image image) {
+		levelBuffer = new ImageBuffer(image.getWidth(), image.getHeight());
+		for(int i = 0; i < level.getWidth(); i++) {
+			for(int j = 0; j < level.getHeight(); j++) {
+				Color c = level.getColor(i, j);
+				levelBuffer.setRGBA(i, j, c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+			}
+		}
 	}
 	
 	public void update(GameContainer gc, StateBasedGame game, int delta) {
@@ -119,6 +133,21 @@ public class World {
 	
 	public void destroyCircle(int radius, Vector2f pos) {
 		//Deletes the pixels in the specified circle
+		for(int i = 0; i <= radius; i++){ //For testing only
+			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+0, 0, 0, 0, 0);
+			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+1, 0, 0, 0, 0);
+			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+2, 0, 0, 0, 0);
+			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+3, 0, 0, 0, 0);
+			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+4, 0, 0, 0, 0);
+			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+5, 0, 0, 0, 0);
+			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+6, 0, 0, 0, 0);
+			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+7, 0, 0, 0, 0);
+			levelBuffer.setRGBA((int)pos.getX()+i, (int)pos.getY()+8, 0, 0, 0, 0);
+		}
+		level = levelBuffer.getImage();
+	}
+	
+	public void destroyLine(Vector2f pos, int length, int width) {
 		
 	}
 
