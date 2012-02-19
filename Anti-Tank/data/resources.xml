@@ -18,17 +18,20 @@
 	<resource type="image" id="WORLD_1_BACKGROUND">data/worlds/testbackground.png</resource>
 	<resource type="image" id="WORLD_1_LEVEL">data/worlds/worldOne.png</resource>
 	
-<!-- TANK INFORMATION - Format is: (bX,bY,hitPoints,movementSpeed) -->
-	<resource type="text" id="TANK_0_INFO">15,7,100,10</resource>
+<!-- TANK INFORMATION - Format is: (bX,bY,hitPoints,movementSpeed,wepID1,wepID2) -->
+	<resource type="text" id="TANK_0_INFO">15,7,100,10,0,1</resource>
 <!-- TANK IMAGES -->
 	<resource type="image" id="TANK_0_BODY">data/tanks/body.png</resource>
 	<resource type="image" id="TANK_0_BARREL">data/tanks/barrel.png</resource>
 	
 <!-- WEAPON INFORMATION - Format is: (ammoCount,maxSpeed,projectileID) -->
-	<resource type="text" id="WEAPON_0_INFO">20,75,0</resource>
+	<resource type="text" id="WEAPON_0_INFO">20,100,0</resource>
+	<resource type="text" id="WEAPON_1_INFO">2,75,1</resource>
 	
 <!-- PROJECTILE INFORMATION - Format is: (blastRadius,baseDamage) -->
-	<resource type="text" id="PROJECTILE_0_INFO">10,20</resource>
+	<resource type="text" id="PROJECTILE_0_INFO">30,20</resource>
+	<resource type="text" id="PROJECTILE_1_INFO">50,50</resource>
 <!-- PROJECTILE IMAGES -->
 	<resource type="image" id="PROJECTILE_0_IMAGE">data/projectiles/proj.png</resource>
+	<resource type="image" id="PROJECTILE_1_IMAGE">data/projectiles/proj1.png</resource>
 </resources>

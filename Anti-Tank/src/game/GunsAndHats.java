@@ -25,7 +25,6 @@ public class GunsAndHats extends StateBasedGame {
 	private static int FRAMERATE = 60;
 	
 	
-	//perhaps change these to public?? - peter
 	public static int STARTSCREEN = 1;
 	public static int PREGAMESTATE = 2;
 	public static int GAMESTATE = 3;

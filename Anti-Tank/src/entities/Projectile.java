@@ -5,11 +5,11 @@ import game.ResourceManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import states.GameState;
+import entities.Tank;
 
 public class Projectile {
 
@@ -18,7 +18,7 @@ public class Projectile {
 	private Image img;			// Projectile image
 	private float rotation;		// Current angle of rotation of projectile (in degrees)
 	private float blastRadius;	// Area of effect of explosion
-	private float baseDamage;	// Base amount of hitpoint damage done to tanks
+	private int baseDamage;	// Base amount of hitpoint damage done to tanks
 	
 	public Projectile(int id, float x, float y, float launchSpeed, float bAngle) {
 		float vx = launchSpeed * (float)Math.cos(Math.toRadians(bAngle)); // x component of initial velocity
@@ -36,9 +36,9 @@ public class Projectile {
 		img = ResourceManager.getInstance().getImage("PROJECTILE_"+id+"_IMAGE");
 		img.setCenterOfRotation(img.getWidth()/2, img.getHeight()/2); // Set at centre of projectile image.
 		
-		String[] info = ResourceManager.getInstance().getText("TANK_" + id + "_INFO").split(",");
+		String[] info = ResourceManager.getInstance().getText("PROJECTILE_" + id + "_INFO").split(",");
 		blastRadius = Float.parseFloat(info[0]);
-		baseDamage = Float.parseFloat(info[1]);
+		baseDamage = Integer.parseInt(info[1]);
 	}
 	
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
@@ -51,12 +51,23 @@ public class Projectile {
 		img.draw(relpos.x - halfwidth*scale,relpos.y - halfheight*scale,scale); // Draw projectile around the centre 
 	}
 	
-	public void update(GameContainer gc, StateBasedGame game, int delta, World world){
-		// Check Collisions
+	public void update(GameContainer gc, StateBasedGame game, int delta, World world, GameState gs){
+		// Check Collisions	(projectile, tanks)	
+		for (int i = 0; i < gs.getPlayers().length; i++){ // for each player
+			for (int j = 0; j < gs.getPlayer(i).getTanks().length; j++){ //for each tank
+				Tank currentTank = gs.getPlayer(i).getTank(j);
+				if (GameState.checkCollision(this, currentTank)){ // if the tank and projectile collide
+					currentTank.damageBy(baseDamage); // damage the current tank by full damage of projectile
+					GameState.destroyProjectile(this); // destroy the projectile
+				}
+			}
+		}
+		
+		// Check Collisions	(projectile, world)	
 		if (GameState.checkCollision(this, world)){ 
-			// TODO Damage tanks in BlastRadius by some value relating to base damage
-			// TODO Destroy part of the world (maybe)
+			GameState.damageTanksGS(blastRadius, pos, baseDamage);// Damage tanks in BlastRadius by some value relating to base damage
 			GameState.destroyProjectile(this); // Delete the projectile
+			world.destroyCircle(blastRadius, pos);// Destroy part of the world
 		}
 		
 		 // Update Position

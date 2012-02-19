@@ -4,9 +4,8 @@ package entities;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
-
-import states.GameState;
 
 public class Player {
 
@@ -61,5 +60,30 @@ public class Player {
 	
 	public Tank getCurrentTank() {
 		return tanks[currentTank];
+	}
+
+	public void damageTanks(float blastRadius, Vector2f pos, int baseDamage) {
+		int x = (int) pos.getX();
+		int y = (int) pos.getY();
+							
+		for (int i = 0; i < tanks.length; i++){
+			int tx = (int) tanks[i].getPos().getX() + (tanks[i].getImage().getWidth()/2); 
+			int ty = (int) tanks[i].getPos().getY() + (tanks[i].getImage().getHeight()); // Middle-Bottom of current tank's body.
+			
+			float distance = (float)Math.sqrt(Math.pow((y-ty),2)+ Math.pow((x-tx), 2));
+			
+			if (distance <= blastRadius) {
+				int dmg = (int) (baseDamage * (1 -(distance/blastRadius))); // 
+				tanks[i].damageBy(dmg);
+			}
+		}
+	}
+
+	public Tank getTank(int j) {
+		return tanks[j];
+	}
+
+	public Tank[] getTanks() {
+		return tanks;
 	}
 }

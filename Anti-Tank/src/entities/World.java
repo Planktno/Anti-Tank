@@ -35,7 +35,6 @@ public class World {
 	private void loadResources(int id){
 		level = ResourceManager.getInstance().getImage("WORLD_"+id+"_LEVEL");
 		setLevelBuffer(level);
-		destroyCircle(50, new Vector2f(300, 400));//Testing the destroy function
 		background = ResourceManager.getInstance().getImage("WORLD_"+id+"_BACKGROUND");
 		
 		String[] info = ResourceManager.getInstance().getText("WORLD_" + id + "_INFO").split(",");
@@ -144,13 +143,14 @@ public class World {
 					distance = (float)Math.sqrt(Math.pow((y-i),2)+ Math.pow((x-j), 2));
 					System.out.println(i+","+j+","+distance);
 					if (distance <= radius) {
-						levelBuffer.setRGBA(i, j, 0, 0, 0, 0);
+						levelBuffer.setRGBA(j, i, 0, 0, 0, 0); // Swapped i and j, they were round the wrong way! - Peter :)
 					}
 				}
 			}	
 		}
 	}
 	level = levelBuffer.getImage();
+	updatePixelMap();// Need to update the pixel map after a destruction so collision detection works - Peter
 	}
 		
 	

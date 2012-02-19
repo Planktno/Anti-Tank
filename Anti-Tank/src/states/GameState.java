@@ -40,7 +40,7 @@ public class GameState extends BasicGameState{
 	@Override
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
-		numberOfPlayers = 1; // Placeholder for testing
+		numberOfPlayers = 2; // Placeholder for testing
 		world = new World(0); // ID 0 - Test Level   ID 1 - Possible New Level
 		players = new Player[numberOfPlayers];
 		projectiles = new ArrayList<Projectile>();
@@ -49,7 +49,7 @@ public class GameState extends BasicGameState{
 		
 		// Quick Fix - for testing.
 		players[0] = new Player("Name", new Tank[] {new Tank(0,400,100)});
-//		players[1] = new Player("Name2", new Tank[] {new Tank(0,100,100)});
+		players[1] = new Player("Name2", new Tank[] {new Tank(0,100,100)});
 		
 		currentPlayer = 0;
 		players[currentPlayer].setFocus();
@@ -80,7 +80,7 @@ public class GameState extends BasicGameState{
 				
 		// Update World, then Projectiles, then Players.
 		world.update(gc,game,delta);
-		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).update(gc, game, delta, world);
+		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).update(gc, game, delta, world, this);
 		for (int i = 0; i < players.length; i++) players[i].update(gc, game, delta, world);
 	}
 	
@@ -101,7 +101,21 @@ public class GameState extends BasicGameState{
 	}
 	
 	public static boolean checkCollision(Projectile proj, Tank tank){
-		//TODO Implement Collision Detection between Projectile and Tank
+		float tx1 = tank.getPos().getX();
+		float tx2 = tank.getPos().getX() + tank.getImage().getWidth();
+		float ty1 = tank.getPos().getY();
+		float ty2 = tank.getPos().getY() + tank.getImage().getHeight();
+		
+		float px = proj.getPos().getX();
+		float py = proj.getPos().getY();
+		
+		if (px > tx1 && px < tx2 && py > ty1 && py < ty2){
+			HashSet<String> maskProj = getMask(proj.getPos(), proj.getImage());
+			HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
+			maskProj.retainAll(maskTank); // Only keep those pixels that overlap.
+			if (maskProj.size() > 0) return true; // Collides
+			return false; // Doesn't Collide
+		}
 		return false;
 	}
 
@@ -147,6 +161,10 @@ public class GameState extends BasicGameState{
 	public int getCurrentPlayer() {
 		return currentPlayer;
 	}
+	
+	public Player[] getPlayers(){
+		return players;
+	}
 
 	public long getTimeStarted() {
 		return timeStarted;
@@ -162,6 +180,14 @@ public class GameState extends BasicGameState{
 
 	public void setRoundsPlayed(int roundsPlayed) {
 		this.roundsPlayed = roundsPlayed;
+	}
+
+	public static void damageTanksGS(float blastRadius, Vector2f pos, int baseDamage) {
+		for (int i = 0; i < players.length; i++) players[i].damageTanks(blastRadius, pos, baseDamage);
+	}
+
+	public Player getPlayer(int i) {
+		return players[i];
 	}
 	
 }
