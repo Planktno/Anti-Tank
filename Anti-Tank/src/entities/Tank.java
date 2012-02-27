@@ -84,12 +84,12 @@ public class Tank {
 		g.drawString("Angle: " + bAngle,pos.x+offset,pos.y+65);
 	}
 	
-	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in){
+	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in, GameState gs){
 		// Keep old position
 		Vector2f old_pos = new Vector2f(pos.x, pos.y);
 		Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
 		
-		checkInputs(in, world); // Check Inputs
+		checkInputs(in, world, gs); // Check Inputs
 		
 		updatePositions(delta);// Update Position (body, barrel and all weapons)
 		checkCollisions(world, old_pos, old_bPos);// Check Collisions
@@ -125,7 +125,7 @@ public class Tank {
 		}
 	}
 	
-	private void checkInputs(Input in, World world) {
+	private void checkInputs(Input in, World world, GameState gs) {
 		if(in.isKeyDown(Input.KEY_UP)) launchSpeedUp();
 		if(in.isKeyDown(Input.KEY_DOWN)) launchSpeedDown();
 		if(in.isKeyDown(Input.KEY_LEFT)) {barrelRotateAnticlockwise(); updateWepXY();} 
@@ -137,8 +137,8 @@ public class Tank {
 		
 		if(in.isKeyPressed(Input.KEY_ENTER)) {
 			if (weapons[currentWeapon].getAmmoCount() > 0) {
-				weapons[currentWeapon].shoot(launchSpeed, bAngle);
-				GameState.nextPlayer();
+				weapons[currentWeapon].shoot(launchSpeed, bAngle, gs);
+				gs.nextPlayer();
 			}
 		}
 	}

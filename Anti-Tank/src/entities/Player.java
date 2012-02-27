@@ -7,6 +7,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
+import states.GameState;
+
 public class Player {
 
 	private String playerName; // ...name of the player ;)
@@ -22,10 +24,10 @@ public class Player {
 		hasFocus = false;
 	}
 	
-	public void update(GameContainer gc, StateBasedGame game , int delta, World world){	
+	public void update(GameContainer gc, StateBasedGame game , int delta, World world, GameState gs){	
 		if (hasFocus){
 			Input input = gc.getInput(); //Get Inputs
-			tanks[currentTank].update(gc, game, delta, world, input); //Update Active Tank with regard to input
+			tanks[currentTank].update(gc, game, delta, world, input, gs); //Update Active Tank with regard to input
 			for (int i = 0; i < tanks.length; i++) if (i != currentTank) tanks[i].updateInBackground(gc, game, delta, world); // Update all other tanks in background
 			if(input.isKeyPressed(Input.KEY_PERIOD)) world.randomizeWind();// For testing only
 		} else {

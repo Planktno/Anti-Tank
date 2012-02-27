@@ -22,12 +22,12 @@ public class GameState extends BasicGameState{
 
 	private int stateID;
 	private World world;
-	private static Player[] players;
-	private static ArrayList<Projectile> projectiles;
-	private static int currentPlayer;
+	private Player[] players;
+	private ArrayList<Projectile> projectiles;
+	private int currentPlayer;
 	private long timeStarted;
 	private int roundsPlayed;
-	private static int numberOfPlayers;
+	private int numberOfPlayers;
 	private Camera camera;
 	private GUI gui;
 	
@@ -81,7 +81,7 @@ public class GameState extends BasicGameState{
 		// Update World, then Projectiles, then Players.
 		world.update(gc,game,delta);
 		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).update(gc, game, delta, world, this);
-		for (int i = 0; i < players.length; i++) players[i].update(gc, game, delta, world);
+		for (int i = 0; i < players.length; i++) players[i].update(gc, game, delta, world, this);
 	}
 	
 	public static boolean checkCollision(Tank tank, World world){
@@ -124,11 +124,11 @@ public class GameState extends BasicGameState{
 		return stateID ;
 	}
 
-	public static void addProjectile(Projectile proj) {
+	public void addProjectile(Projectile proj) {
 		projectiles.add(proj);
 	}
 	
-	public static void destroyProjectile(Projectile proj){
+	public void destroyProjectile(Projectile proj){
 		projectiles.remove(proj);
 	}
 	
@@ -145,19 +145,22 @@ public class GameState extends BasicGameState{
 		
 		return mask;
 	}
-
 	
-	public static void nextPlayer() {
+	public void nextPlayer() {
 		players[currentPlayer].nextTank(); // Move to next tank on old player's team
 		players[currentPlayer].removeFocus(); // Remove focus from old player
 		
 		// Move to next player
-		if (currentPlayer + 1 == numberOfPlayers) currentPlayer = 0;
+		if (currentPlayer + 1 == numberOfPlayers) {
+			currentPlayer = 0;
+//			roundsPlayed++;
+//			world.randomizeWind();
+		}
 		else currentPlayer++; 
 		
 		players[currentPlayer].setFocus(); // Give focus to the new player
 	}
-	
+
 	public int getCurrentPlayer() {
 		return currentPlayer;
 	}
@@ -182,7 +185,7 @@ public class GameState extends BasicGameState{
 		this.roundsPlayed = roundsPlayed;
 	}
 
-	public static void damageTanksGS(float blastRadius, Vector2f pos, int baseDamage) {
+	public void damagePlayers(float blastRadius, Vector2f pos, int baseDamage) {
 		for (int i = 0; i < players.length; i++) players[i].damageTanks(blastRadius, pos, baseDamage);
 	}
 

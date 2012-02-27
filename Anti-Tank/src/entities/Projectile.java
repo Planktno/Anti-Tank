@@ -18,7 +18,7 @@ public class Projectile {
 	private Image img;			// Projectile image
 	private float rotation;		// Current angle of rotation of projectile (in degrees)
 	private float blastRadius;	// Area of effect of explosion
-	private int baseDamage;	// Base amount of hitpoint damage done to tanks
+	private int baseDamage;	    // Base amount of hitpoint damage done to tanks
 	
 	public Projectile(int id, float x, float y, float launchSpeed, float bAngle) {
 		float vx = launchSpeed * (float)Math.cos(Math.toRadians(bAngle)); // x component of initial velocity
@@ -57,18 +57,24 @@ public class Projectile {
 			for (int j = 0; j < gs.getPlayer(i).getTanks().length; j++){ //for each tank
 				Tank currentTank = gs.getPlayer(i).getTank(j);
 				if (GameState.checkCollision(this, currentTank)){ // if the tank and projectile collide
-					currentTank.damageBy(baseDamage); // damage the current tank by full damage of projectile
-					GameState.destroyProjectile(this); // destroy the projectile
+					currentTank.damageBy(baseDamage); // Damage the current tank by full damage of projectile
+					gs.destroyProjectile(this); // Destroy the projectile
+					world.destroyCircle(blastRadius, pos); // Destroy part of the world
 				}
 			}
 		}
 		
 		// Check Collisions	(projectile, world)	
 		if (GameState.checkCollision(this, world)){ 
-			GameState.damageTanksGS(blastRadius, pos, baseDamage);// Damage tanks in BlastRadius by some value relating to base damage
-			GameState.destroyProjectile(this); // Delete the projectile
+			gs.damagePlayers(blastRadius, pos, baseDamage);// Damage all tanks of all players in BlastRadius by some value relating to base damage
+			gs.destroyProjectile(this); // Delete the projectile
 			world.destroyCircle(blastRadius, pos);// Destroy part of the world
 		}
+		
+		// Check projectile is in the level, if not: delete it.
+		int worldwidth = world.getImage().getWidth();
+		int worldheight = world.getImage().getHeight();
+		if (pos.getX() > worldwidth || pos.getX() < 0 || pos.getY() > worldheight) gs.destroyProjectile(this);
 		
 		 // Update Position
 		pos.set(pos.x+(vel.x*delta/100),pos.y+(vel.y*delta/100));
