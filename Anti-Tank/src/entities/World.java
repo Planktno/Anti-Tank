@@ -62,8 +62,11 @@ public class World {
 		background.draw(relPos.getX(), relPos.getY(), cam.getFocusScale());
 		level.draw(relPos.getX(), relPos.getY(), cam.getFocusScale());
 		
-		
 		// Printing for testing
+		if (gc.isShowingFPS()) debugRender(g);
+	}
+
+	private void debugRender(Graphics g) {
 		g.drawString("Current Controls:",300,10);
 		g.drawString("Change Weapon - Space", 300, 25);
 		g.drawString("Fire Weapon - Enter", 300, 40);

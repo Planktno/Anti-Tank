@@ -69,13 +69,16 @@ public class Tank {
 		Vector2f relbpos = cam.getRelFocusPos(bPos);
 		float bhalfheight = barrel.getHeight()/2; // Used to allow barrel to be drawn around point it rotates about.
 		
-		
-		// TODO Not implemented properly yet (perhaps), below is for testing purposes.
+		// Rotate the barrel to the correct angle and draw both barrel and body.
 		barrel.setRotation(bAngle);
 		barrel.draw(relbpos.x , relbpos.y - (bhalfheight*scale), scale); 
 		body.draw(relpos.x, relpos.y, scale);
 		
-		//For Debugging
+		//Debug Mode
+		if (gc.isShowingFPS()) debugRender(g);
+	}
+
+	private void debugRender(Graphics g) {
 		int offset = 40;
 		g.drawString(Integer.toString(hitpoints), pos.x -offset, pos.y-15);
 		g.drawString("Wep: " + currentWeapon,pos.x + offset,pos.y+20);

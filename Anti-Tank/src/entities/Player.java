@@ -37,6 +37,12 @@ public class Player {
 
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
 		for (int i = 0; i < tanks.length; i++) tanks[i].render(gc,game,g,cam);	
+		
+		if (gc.isShowingFPS()) debugRender(g);
+	}
+
+	private void debugRender(Graphics g) {
+		g.drawString("Current Tank :" + currentTank, 10, 565);
 	}
 
 	public void nextTank(){
@@ -75,7 +81,7 @@ public class Player {
 			float distance = (float)Math.sqrt(Math.pow((y-ty),2)+ Math.pow((x-tx), 2));
 			
 			if (distance <= blastRadius) {
-				int dmg = (int) (baseDamage * (1 -(distance/blastRadius))); // 
+				int dmg = (int) (baseDamage * Math.sqrt(1 -(distance/blastRadius))); // 
 				tanks[i].damageBy(dmg);
 			}
 		}

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
@@ -48,8 +49,8 @@ public class GameState extends BasicGameState{
 		roundsPlayed = 0;
 		
 		// Quick Fix - for testing.
-		players[0] = new Player("Name", new Tank[] {new Tank(0,400,100)});
-		players[1] = new Player("Name2", new Tank[] {new Tank(0,100,100)});
+		players[0] = new Player("Name", new Tank[] {new Tank(0,600,100)});
+		players[1] = new Player("Name2", new Tank[] {new Tank(0,200,100)});
 		
 		currentPlayer = 0;
 		players[currentPlayer].setFocus();
@@ -69,9 +70,13 @@ public class GameState extends BasicGameState{
 		world.render(gc,game,g,camera);
 		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).render(gc,game,g,camera);
 		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,camera);
-		g.drawString("Current Player: " + currentPlayer, 10, 580);
-		
 		gui.render(gc, game, g);
+		
+		if (gc.isShowingFPS()) debugRender(g);
+	}
+
+	private void debugRender(Graphics g) {
+		g.drawString("Current Player: " + currentPlayer, 10, 580);		
 	}
 
 	@Override
@@ -82,6 +87,10 @@ public class GameState extends BasicGameState{
 		world.update(gc,game,delta);
 		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).update(gc, game, delta, world, this);
 		for (int i = 0; i < players.length; i++) players[i].update(gc, game, delta, world, this);
+		
+		// Debug Mode Toggle
+		Input in = gc.getInput();
+		if (in.isKeyPressed(Input.KEY_F12)) gc.setShowFPS(!gc.isShowingFPS());
 	}
 	
 	public static boolean checkCollision(Tank tank, World world){
