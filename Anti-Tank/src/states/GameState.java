@@ -42,15 +42,15 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
 		numberOfPlayers = 2; // Placeholder for testing
-		world = new World(0); // ID 0 - Test Level   ID 1 - Possible New Level
+		world = new World(1); // ID 0 - Test Level   ID 1 - Possible New Level
 		players = new Player[numberOfPlayers];
 		projectiles = new ArrayList<Projectile>();
 		timeStarted = System.nanoTime();
 		roundsPlayed = 0;
 		
 		// Quick Fix - for testing.
-		players[0] = new Player("Name", new Tank[] {new Tank(0,600,100)});
-		players[1] = new Player("Name2", new Tank[] {new Tank(0,200,100)});
+		players[0] = new Player("Name", new Tank[] {new Tank(0,600,200)});
+		players[1] = new Player("Name2", new Tank[] {new Tank(0,200,200)});
 		
 		currentPlayer = 0;
 		players[currentPlayer].setFocus();
