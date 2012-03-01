@@ -4,6 +4,7 @@ package entities;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import states.GameState;
@@ -23,10 +24,10 @@ public class Player {
 		hasFocus = false;
 	}
 	
-	public void update(GameContainer gc, StateBasedGame game , int delta, World world){	
+	public void update(GameContainer gc, StateBasedGame game , int delta, World world, GameState gs){	
 		if (hasFocus){
 			Input input = gc.getInput(); //Get Inputs
-			tanks[currentTank].update(gc, game, delta, world, input); //Update Active Tank with regard to input
+			tanks[currentTank].update(gc, game, delta, world, input, gs); //Update Active Tank with regard to input
 			for (int i = 0; i < tanks.length; i++) if (i != currentTank) tanks[i].updateInBackground(gc, game, delta, world); // Update all other tanks in background
 			if(input.isKeyPressed(Input.KEY_PERIOD)) world.randomizeWind();// For testing only
 		} else {
@@ -36,6 +37,12 @@ public class Player {
 
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
 		for (int i = 0; i < tanks.length; i++) tanks[i].render(gc,game,g,cam);	
+		
+		if (gc.isShowingFPS()) debugRender(g);
+	}
+
+	private void debugRender(Graphics g) {
+		g.drawString("Current Tank :" + currentTank, 10, 565);
 	}
 
 	public void nextTank(){
@@ -61,5 +68,30 @@ public class Player {
 	
 	public Tank getCurrentTank() {
 		return tanks[currentTank];
+	}
+
+	public void damageTanks(float blastRadius, Vector2f pos, int baseDamage) {
+		int x = (int) pos.getX();
+		int y = (int) pos.getY();
+							
+		for (int i = 0; i < tanks.length; i++){
+			int tx = (int) tanks[i].getPos().getX() + (tanks[i].getImage().getWidth()/2); 
+			int ty = (int) tanks[i].getPos().getY() + (tanks[i].getImage().getHeight()); // Middle-Bottom of current tank's body.
+			
+			float distance = (float)Math.sqrt(Math.pow((y-ty),2)+ Math.pow((x-tx), 2));
+			
+			if (distance <= blastRadius) {
+				int dmg = (int) (baseDamage * Math.sqrt(1 -(distance/blastRadius))); // 
+				tanks[i].damageBy(dmg);
+			}
+		}
+	}
+
+	public Tank getTank(int j) {
+		return tanks[j];
+	}
+
+	public Tank[] getTanks() {
+		return tanks;
 	}
 }

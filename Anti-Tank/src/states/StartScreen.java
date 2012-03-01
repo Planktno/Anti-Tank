@@ -50,7 +50,7 @@ public class StartScreen extends BasicGameState{
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sb, Graphics gr)
+	public void render(GameContainer gc, StateBasedGame game, Graphics gr)
 			throws SlickException {
 		gr.drawString("LOL",0,0);
 		background.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
@@ -61,7 +61,7 @@ public class StartScreen extends BasicGameState{
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sb, int delta)
+	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
 		Input input = gc.getInput();
 		int mouseX = input.getMouseX();
@@ -72,7 +72,11 @@ public class StartScreen extends BasicGameState{
 			//if inside the right X range for the start button
 			if(mouseX >= camera.getOffset().getX() + 50*camera.getScale() && mouseX <= camera.getOffset().getX() + 50*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 				b_start=b_start_hover.copy();//.setRotation(5.0f);
-				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(GunsAndHats.GAMESTATE);
+				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+					game.addState(new GameState(GunsAndHats.GAMESTATE,camera));
+					game.getState(GunsAndHats.GAMESTATE).init(gc, game);
+					game.enterState(GunsAndHats.GAMESTATE);
+				}
 			} else {
 				b_start = ResourceManager.getInstance().getImage("SS_BUTTON_NEW_GAME");
 			}
@@ -83,7 +87,7 @@ public class StartScreen extends BasicGameState{
 		if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
 			if(mouseX >= camera.getOffset().getX() + 310*camera.getScale() && mouseX <= camera.getOffset().getX() + 310*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 				b_history=b_history_hover.copy();
-				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(GunsAndHats.HISTORYSCREEN);
+				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) game.enterState(GunsAndHats.HISTORYSCREEN);
 			} else {
 				b_history = ResourceManager.getInstance().getImage("SS_BUTTON_HISTORY");  
 			}

@@ -27,9 +27,9 @@ public class Weapon {
 		projID = Integer.parseInt(info[2]);
 	}
 	
-	public void shoot(float launchSpeed, float bAngle){
+	public void shoot(float launchSpeed, float bAngle, GameState gs){
 		Projectile proj = new Projectile(projID,pos.x,pos.y,launchSpeed*maxSpeed,bAngle);
-		GameState.addProjectile(proj);
+		gs.addProjectile(proj);
 		ammoCount -= 1;
 	}
 	

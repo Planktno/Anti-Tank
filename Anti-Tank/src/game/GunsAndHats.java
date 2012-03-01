@@ -25,7 +25,6 @@ public class GunsAndHats extends StateBasedGame {
 	private static int FRAMERATE = 60;
 	
 	
-	//perhaps change these to public?? - peter
 	public static int STARTSCREEN = 1;
 	public static int PREGAMESTATE = 2;
 	public static int GAMESTATE = 3;
@@ -57,7 +56,7 @@ public class GunsAndHats extends StateBasedGame {
 		
 		this.addState(new StartScreen(STARTSCREEN, camera));
 		this.addState(new PreGameMenu(PREGAMESTATE, camera));
-		this.addState(new GameState(GAMESTATE, camera));
+//		this.addState(new GameState(GAMESTATE, camera));
 		this.addState(new InGameMenu(INGAMEMENU, camera));
 		this.addState(new EndGameScreen(ENDGAMESCREEN, camera));
 		this.addState(new HistoryScreen(HISTORYSCREEN, camera));
@@ -72,8 +71,6 @@ public class GunsAndHats extends StateBasedGame {
 	public static void main(String[] args) throws SlickException {
 		GunsAndHats game = new GunsAndHats();
 		AppGameContainer app = new AppGameContainer(game);
-		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, app.getScreenWidth(), app.getScreenHeight());
-		app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), true);
 		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, FRAMEWIDTH, FRAMEHEIGHT);
 		app.setDisplayMode(FRAMEWIDTH, FRAMEHEIGHT, false);
 		app.setVSync(true); // Keepin' it smooooooothhh...

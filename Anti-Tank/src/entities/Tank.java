@@ -6,7 +6,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -39,16 +38,17 @@ public class Tank {
 		bAngle = 0;
 		currentWeapon = 0;
 			
-		loadResources(id); // Using ResourceManager
+		int[] wepIDs = new int[2]; // ID's of the two (changeable) weapons a tank has
+		loadResources(id, wepIDs); // Using ResourceManager
 		
 		updateWepXY();
 		barrel.setCenterOfRotation(0,barrel.getHeight()/2); // So that it rotates about its end.
 		bPos = new Vector2f(pos.x+bx, pos.y+by);
 		Vector2f wepPos = new Vector2f(bPos.x + wepx, bPos.y + wepy);
-		weapons = new Weapon[] {new Weapon(0,wepPos), new Weapon(0,wepPos)}; // ID of 0 is a placeholder
+		weapons = new Weapon[] {new Weapon(wepIDs[0],wepPos), new Weapon(wepIDs[1],wepPos)}; // ID of 0 is a placeholder
 	}
 
-	private void loadResources(int id) {
+	private void loadResources(int id, int[] wepIDs) {
 		// YAY finally loading from resource manager :D
 		body = ResourceManager.getInstance().getImage("TANK_" + id + "_BODY");
 		barrel = ResourceManager.getInstance().getImage("TANK_" + id + "_BARREL");
@@ -59,6 +59,8 @@ public class Tank {
 		by = Float.parseFloat(info[1]); 
 		hitpoints = Integer.parseInt(info[2]);
 		movementSpeed = Float.parseFloat(info[3]);
+		wepIDs[0] = Integer.parseInt(info[4]);
+		wepIDs[1] = Integer.parseInt(info[5]);
 	}
 
 	public void render (GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
@@ -67,25 +69,30 @@ public class Tank {
 		Vector2f relbpos = cam.getRelFocusPos(bPos);
 		float bhalfheight = barrel.getHeight()/2; // Used to allow barrel to be drawn around point it rotates about.
 		
-		
-		// TODO Not implemented properly yet (perhaps), below is for testing purposes.
+		// Rotate the barrel to the correct angle and draw both barrel and body.
 		barrel.setRotation(bAngle);
 		barrel.draw(relbpos.x , relbpos.y - (bhalfheight*scale), scale); 
 		body.draw(relpos.x, relpos.y, scale);
 		
-		//For Debugging
-		g.drawString("Current Weapon: " + currentWeapon,10,25);
-		g.drawString("Ammo Count: " + Integer.toString(weapons[currentWeapon].getAmmoCount()),10,40);
-		g.drawString("launchSpeed: " + launchSpeed,10,55);
-		g.drawString("bAngle: " + bAngle,10,70);
+		//Debug Mode
+		if (gc.isShowingFPS()) debugRender(g);
+	}
+
+	private void debugRender(Graphics g) {
+		int offset = 40;
+		g.drawString(Integer.toString(hitpoints), pos.x -offset, pos.y-15);
+		g.drawString("Wep: " + currentWeapon,pos.x + offset,pos.y+20);
+		g.drawString("Ammo: " + Integer.toString(weapons[currentWeapon].getAmmoCount()),pos.x + offset,pos.y + 35);
+		g.drawString("Power: " + launchSpeed,pos.x+offset,pos.y+50);
+		g.drawString("Angle: " + bAngle,pos.x+offset,pos.y+65);
 	}
 	
-	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in){
+	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in, GameState gs){
 		// Keep old position
 		Vector2f old_pos = new Vector2f(pos.x, pos.y);
 		Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
 		
-		checkInputs(in); // Check Inputs
+		checkInputs(in, world, gs); // Check Inputs
 		
 		updatePositions(delta);// Update Position (body, barrel and all weapons)
 		checkCollisions(world, old_pos, old_bPos);// Check Collisions
@@ -121,7 +128,7 @@ public class Tank {
 		}
 	}
 	
-	private void checkInputs(Input in) {
+	private void checkInputs(Input in, World world, GameState gs) {
 		if(in.isKeyDown(Input.KEY_UP)) launchSpeedUp();
 		if(in.isKeyDown(Input.KEY_DOWN)) launchSpeedDown();
 		if(in.isKeyDown(Input.KEY_LEFT)) {barrelRotateAnticlockwise(); updateWepXY();} 
@@ -132,8 +139,10 @@ public class Tank {
 		if(in.isKeyPressed(Input.KEY_SPACE)) changeWeapon();
 		
 		if(in.isKeyPressed(Input.KEY_ENTER)) {
-			if (weapons[currentWeapon].getAmmoCount() > 0) weapons[currentWeapon].shoot(launchSpeed, bAngle);
-			GameState.nextPlayer();
+			if (weapons[currentWeapon].getAmmoCount() > 0) {
+				weapons[currentWeapon].shoot(launchSpeed, bAngle, gs);
+				gs.nextPlayer();
+			}
 		}
 	}
 
@@ -209,6 +218,14 @@ public class Tank {
 
 	public void setCurrentWeapon(int currentWeapon) {
 		this.currentWeapon = currentWeapon;
+	}
+
+	public void damageBy(int baseDamage) {
+		hitpoints -= baseDamage;
+	}
+	
+	public int returnHp() {
+		return hitpoints;
 	}
 
 	
