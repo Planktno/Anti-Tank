@@ -16,6 +16,7 @@ public class Player {
 	private Tank[] tanks;	   // all tanks associated with this player
 	private int currentTank;   // Index of current playing tank in array tanks
 	private boolean hasFocus;  // True if this player is currently playing
+	private boolean isLoser;   // Flag to see if player has lost all his/her tanks.
 	
 	
 	public Player(String playerName, Tank[] tanks){
@@ -23,23 +24,28 @@ public class Player {
 		this.tanks = tanks;
 		currentTank = 0;
 		hasFocus = false;
+		isLoser = false;
 	}
 	
 	public void update(GameContainer gc, StateBasedGame game , int delta, World world, GameState gs){	
-		if (hasFocus){
-			Input input = gc.getInput(); //Get Inputs
-			tanks[currentTank].update(gc, game, delta, world, input, gs); //Update Active Tank with regard to input
-			for (int i = 0; i < tanks.length; i++) if (i != currentTank) tanks[i].updateInBackground(gc, game, delta, world); // Update all other tanks in background
-			if(input.isKeyPressed(Input.KEY_PERIOD)) world.randomizeWind();// For testing only
-		} else {
-			for (int i = 0; i < tanks.length; i++) tanks[i].updateInBackground(gc, game, delta, world);
-		}		
+		if (!isLoser){
+			if (hasFocus){
+				Input input = gc.getInput(); //Get Inputs
+				tanks[currentTank].update(gc, game, delta, world, input, gs); //Update Active Tank with regard to input
+				for (int i = 0; i < tanks.length; i++) if (i != currentTank) tanks[i].updateInBackground(gc, game, delta, world); // Update all other tanks in background
+				if(input.isKeyPressed(Input.KEY_PERIOD)) world.randomizeWind();// For testing only
+			} else {
+				for (int i = 0; i < tanks.length; i++) tanks[i].updateInBackground(gc, game, delta, world);
+			}
+		}
 	}
 
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
-		for (int i = 0; i < tanks.length; i++) tanks[i].render(gc,game,g,cam);	
+		if (!isLoser){
+			for (int i = 0; i < tanks.length; i++) tanks[i].render(gc,game,g,cam);	
 		
-		if (gc.isShowingFPS()) debugRender(g);
+			if (gc.isShowingFPS()) debugRender(g);
+		}
 	}
 
 	private void debugRender(Graphics g) {
@@ -51,8 +57,9 @@ public class Player {
 		else currentTank += 1;
 	}
 	
-	public void setFocus(){
-		hasFocus = true;
+	public void setFocus(GameState gs){
+		if (isLoser) gs.nextPlayer();
+		else hasFocus = true;
 	}
 	
 	public void removeFocus(){
@@ -94,5 +101,21 @@ public class Player {
 
 	public Tank[] getTanks() {
 		return tanks;
+	}
+
+	public int getAliveTanks() {
+		int output = 0;
+		for (int i = 0; i < tanks.length; i++){
+			if (tanks[i].isAlive()) output++;
+		}
+		return output;
+	}
+
+	public void setLoser() {
+		isLoser = true;		
+	}
+
+	public boolean isLoser() {
+		return isLoser;
 	}
 }

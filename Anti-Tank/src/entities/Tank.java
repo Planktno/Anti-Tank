@@ -28,6 +28,7 @@ public class Tank {
 	private Weapon[] weapons;	// Weapons associated with the tank
 	private int currentWeapon;	// Index of currently selected weapon
 	private float movementSpeed;// Movement speed of tank.
+	private boolean isAlive; 	// Flag to see if tank is alive.
 	
 	
 	
@@ -37,6 +38,7 @@ public class Tank {
 		launchSpeed = 0;
 		bAngle = 0;
 		currentWeapon = 0;
+		isAlive = true;
 			
 		int[] wepIDs = new int[2]; // ID's of the two (changeable) weapons a tank has
 		loadResources(id, wepIDs); // Using ResourceManager
@@ -64,18 +66,20 @@ public class Tank {
 	}
 
 	public void render (GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
-		float scale = cam.getScale();
-		Vector2f relpos = cam.getRelFocusPos(pos);
-		Vector2f relbpos = cam.getRelFocusPos(bPos);
-		float bhalfheight = barrel.getHeight()/2; // Used to allow barrel to be drawn around point it rotates about.
+		if (isAlive) {
+			float scale = cam.getScale();
+			Vector2f relpos = cam.getRelFocusPos(pos);
+			Vector2f relbpos = cam.getRelFocusPos(bPos);
+			float bhalfheight = barrel.getHeight()/2; // Used to allow barrel to be drawn around point it rotates about.
 		
-		// Rotate the barrel to the correct angle and draw both barrel and body.
-		barrel.setRotation(bAngle);
-		barrel.draw(relbpos.x , relbpos.y - (bhalfheight*scale), scale); 
-		body.draw(relpos.x, relpos.y, scale);
+			// Rotate the barrel to the correct angle and draw both barrel and body.
+			barrel.setRotation(bAngle);
+			barrel.draw(relbpos.x , relbpos.y - (bhalfheight*scale), scale); 
+			body.draw(relpos.x, relpos.y, scale);
 		
-		//Debug Mode
-		if (gc.isShowingFPS()) debugRender(g);
+			//Debug Mode
+			if (gc.isShowingFPS()) debugRender(g);
+		}
 	}
 
 	private void debugRender(Graphics g) {
@@ -88,18 +92,21 @@ public class Tank {
 	}
 	
 	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in, GameState gs){
-		// Keep old position
-		Vector2f old_pos = new Vector2f(pos.x, pos.y);
-		Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
+		if (isAlive){
+				// Keep old position
+			Vector2f old_pos = new Vector2f(pos.x, pos.y);
+			Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
 		
-		checkInputs(in, world, gs); // Check Inputs
+			checkInputs(in, world, gs); // Check Inputs
 		
-		updatePositions(delta);// Update Position (body, barrel and all weapons)
-		checkCollisions(world, old_pos, old_bPos);// Check Collisions
+			updatePositions(delta);// Update Position (body, barrel and all weapons)
+			checkCollisions(world, old_pos, old_bPos);// Check Collisions
 		
-		// Update Velocity
-		vel.set(vel.x, vel.y + world.getGravity()*delta/100);
+			// Update Velocity
+			vel.set(vel.x, vel.y + world.getGravity()*delta/100);
+		}
 	}
+		
 	
 	public void updateInBackground (GameContainer gc, StateBasedGame game, int delta, World world){
 		// Keep old position
@@ -226,6 +233,11 @@ public class Tank {
 	
 	public int returnHp() {
 		return hitpoints;
+	}
+
+	public boolean isAlive() {
+		if (hitpoints <= 0) isAlive = false;
+		return isAlive;
 	}
 
 	

@@ -31,6 +31,7 @@ public class GameState extends BasicGameState{
 	private int numberOfPlayers;
 	private Camera camera;
 	private GUI gui;
+	private String winner; // Only non-empty if there is actually a winner
 	
 	
 	public GameState(int id, Camera camera){
@@ -53,7 +54,7 @@ public class GameState extends BasicGameState{
 		players[1] = new Player("Name2", new Tank[] {new Tank(0,200,200)});
 		
 		currentPlayer = 0;
-		players[currentPlayer].setFocus();
+		players[currentPlayer].setFocus(this);
 		
 		gui = new GUI();
 		gui.setCamera(camera);
@@ -72,7 +73,13 @@ public class GameState extends BasicGameState{
 		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,camera);
 		gui.render(gc, game, g);
 		
+		if (winner.isEmpty()) displayWinner(winner,g); // TODO NOT WORKING YET
+		
 		if (gc.isShowingFPS()) debugRender(g);
+	}
+
+	private void displayWinner(String win, Graphics g) {
+		g.drawString(win + " is the WINNER!", 300, 300);
 	}
 
 	private void debugRender(Graphics g) {
@@ -88,11 +95,29 @@ public class GameState extends BasicGameState{
 		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).update(gc, game, delta, world, this);
 		for (int i = 0; i < players.length; i++) players[i].update(gc, game, delta, world, this);
 		
+		
+		// If any player has no tanks left alive, set them as a loser.
+		for (int i = 0; i < players.length; i++){
+			if (players[i].getAliveTanks() == 0) players[i].setLoser();
+		}
+		
+		// If only one player isn't a loser, display them as the winner, then end the game.
+		boolean a = false; 
+		String winnerName = "";
+		for (int i = 0; i < players.length; i++){
+			a = a || players[i].isLoser();
+			if (!players[i].isLoser()) winnerName = players[i].getPlayerName();
+		}
+		if (!a){
+			winner = winnerName;
+		}
+		
+		
 		// Debug Mode Toggle
 		Input in = gc.getInput();
 		if (in.isKeyPressed(Input.KEY_F12)) gc.setShowFPS(!gc.isShowingFPS());
 	}
-	
+
 	public static boolean checkCollision(Tank tank, World world){
 		HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
 		HashSet<String> maskWorld = world.getPixelMap();
@@ -164,10 +189,9 @@ public class GameState extends BasicGameState{
 			currentPlayer = 0;
 //			roundsPlayed++;
 //			world.randomizeWind();
-		}
-		else currentPlayer++; 
-		
-		players[currentPlayer].setFocus(); // Give focus to the new player
+		} else currentPlayer++; 
+
+		players[currentPlayer].setFocus(this); // Give focus to the new player
 	}
 
 	public int getCurrentPlayer() {
