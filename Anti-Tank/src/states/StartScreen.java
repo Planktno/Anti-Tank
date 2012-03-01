@@ -72,11 +72,7 @@ public class StartScreen extends BasicGameState{
 			//if inside the right X range for the start button
 			if(mouseX >= camera.getOffset().getX() + 50*camera.getScale() && mouseX <= camera.getOffset().getX() + 50*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 				b_start=b_start_hover.copy();//.setRotation(5.0f);
-				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-					game.addState(new GameState(GunsAndHats.GAMESTATE,camera));
-					game.getState(GunsAndHats.GAMESTATE).init(gc, game);
-					game.enterState(GunsAndHats.GAMESTATE);
-				}
+				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) game.enterState(GunsAndHats.GAMESTATE);
 			} else {
 				b_start = ResourceManager.getInstance().getImage("SS_BUTTON_NEW_GAME");
 			}
