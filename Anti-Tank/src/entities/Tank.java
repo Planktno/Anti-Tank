@@ -223,6 +223,10 @@ public class Tank {
 	public void damageBy(int baseDamage) {
 		hitpoints -= baseDamage;
 	}
+	
+	public int returnHp() {
+		return hitpoints;
+	}
 
 	
 	
