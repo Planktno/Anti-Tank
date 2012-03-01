@@ -1,17 +1,18 @@
 package states;
 
-import java.awt.Font;
 import java.io.IOException;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Camera;
+import game.GunsAndHats;
 import game.History;
 
 
@@ -96,10 +97,13 @@ public class HistoryScreen extends BasicGameState {
 	}
 
 	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
+	public void update(GameContainer gc, StateBasedGame sb, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
+		Input input = gc.getInput();
 		
+		if(input.isKeyPressed(Input.KEY_BACK)) {
+			sb.enterState(GunsAndHats.STARTSCREEN);
+		}
 	}
 
 	@Override
