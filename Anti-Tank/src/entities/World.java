@@ -11,7 +11,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
-
 import states.GameState;
 
 public class World {
@@ -152,13 +151,41 @@ public class World {
 			}	
 		}
 	}
+	
+	
 	level = levelBuffer.getImage();
 	updatePixelMap();// Need to update the pixel map after a destruction so collision detection works - Peter
 	}
-		
 	
 	public void destroyLine(Vector2f pos, float angle, int length, int width) {
+
+		for (int x = 0; x <= length*(Math.cos(angle)); x++) {
+			float y = (float)(x * Math.tan(angle));
+			destroyCircleNoUpdate(width/2, new Vector2f(x + pos.getX(),y + pos.getY()));
+		}
+		level = levelBuffer.getImage();
+		updatePixelMap();// Need to update the pixel map after a destruction so collision detection works - Peter
+	}
+	public void destroyCircleNoUpdate(float radius, Vector2f pos) {
+		float distance = 0;
+		float x = (int) pos.getX();
+		float y = (int) pos.getY();
+		
+		for (int i = (int)Math.floor(y-radius); i < y + radius; i++) {
+			
+			for (int j = (int)Math.floor(x-radius); j < x + radius; j++){
+				if (i < levelBuffer.getHeight() && (i >= 0)){
+					if (j < levelBuffer.getWidth() && (j >= 0)) {
+						distance = (float)Math.sqrt(Math.pow((y-i),2)+ Math.pow((x-j), 2));
+						System.out.println(i+","+j+","+distance);
+						if (distance <= radius) {
+							levelBuffer.setRGBA(j, i, 0, 0, 0, 0); // Swapped i and j, they were round the wrong way! - Peter :)
+						}
+					}
+				}	
+			}
+		}
+		
 		
 	}
-
 }
