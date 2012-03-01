@@ -42,7 +42,7 @@ public class GUI {
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
 		gr.drawString("Testing GUI", 0, 0);
 		//********* The Player Section ************
-		int currentPlayer = gs.getCurrentPlayer();
+		int currentPlayer = gs.getCurrentPlayerNo();
 		for(int i = 0; i < players.length; i++) {
 			int currentTank = players[i].getCurrentTankNo();
 			if(i == currentPlayer) {

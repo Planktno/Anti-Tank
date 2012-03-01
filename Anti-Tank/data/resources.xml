@@ -26,7 +26,7 @@
 	
 <!-- WEAPON INFORMATION - Format is: (ammoCount,maxSpeed,projectileID) -->
 	<resource type="text" id="WEAPON_0_INFO">20,100,0</resource>
-	<resource type="text" id="WEAPON_1_INFO">2,75,1</resource>
+	<resource type="text" id="WEAPON_1_INFO">200,75,1</resource>
 	
 <!-- PROJECTILE INFORMATION - Format is: (blastRadius,baseDamage) -->
 	<resource type="text" id="PROJECTILE_0_INFO">30,20</resource>

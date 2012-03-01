@@ -143,7 +143,6 @@ public class World {
 			if (i < levelBuffer.getHeight() && (i >= 0)){
 				if (j < levelBuffer.getWidth() && (j >= 0)) {
 					distance = (float)Math.sqrt(Math.pow((y-i),2)+ Math.pow((x-j), 2));
-					System.out.println(i+","+j+","+distance);
 					if (distance <= radius) {
 						levelBuffer.setRGBA(j, i, 0, 0, 0, 0); // Swapped i and j, they were round the wrong way! - Peter :)
 					}

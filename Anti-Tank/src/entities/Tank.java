@@ -29,6 +29,7 @@ public class Tank {
 	private int currentWeapon;	// Index of currently selected weapon
 	private float movementSpeed;// Movement speed of tank.
 	private boolean isAlive; 	// Flag to see if tank is alive.
+	private boolean hasShot;	// Flag to check if tank has shot this round
 	
 	
 	
@@ -39,6 +40,7 @@ public class Tank {
 		bAngle = 0;
 		currentWeapon = 0;
 		isAlive = true;
+		hasShot = false;
 			
 		int[] wepIDs = new int[2]; // ID's of the two (changeable) weapons a tank has
 		loadResources(id, wepIDs); // Using ResourceManager
@@ -89,35 +91,40 @@ public class Tank {
 		g.drawString("Ammo: " + Integer.toString(weapons[currentWeapon].getAmmoCount()),pos.x + offset,pos.y + 35);
 		g.drawString("Power: " + launchSpeed,pos.x+offset,pos.y+50);
 		g.drawString("Angle: " + bAngle,pos.x+offset,pos.y+65);
+		g.drawString(""+hasShot,pos.x+offset,pos.y+80);
 	}
 	
 	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in, GameState gs){
 		if (isAlive){
-				// Keep old position
+			// Keep old position
 			Vector2f old_pos = new Vector2f(pos.x, pos.y);
 			Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
 		
-			checkInputs(in, world, gs); // Check Inputs
+			if (!hasShot) checkInputs(in, world, gs); // Check Inputs
 		
 			updatePositions(delta);// Update Position (body, barrel and all weapons)
 			checkCollisions(world, old_pos, old_bPos);// Check Collisions
 		
 			// Update Velocity
 			vel.set(vel.x, vel.y + world.getGravity()*delta/100);
+		} else {
+			gs.getCurrentPlayer().nextTank();
 		}
 	}
 		
 	
 	public void updateInBackground (GameContainer gc, StateBasedGame game, int delta, World world){
-		// Keep old position
-		Vector2f old_pos = new Vector2f(pos.x, pos.y);
-		Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
-				
-		updatePositions(delta);// Update Position (body, barrel and all weapons)
-		checkCollisions(world, old_pos, old_bPos);// Check Collisions
-				
-		// Update Velocity
-		vel.set(vel.x, vel.y + world.getGravity()*delta/100);
+		if (isAlive){
+			// Keep old position
+			Vector2f old_pos = new Vector2f(pos.x, pos.y);
+			Vector2f old_bPos = new Vector2f(bPos.x, bPos.y);
+
+			updatePositions(delta);// Update Position (body, barrel and all weapons)
+			checkCollisions(world, old_pos, old_bPos); // Check Collisions
+
+			// Update Velocity
+			vel.set(vel.x, vel.y + world.getGravity() * delta / 100);
+		}
 	}
 
 	private void updatePositions(int delta) {
@@ -148,7 +155,7 @@ public class Tank {
 		if(in.isKeyPressed(Input.KEY_ENTER)) {
 			if (weapons[currentWeapon].getAmmoCount() > 0) {
 				weapons[currentWeapon].shoot(launchSpeed, bAngle, gs);
-				gs.nextPlayer();
+				setHasShot(true);
 			}
 		}
 	}
@@ -238,6 +245,14 @@ public class Tank {
 	public boolean isAlive() {
 		if (hitpoints <= 0) isAlive = false;
 		return isAlive;
+	}
+
+	public boolean hasShot() {
+		return hasShot;
+	}
+
+	public void setHasShot(boolean b) {
+		hasShot = b;
 	}
 
 	

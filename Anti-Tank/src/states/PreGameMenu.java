@@ -20,7 +20,7 @@ public class PreGameMenu extends BasicGameState {
 	}
 	
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
+	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
 		playerNames = new String[4];
 		playerNames[0] = "Player1";
@@ -28,14 +28,14 @@ public class PreGameMenu extends BasicGameState {
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
+	public void render(GameContainer gc, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
+	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
 		// TODO Auto-generated method stub
 		
@@ -43,8 +43,7 @@ public class PreGameMenu extends BasicGameState {
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 	
 	public void addPlayer() { //adds a Player to the end

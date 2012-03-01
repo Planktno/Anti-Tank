@@ -68,7 +68,7 @@ public class EndGameScreen extends BasicGameState {
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sb, int delta)
+	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
 		if(gc.getTime() - time >= 5000){
 			Input input = gc.getInput();
@@ -78,7 +78,10 @@ public class EndGameScreen extends BasicGameState {
 			if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
 				if(mouseX >= camera.getOffset().getX() + 50*camera.getScale() && mouseX <= camera.getOffset().getX() + 50*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 					b_start=b_start_hover.copy();
-					if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(GunsAndHats.GAMESTATE);
+					if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+						game.getState(GunsAndHats.GAMESTATE).init(gc, game);
+						game.enterState(GunsAndHats.GAMESTATE);
+					}
 				} else {
 					b_start = ResourceManager.getInstance().getImage("SS_BUTTON_NEW_GAME");
 				}
@@ -89,7 +92,7 @@ public class EndGameScreen extends BasicGameState {
 			if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
 				if(mouseX >= camera.getOffset().getX() + 310*camera.getScale() && mouseX <= camera.getOffset().getX() + 310*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 					b_history=b_history_hover.copy();
-					if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) sb.enterState(GunsAndHats.HISTORYSCREEN);
+					if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) game.enterState(GunsAndHats.HISTORYSCREEN);
 				} else {
 					b_history = ResourceManager.getInstance().getImage("SS_BUTTON_HISTORY");  
 				}

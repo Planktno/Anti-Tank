@@ -18,6 +18,7 @@ import entities.Projectile;
 import entities.Tank;
 import entities.World;
 import game.GUI;
+import game.GunsAndHats;
 
 public class GameState extends BasicGameState{
 
@@ -32,6 +33,7 @@ public class GameState extends BasicGameState{
 	private Camera camera;
 	private GUI gui;
 	private String winner; // Only non-empty if there is actually a winner
+	private boolean winnerChosen; // True if and only if there is a winner
 	
 	
 	public GameState(int id, Camera camera){
@@ -43,15 +45,17 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
 		numberOfPlayers = 2; // Placeholder for testing
-		world = new World(1); // ID 0 - Test Level   ID 1 - Possible New Level
+		world = new World(0); // ID 0 - Test Level   ID 1 - Possible New Level
 		players = new Player[numberOfPlayers];
 		projectiles = new ArrayList<Projectile>();
 		timeStarted = System.nanoTime();
 		roundsPlayed = 0;
+		winner = "";
+		winnerChosen = false;
 		
 		// Quick Fix - for testing.
-		players[0] = new Player("Name", new Tank[] {new Tank(0,600,200)});
-		players[1] = new Player("Name2", new Tank[] {new Tank(0,200,200)});
+		players[0] = new Player("Player1", new Tank[] {new Tank(0,600,200),new Tank(0,500,200)});
+		players[1] = new Player("Player2", new Tank[] {new Tank(0,200,200),new Tank(0,100,200)});
 		
 		currentPlayer = 0;
 		players[currentPlayer].setFocus(this);
@@ -73,13 +77,23 @@ public class GameState extends BasicGameState{
 		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,camera);
 		gui.render(gc, game, g);
 		
-		if (winner.isEmpty()) displayWinner(winner,g); // TODO NOT WORKING YET
+		if (winner != "") {
+			winnerChosen = true;
+			displayWinner(winner,g);
+			addToHistory();
+		}
 		
 		if (gc.isShowingFPS()) debugRender(g);
 	}
 
+	private void addToHistory() {
+		// TODO Auto-generated method stub
+	}
+
 	private void displayWinner(String win, Graphics g) {
+		
 		g.drawString(win + " is the WINNER!", 300, 300);
+		g.drawString("Press ENTER to exit", 300, 315);
 	}
 
 	private void debugRender(Graphics g) {
@@ -89,32 +103,44 @@ public class GameState extends BasicGameState{
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
-				
-		// Update World, then Projectiles, then Players.
-		world.update(gc,game,delta);
-		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).update(gc, game, delta, world, this);
-		for (int i = 0; i < players.length; i++) players[i].update(gc, game, delta, world, this);
-		
-		
-		// If any player has no tanks left alive, set them as a loser.
-		for (int i = 0; i < players.length; i++){
-			if (players[i].getAliveTanks() == 0) players[i].setLoser();
+		Input in = gc.getInput();
+		if (!winnerChosen) {
+			
+			// Update World, then Projectiles, then Players.
+			world.update(gc, game, delta);
+			for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).update(gc, game, delta, world, this);
+			for (int i = 0; i < players.length; i++) players[i].update(gc, game, delta, world, this);
+			
+			if (players[currentPlayer].getCurrentTank().hasShot()){
+				if (projectiles.isEmpty()) {
+					players[currentPlayer].getCurrentTank().setHasShot(false);
+					nextPlayer();
+				}		
+			}
+			
+			
+			// If any player has no tanks left alive, set them as a loser.
+			for (int i = 0; i < players.length; i++) {
+				if (players[i].getAliveTanks() == 0)
+					players[i].setLoser();
+			}
+
+			// If only one player isn't a loser, display them as the winner, then end the game.
+			boolean loserTest = false;
+			String winnerName = "";
+			for (int i = 0; i < players.length; i++) {
+				loserTest = loserTest || players[i].isLoser();
+				if (!players[i].isLoser())
+					winnerName = players[i].getPlayerName();
+			}
+			if (loserTest) {
+				winner = winnerName;
+			}
+		} else {
+			if (in.isKeyPressed(Input.KEY_ENTER)) game.enterState(GunsAndHats.ENDGAMESCREEN);
 		}
-		
-		// If only one player isn't a loser, display them as the winner, then end the game.
-		boolean a = false; 
-		String winnerName = "";
-		for (int i = 0; i < players.length; i++){
-			a = a || players[i].isLoser();
-			if (!players[i].isLoser()) winnerName = players[i].getPlayerName();
-		}
-		if (!a){
-			winner = winnerName;
-		}
-		
 		
 		// Debug Mode Toggle
-		Input in = gc.getInput();
 		if (in.isKeyPressed(Input.KEY_F12)) gc.setShowFPS(!gc.isShowingFPS());
 	}
 
@@ -187,15 +213,15 @@ public class GameState extends BasicGameState{
 		// Move to next player
 		if (currentPlayer + 1 == numberOfPlayers) {
 			currentPlayer = 0;
-//			roundsPlayed++;
-//			world.randomizeWind();
+			roundsPlayed++;
+			world.randomizeWind();
 		} else currentPlayer++; 
 
 		players[currentPlayer].setFocus(this); // Give focus to the new player
 	}
 
-	public int getCurrentPlayer() {
-		return currentPlayer;
+	public Player getCurrentPlayer() {
+		return players[currentPlayer];
 	}
 	
 	public Player[] getPlayers(){
@@ -224,6 +250,10 @@ public class GameState extends BasicGameState{
 
 	public Player getPlayer(int i) {
 		return players[i];
+	}
+
+	public int getCurrentPlayerNo() {
+		return currentPlayer;
 	}
 	
 }
