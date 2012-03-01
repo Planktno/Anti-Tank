@@ -61,7 +61,7 @@ public class GunsAndHats extends StateBasedGame {
 		this.addState(new EndGameScreen(ENDGAMESCREEN, camera));
 		this.addState(new HistoryScreen(HISTORYSCREEN, camera));
 		
-		this.enterState(5);
+		this.enterState(STARTSCREEN);
 	}
 	
 	public void setCamera(int frameWidth, int frameHeight, int screenWidth, int screenHeight) {
