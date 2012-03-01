@@ -152,10 +152,11 @@ public class World {
 	}
 	level = levelBuffer.getImage();
 	}
-		
 	
 	public void destroyLine(Vector2f pos, float angle, int length, int width) {
-		
+		float distance = 0;
+		float x = (int) pos.getX();
+		float y = (int) pos.getY();
 	}
 
 }
