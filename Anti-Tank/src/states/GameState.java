@@ -3,6 +3,7 @@ package states;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -70,6 +71,7 @@ public class GameState extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g)
 			throws SlickException {
+		g.setColor(Color.white); // So that all text in the game is rendered in white
 				
 		// Render World, then Projectiles, then Players.
 		world.render(gc,game,g,camera);
@@ -77,11 +79,7 @@ public class GameState extends BasicGameState{
 		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,camera);
 		gui.render(gc, game, g);
 		
-		if (winner != "") {
-			winnerChosen = true;
-			displayWinner(winner,g);
-			addToHistory();
-		}
+		if (winnerChosen) displayWinner(winner, g);
 		
 		if (gc.isShowingFPS()) debugRender(g);
 	}
@@ -104,8 +102,9 @@ public class GameState extends BasicGameState{
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
 		Input in = gc.getInput();
-		if (!winnerChosen) {
-			
+		if (winner != "") winnerChosen = true; // Check to see if there is a winner yet
+		
+		if (!winnerChosen) { // If there is no winner yet..
 			// Update World, then Projectiles, then Players.
 			world.update(gc, game, delta);
 			for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).update(gc, game, delta, world, this);
@@ -117,7 +116,6 @@ public class GameState extends BasicGameState{
 					nextPlayer();
 				}		
 			}
-			
 			
 			// If any player has no tanks left alive, set them as a loser.
 			for (int i = 0; i < players.length; i++) {
@@ -136,8 +134,12 @@ public class GameState extends BasicGameState{
 			if (loserTest) {
 				winner = winnerName;
 			}
-		} else {
-			if (in.isKeyPressed(Input.KEY_ENTER)) game.enterState(GunsAndHats.ENDGAMESCREEN);
+		} else { // If there is a winner!
+			if (in.isKeyPressed(Input.KEY_ENTER)) {
+				addToHistory(); // Add the game to history.txt
+				game.getState(GunsAndHats.ENDGAMESCREEN).init(gc, game);
+				game.enterState(GunsAndHats.ENDGAMESCREEN);
+			}
 		}
 		
 		// Debug Mode Toggle
