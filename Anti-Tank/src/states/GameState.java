@@ -31,10 +31,12 @@ public class GameState extends BasicGameState{
 	private long timeStarted;
 	private int roundsPlayed;
 	private int numberOfPlayers;
+	private int tanksPerPlayer;
 	private Camera camera;
 	private GUI gui;
 	private String winner; // Only non-empty if there is actually a winner
 	private boolean winnerChosen; // True if and only if there is a winner
+	private int currentTank; // Keeps track of how many tanks have been played - only used in keeping track of how many rounds have been played.
 	
 	
 	public GameState(int id, Camera camera){
@@ -46,7 +48,7 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
 		numberOfPlayers = 2; // Placeholder for testing
-		world = new World(0); // ID 0 - Test Level   ID 1 - Possible New Level
+		world = new World(2); // ID 0 - Test Level   ID 1 - Possible New Level
 		players = new Player[numberOfPlayers];
 		projectiles = new ArrayList<Projectile>();
 		timeStarted = System.nanoTime();
@@ -58,7 +60,9 @@ public class GameState extends BasicGameState{
 		players[0] = new Player("Player1", new Tank[] {new Tank(0,600,200),new Tank(0,500,200)});
 		players[1] = new Player("Player2", new Tank[] {new Tank(0,200,200),new Tank(0,100,200)});
 		
+		tanksPerPlayer = players[0].getTanks().length;
 		currentPlayer = 0;
+		currentTank = 1;
 		players[currentPlayer].setFocus(this);
 		
 		gui = new GUI();
@@ -95,7 +99,9 @@ public class GameState extends BasicGameState{
 	}
 
 	private void debugRender(Graphics g) {
-		g.drawString("Current Player: " + currentPlayer, 10, 580);		
+		g.drawString("Rounds Played: " + roundsPlayed, 10, 550);
+		g.drawString("Current Player: " + currentPlayer, 10, 565);	
+		g.drawString("Current Tank: " + players[currentPlayer].getCurrentTankNo(), 10,580);
 	}
 
 	@Override
@@ -215,9 +221,15 @@ public class GameState extends BasicGameState{
 		// Move to next player
 		if (currentPlayer + 1 == numberOfPlayers) {
 			currentPlayer = 0;
-			roundsPlayed++;
-			world.randomizeWind();
-		} else currentPlayer++; 
+			if (currentTank + 1 == (numberOfPlayers * tanksPerPlayer)){
+				currentTank = 1;
+				roundsPlayed++;
+				world.randomizeWind();
+			}
+		} else {
+			currentPlayer++; 
+			currentTank++;
+		}
 
 		players[currentPlayer].setFocus(this); // Give focus to the new player
 	}
