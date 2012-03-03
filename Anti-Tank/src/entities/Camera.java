@@ -97,7 +97,7 @@ public class Camera {
 	}
 	
 	public float getFocusScale() { //get the current 'game scale' (for gameElements)
-		return focusScale;
+		return focusScale * scale;
 	}
 	
 	public void setFocusScale(float focusScale) {

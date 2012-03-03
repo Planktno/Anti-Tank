@@ -65,14 +65,14 @@ public class GunsAndHats extends StateBasedGame {
 	}
 	
 	public void setCamera(int frameWidth, int frameHeight, int screenWidth, int screenHeight) {
-		camera = new Camera(screenWidth, screenHeight, frameWidth, frameHeight);
+		camera = new Camera(frameWidth, frameHeight, screenWidth, screenHeight);
 	}
 	
 	public static void main(String[] args) throws SlickException {
 		GunsAndHats game = new GunsAndHats();
 		AppGameContainer app = new AppGameContainer(game);
-		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, FRAMEWIDTH, FRAMEHEIGHT);
-		app.setDisplayMode(FRAMEWIDTH, FRAMEHEIGHT, false);
+		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, 1024, 768);
+		app.setDisplayMode(1024, 768, false);
 //		app.setVSync(true); // Keepin' it smooooooothhh...
 		app.setTargetFrameRate(FRAMERATE);
 		app.setShowFPS(false);
