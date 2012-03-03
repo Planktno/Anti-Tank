@@ -70,11 +70,12 @@ public class GameState extends BasicGameState{
 		gui.setGameState(this);
 		gui.setPlayers(players);
 		gui.setWorld(world);
+		
+		camera.setFocus(world);
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame game, Graphics g)
-			throws SlickException {
+	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.white); // So that all text in the game is rendered in white
 				
 		// Render World, then Projectiles, then Players.
@@ -147,6 +148,8 @@ public class GameState extends BasicGameState{
 				game.enterState(GunsAndHats.ENDGAMESCREEN);
 			}
 		}
+		
+		camera.update(delta);
 		
 		// Debug Mode Toggle
 		if (in.isKeyPressed(Input.KEY_F12)) gc.setShowFPS(!gc.isShowingFPS());
