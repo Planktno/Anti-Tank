@@ -13,6 +13,7 @@
 	<resource type="text" id="WORLD_0_INFO">10,5</resource>
 	<resource type="text" id="WORLD_1_INFO">10,5</resource>
 	<resource type="text" id="WORLD_2_INFO">7,5</resource>
+	<resource type="text" id="WORLD_3_INFO">10,5</resource>
 <!-- WORLD IMAGES -->
 	<resource type="image" id="WORLD_0_BACKGROUND">data/worlds/testbackground.png</resource>
 	<resource type="image" id="WORLD_0_LEVEL">data/worlds/testlevel.png</resource>
@@ -20,6 +21,8 @@
 	<resource type="image" id="WORLD_1_LEVEL">data/worlds/worldOne.png</resource>
 	<resource type="image" id="WORLD_2_BACKGROUND">data/worlds/worldTwoBackground.png</resource>
 	<resource type="image" id="WORLD_2_LEVEL">data/worlds/worldTwo.png</resource>
+	<resource type="image" id="WORLD_3_BACKGROUND">data/worlds/worldTwoBackground.png</resource>
+	<resource type="image" id="WORLD_3_LEVEL">data/worlds/largeTestLevel.png</resource>
 	
 <!-- TANK INFORMATION - Format is: (bX,bY,hitPoints,movementSpeed,wepID1,wepID2) -->
 	<resource type="text" id="TANK_0_INFO">15,7,100,10,0,1</resource>
