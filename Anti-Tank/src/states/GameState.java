@@ -20,6 +20,7 @@ import entities.Tank;
 import entities.World;
 import game.GUI;
 import game.GunsAndHats;
+import game.PixelPos;
 
 public class GameState extends BasicGameState{
 
@@ -71,7 +72,7 @@ public class GameState extends BasicGameState{
 		gui.setPlayers(players);
 		gui.setWorld(world);
 		
-		camera.setFocus(world);
+		camera.setFocus(players[0].getCurrentTank());
 	}
 
 	@Override
@@ -149,6 +150,9 @@ public class GameState extends BasicGameState{
 			}
 		}
 		
+		if(in.isKeyPressed(Input.KEY_P)) camera.setFocusScale(camera.getFocusScale()*1.1f);
+		if(in.isKeyPressed(Input.KEY_O)) camera.setFocusScale(camera.getFocusScale()*0.9f);
+		
 		camera.update(delta);
 		
 		// Debug Mode Toggle
@@ -156,16 +160,20 @@ public class GameState extends BasicGameState{
 	}
 
 	public static boolean checkCollision(Tank tank, World world){
-		HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
-		HashSet<String> maskWorld = world.getPixelMap();
+//		HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
+//		HashSet<String> maskWorld = world.getPixelMap();
+		HashSet<PixelPos> maskTank = getMask(tank.getPos(), tank.getImage());
+		HashSet<PixelPos> maskWorld = world.getPixelMap();
 		maskTank.retainAll(maskWorld); // Only keep those pixels that overlap.
 		if (maskTank.size() > 0) return true; // Collides
 		return false; // Doesn't Collide
 	}
 
 	public static boolean checkCollision(Projectile proj, World world){
-		HashSet<String> maskProj = getMask(proj.getPos(), proj.getImage());
-		HashSet<String> maskWorld = world.getPixelMap();
+//		HashSet<String> maskProj = getMask(proj.getPos(), proj.getImage());
+//		HashSet<String> maskWorld = world.getPixelMap();
+		HashSet<PixelPos> maskProj = getMask(proj.getPos(), proj.getImage());
+		HashSet<PixelPos> maskWorld = world.getPixelMap();
 		maskProj.retainAll(maskWorld); // Only keep those pixels that overlap.
 		if (maskProj.size() > 0) return true; // Collides
 		return false; // Doesn't Collide
@@ -181,8 +189,10 @@ public class GameState extends BasicGameState{
 		float py = proj.getPos().getY();
 		
 		if (px > tx1 && px < tx2 && py > ty1 && py < ty2){
-			HashSet<String> maskProj = getMask(proj.getPos(), proj.getImage());
-			HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
+//			HashSet<String> maskProj = getMask(proj.getPos(), proj.getImage());
+//			HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
+			HashSet<PixelPos> maskProj = getMask(proj.getPos(), proj.getImage());
+			HashSet<PixelPos> maskTank = getMask(tank.getPos(), tank.getImage());
 			maskProj.retainAll(maskTank); // Only keep those pixels that overlap.
 			if (maskProj.size() > 0) return true; // Collides
 			return false; // Doesn't Collide
@@ -203,13 +213,14 @@ public class GameState extends BasicGameState{
 		projectiles.remove(proj);
 	}
 	
-	public static HashSet<String> getMask(Vector2f pos, Image img) {
-		HashSet<String> mask = new HashSet<String>();
+	public static HashSet<PixelPos> getMask(Vector2f pos, Image img) {
+		HashSet<PixelPos> mask = new HashSet<PixelPos>();
 		
 		for(int i = 0; i < img.getWidth(); i++) {
 			for(int j = 0; j < img.getHeight(); j++) {
 				if(img.getColor(i, j).getAlpha() != 0) { //is non transparent
-					mask.add((Math.floor(pos.getX())+i) + "," + (Math.round(pos.getY())+j));
+					//mask.add((Math.floor(pos.getX())+i) + "," + (Math.round(pos.getY())+j));
+					mask.add(new PixelPos((int)Math.floor(pos.getX())+i, (int)Math.floor(pos.getY())+j));
 				}
 			}
 		}

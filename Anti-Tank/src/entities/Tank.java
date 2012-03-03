@@ -69,7 +69,7 @@ public class Tank {
 
 	public void render (GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
 		if (isAlive) {
-			float scale = cam.getFocusScale();
+			float scale = cam.getMultipliedScale();
 			Vector2f relpos = cam.getRelFocusPos(pos);
 			Vector2f relbpos = cam.getRelFocusPos(bPos);
 			float bhalfheight = barrel.getHeight()/2; // Used to allow barrel to be drawn around point it rotates about.

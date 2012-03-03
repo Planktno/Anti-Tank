@@ -1,5 +1,6 @@
 package entities;
 
+import game.PixelPos;
 import game.ResourceManager;
 
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
+
 import states.GameState;
 
 public class World {
@@ -23,7 +25,7 @@ public class World {
 	float maxWindSpeed; // Currently set at 5, easily changed. (needs to be less than gravity or we might have projectiles going off into space :D
 	int windAngle; // In degrees
 	
-	HashSet<String> pixelMap;
+	HashSet<PixelPos> pixelMap;
 	
 	public World(int id) {
 		loadResources(id);
@@ -58,8 +60,8 @@ public class World {
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam) {
 		
 		Vector2f relPos = cam.getRelFocusPos(new Vector2f(0,0));
-		background.draw(relPos.getX(), relPos.getY(), cam.getFocusScale());
-		level.draw(relPos.getX(), relPos.getY(), cam.getFocusScale());
+		background.draw(relPos.getX(), relPos.getY(), cam.getMultipliedScale());
+		level.draw(relPos.getX(), relPos.getY(), cam.getMultipliedScale());
 		
 		// Printing for testing
 		if (gc.isShowingFPS()) debugRender(g);
@@ -112,7 +114,7 @@ public class World {
 		return (float) (windSpeed * Math.sin(Math.toRadians(windAngle)));
 	}
 	
-	public HashSet<String> getPixelMap() {
+	public HashSet<PixelPos> getPixelMap() {
 		return pixelMap;
 	}
 
