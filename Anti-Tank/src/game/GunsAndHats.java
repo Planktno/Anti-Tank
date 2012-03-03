@@ -20,8 +20,10 @@ import entities.Camera;
 
 public class GunsAndHats extends StateBasedGame {
 
-	private static int FRAMEWIDTH = 1024;
-	private static int FRAMEHEIGHT = 768;
+	private static final int FRAMEWIDTH = 800;
+	private static final int FRAMEHEIGHT = 600;
+	private static int SCREENWIDTH = 1024;
+	private static int SCREENHEIGHT = 768;
 	private static int FRAMERATE = 60;
 	
 	
@@ -71,8 +73,8 @@ public class GunsAndHats extends StateBasedGame {
 	public static void main(String[] args) throws SlickException {
 		GunsAndHats game = new GunsAndHats();
 		AppGameContainer app = new AppGameContainer(game);
-		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, 1024, 768);
-		app.setDisplayMode(1024, 768, false);
+		game.setCamera(FRAMEWIDTH, FRAMEHEIGHT, SCREENWIDTH, SCREENHEIGHT);
+		app.setDisplayMode(SCREENWIDTH, SCREENHEIGHT, false);
 //		app.setVSync(true); // Keepin' it smooooooothhh...
 		app.setTargetFrameRate(FRAMERATE);
 		app.setShowFPS(false);
