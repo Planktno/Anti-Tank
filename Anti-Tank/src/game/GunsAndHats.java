@@ -47,7 +47,7 @@ public class GunsAndHats extends StateBasedGame {
 		File f = new File("data/resources.xml");
 		try {
 			InputStream in = new FileInputStream(f);
-			ResourceManager.getInstance().loadResources(in);
+			ResourceManager.getInstance().loadResources(in, true);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
