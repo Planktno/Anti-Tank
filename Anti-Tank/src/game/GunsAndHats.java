@@ -20,8 +20,8 @@ import entities.Camera;
 
 public class GunsAndHats extends StateBasedGame {
 
-	private static int FRAMEWIDTH = 800;
-	private static int FRAMEHEIGHT = 600;
+	private static int FRAMEWIDTH = 1024;
+	private static int FRAMEHEIGHT = 768;
 	private static int FRAMERATE = 60;
 	
 	
