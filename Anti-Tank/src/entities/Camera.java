@@ -93,29 +93,7 @@ public class Camera {
 	}
 	
 	public Vector2f getRelFocusPos(Vector2f pos) { //get the relative position on the screen relative to the current focus (for gameElements)
-		if(this.smoothFocusChange) {
-			//return relPos using focusOffset and focusScale as calculated by update
-			return null;
-		} else if(world != null) {
-			//get world size
-			//calculate scale to render entire world
-			//return relPos
-			return null;
-		} else if(tank != null) {
-			//get tank position
-			//calculate offset
-			//use default focusScale = 1
-			//return relPos
-			return null;
-		} else if(projectile != null) {
-			//get projectile position
-			//calculate offset
-			//use default focusScale = 1
-			//return relPos
-			return null;
-		} else {
-			return this.getRelPos(pos);
-		}
+		return new Vector2f(pos.getX()*scale*focusScale + offset.getX(), pos.getY()*scale*focusScale + offset.getY());
 	}
 	
 	public float getFocusScale() { //get the current 'game scale' (for gameElements)
@@ -127,8 +105,36 @@ public class Camera {
 	}
 	
 	public void update(int delta) { //delta function to calculate the smooth focus change
-		if (this.smoothFocusChange) {
-
+		if(this.smoothFocusChange) {
+			//return relPos using focusOffset and focusScale as calculated by update
+		} else if(world != null) {
+			//get world size
+			int wH = world.getImage().getHeight();
+			int wW = world.getImage().getWidth();
+			//calculate scale to render entire world
+			if(frameHeight/(float)wH >= frameWidth/(float)wW) {
+				focusScale = frameHeight/(float)wH;
+				focusOffset = new Vector2f(wW/2, wH/2);
+			} else {
+				focusScale = frameWidth/(float)wW;
+				focusOffset = new Vector2f(wW/2, wH/2);
+			}
+			
+		} else if(tank != null) {
+			//get tank position
+			Vector2f tpos = tank.getPos();
+			//calculate offset
+			Vector2f toffset = tpos.sub(new Vector2f(frameWidth/2, frameHeight/2));
+			//return relPos
+			
+		} else if(projectile != null) {
+			//get projectile position
+			//calculate offset
+			//use default focusScale = 1
+			//return relPos
+		} else {
+			
 		}
+		
 	}
 }
