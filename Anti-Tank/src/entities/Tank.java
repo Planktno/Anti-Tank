@@ -30,6 +30,7 @@ public class Tank {
 	private float movementSpeed;// Movement speed of tank.
 	private boolean isAlive; 	// Flag to see if tank is alive.
 	private boolean hasShot;	// Flag to check if tank has shot this round
+	private float weight;
 	
 	
 	
@@ -50,6 +51,8 @@ public class Tank {
 		bPos = new Vector2f(pos.x+bx, pos.y+by);
 		Vector2f wepPos = new Vector2f(bPos.x + wepx, bPos.y + wepy);
 		weapons = new Weapon[] {new Weapon(wepIDs[0],wepPos), new Weapon(wepIDs[1],wepPos)}; // ID of 0 is a placeholder
+	
+		weight = 10; //weight 10 is considered "normal"
 	}
 
 	private void loadResources(int id, int[] wepIDs) {
@@ -102,11 +105,11 @@ public class Tank {
 		
 			if (!hasShot) checkInputs(in, world, gs); // Check Inputs
 		
-			updatePositions(delta);// Update Position (body, barrel and all weapons)
+			updatePositions(delta, world);// Update Position (body, barrel and all weapons)
 			checkCollisions(world, old_pos, old_bPos);// Check Collisions
 		
 			// Update Velocity
-			vel.set(vel.x, vel.y + world.getGravity()*delta/100);
+			vel.set(vel.x, vel.y + world.getGravity()*delta * weight/10000);
 		} else {
 			gs.getCurrentPlayer().nextTank();
 		}
@@ -119,17 +122,17 @@ public class Tank {
 			Vector2f old_pos = new Vector2f(pos.x, pos.y);
 			Vector2f old_bPos = new Vector2f(bPos.x, bPos.y);
 
-			updatePositions(delta);// Update Position (body, barrel and all weapons)
+			updatePositions(delta, world);// Update Position (body, barrel and all weapons)
 			checkCollisions(world, old_pos, old_bPos); // Check Collisions
 
 			// Update Velocity
-			vel.set(vel.x, vel.y + world.getGravity() * delta / 100);
+			vel.set(vel.x, vel.y + world.getGravity() * delta * weight/ 10000);
 		}
 	}
 
-	private void updatePositions(int delta) {
-		pos.add(new Vector2f((vel.x*delta/100),(vel.y*delta/100)));
-		bPos.add(new Vector2f((vel.x*delta/100),(vel.y*delta/100)));
+	private void updatePositions(int delta, World world) {
+		pos.add(new Vector2f((vel.x*delta/100),(vel.y + world.getGravity() * delta * weight/ 10000)));
+		bPos.set(pos.x+bx, pos.y+by);
 		for (int i = 0; i < weapons.length; i++) weapons[i].updatePosition(bPos.x+wepx, bPos.y+wepy);
 	}
 
@@ -149,6 +152,9 @@ public class Tank {
 		if(in.isKeyDown(Input.KEY_RIGHT)) {barrelRotateClockwise(); updateWepXY();}
 		
 		// TODO Tank Movement Inputs
+		if(in.isKeyDown(Input.KEY_A)) this.pos.add(new Vector2f(-0.5f, -4f));
+		if(in.isKeyDown(Input.KEY_D)) this.pos.add(new Vector2f(0.5f, -4f));
+		if(in.isKeyDown(Input.KEY_W)) this.pos.add(new Vector2f(0, -40/weight));
 		
 		if(in.isKeyPressed(Input.KEY_SPACE)) changeWeapon();
 		

@@ -49,7 +49,7 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
 		numberOfPlayers = 2; // Placeholder for testing
-		world = new World(3); // ID 0 - Test Level   ID 1 - Possible New Level
+		world = new World(0); // ID 0 - Test Level   ID 1 - Possible New Level
 		players = new Player[numberOfPlayers];
 		projectiles = new ArrayList<Projectile>();
 		timeStarted = System.nanoTime();
@@ -72,7 +72,7 @@ public class GameState extends BasicGameState{
 		gui.setPlayers(players);
 		gui.setWorld(world);
 		
-		camera.setFocus(players[0].getCurrentTank());
+		camera.setFocus(world);
 	}
 
 	@Override
