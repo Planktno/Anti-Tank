@@ -52,7 +52,7 @@ public class Tank {
 		Vector2f wepPos = new Vector2f(bPos.x + wepx, bPos.y + wepy);
 		weapons = new Weapon[] {new Weapon(wepIDs[0],wepPos), new Weapon(wepIDs[1],wepPos)}; // ID of 0 is a placeholder
 	
-		weight = 10; //weight 10 is considered "normal"
+		weight = 10; //weight 10 is considered "normal", 30 is max, 
 	}
 
 	private void loadResources(int id, int[] wepIDs) {
@@ -103,13 +103,13 @@ public class Tank {
 			Vector2f old_pos = new Vector2f(pos.x, pos.y);
 			Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
 		
-			if (!hasShot) checkInputs(in, world, gs); // Check Inputs
+			if (!hasShot) checkInputs(in, world, gs, delta); // Check Inputs
 		
 			updatePositions(delta, world);// Update Position (body, barrel and all weapons)
 			checkCollisions(world, old_pos, old_bPos);// Check Collisions
 		
 			// Update Velocity
-			vel.set(vel.x, vel.y + world.getGravity()*delta * weight/10000);
+			vel.set(vel.x, vel.y + world.getGravity()*delta * weight/1000);
 		} else {
 			gs.getCurrentPlayer().nextTank();
 		}
@@ -126,12 +126,12 @@ public class Tank {
 			checkCollisions(world, old_pos, old_bPos); // Check Collisions
 
 			// Update Velocity
-			vel.set(vel.x, vel.y + world.getGravity() * delta * weight/ 10000);
+			vel.set(vel.x, vel.y + world.getGravity() * delta * weight/ 1000);
 		}
 	}
 
 	private void updatePositions(int delta, World world) {
-		pos.add(new Vector2f((vel.x*delta/100),(vel.y + world.getGravity() * delta * weight/ 10000)));
+		pos.add(new Vector2f((vel.x*delta/100),(vel.y * delta/100)));
 		bPos.set(pos.x+bx, pos.y+by);
 		for (int i = 0; i < weapons.length; i++) weapons[i].updatePosition(bPos.x+wepx, bPos.y+wepy);
 	}
@@ -139,22 +139,22 @@ public class Tank {
 	private void checkCollisions(World world, Vector2f old_pos,
 			Vector2f old_bPos) {
 		if (GameState.checkCollision(this, world)){ 
-			vel.set(vel.x,0); // TODO Not properly implemented
+			vel.set(0,0); // TODO Not properly implemented
 			pos.set(old_pos);
 			bPos.set(old_bPos);
 		}
 	}
 	
-	private void checkInputs(Input in, World world, GameState gs) {
+	private void checkInputs(Input in, World world, GameState gs, int delta) {
 		if(in.isKeyDown(Input.KEY_UP)) launchSpeedUp();
 		if(in.isKeyDown(Input.KEY_DOWN)) launchSpeedDown();
 		if(in.isKeyDown(Input.KEY_LEFT)) {barrelRotateAnticlockwise(); updateWepXY();} 
 		if(in.isKeyDown(Input.KEY_RIGHT)) {barrelRotateClockwise(); updateWepXY();}
 		
 		// TODO Tank Movement Inputs
-		if(in.isKeyDown(Input.KEY_A)) this.pos.add(new Vector2f(-0.5f, -4f));
-		if(in.isKeyDown(Input.KEY_D)) this.pos.add(new Vector2f(0.5f, -4f));
-		if(in.isKeyDown(Input.KEY_W)) this.pos.add(new Vector2f(0, -40/weight));
+		if(in.isKeyDown(Input.KEY_A)) this.vel.set(-5f, vel.y);
+		if(in.isKeyDown(Input.KEY_D)) this.vel.set(5f, vel.y);
+		if(in.isKeyPressed(Input.KEY_W)) this.vel.add(new Vector2f(0, -150*delta/(weight*world.getGravity())));
 		
 		if(in.isKeyPressed(Input.KEY_SPACE)) changeWeapon();
 		
