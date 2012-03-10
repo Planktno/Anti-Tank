@@ -34,8 +34,6 @@ public class GunsAndHats extends StateBasedGame {
 	public static int ENDGAMESCREEN = 5;
 	public static int HISTORYSCREEN = 6;
 	
-	
-	
 	private Camera camera;
 	
 	public GunsAndHats() {

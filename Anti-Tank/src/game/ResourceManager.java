@@ -91,7 +91,7 @@ public class ResourceManager {
 				} else if (type.equals("font")) {
 
 				} else if (type.equals("animation")) {
-					//addElementAsAnimation(resourceElement);
+					addElementAsAnimation(resourceElement);
 				}
 			}
 		}
@@ -178,25 +178,38 @@ public class ResourceManager {
 
 	// ********************* Animation *****************
 	//Needs to be written
-//	private void loadAnimation(String id, String spriteSheetPath, int tw,
-//			int th, int duration) throws SlickException {
-//		if (spriteSheetPath == null || spriteSheetPath.length() == 0)
-//			throw new SlickException("Image resource [" + id
-//					+ "] has invalid path");
-//
-//		loadImage(SPRITE_SHEET_REF + id, spriteSheetPath);
-//
-//		animationMap.put(id, new ResourceAnimationData(SPRITE_SHEET_REF + id,
-//				tw, th, duration));
-//	}
-//
-//	private void addElementAsAnimation(Element resourceElement)
-//			throws SlickException {
-//		loadAnimation(resourceElement.getAttribute("id"),
-//				resourceElement.getTextContent(),
-//				Integer.valueOf(resourceElement.getAttribute("tw")),
-//				Integer.valueOf(resourceElement.getAttribute("th")),
-//				Integer.valueOf(resourceElement.getAttribute("duration")));
-//	}
+	private void loadAnimation(String id, String spriteSheetPath, int tw, int duration) 
+		throws SlickException {
+		if (spriteSheetPath == null || spriteSheetPath.length() == 0)
+			throw new SlickException("Image resource [" + id + "] has invalid path");
+
+		Image image = null;
+		try {
+			image = new Image(spriteSheetPath);
+		} catch (SlickException e) {
+			throw new SlickException("Could not load image", e);
+		}
+		
+		Image[] sprites = new Image[image.getWidth()/tw];
+		for(int i = 0; i < image.getWidth(); i += tw) {
+			sprites[i/tw] = image.getSubImage(i, 0, tw, image.getHeight());
+			System.out.print(i/tw);
+		}
+		int[] sequence = {0,1,2,3,2,1};
+		animationMap.put(id, new Animation(sprites, duration, sequence));
+		
+	}
+
+	private void addElementAsAnimation(Element resourceElement)
+			throws SlickException {
+		loadAnimation(resourceElement.getAttribute("id"),
+				resourceElement.getTextContent(),
+				Integer.valueOf(resourceElement.getAttribute("tw")),
+				Integer.valueOf(resourceElement.getAttribute("duration")));
+	}
+	
+	public final Animation getAnimation(String ID) {
+		return animationMap.get(ID);
+	}
 
 }

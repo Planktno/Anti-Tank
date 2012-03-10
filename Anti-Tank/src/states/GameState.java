@@ -48,31 +48,31 @@ public class GameState extends BasicGameState{
 	@Override
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
-		numberOfPlayers = 2; // Placeholder for testing
-		world = new World(0); // ID 0 - Test Level   ID 1 - Possible New Level
-		players = new Player[numberOfPlayers];
-		projectiles = new ArrayList<Projectile>();
-		timeStarted = System.nanoTime();
-		roundsPlayed = 0;
-		winner = "";
-		winnerChosen = false;
-		
-		// Quick Fix - for testing.
-		players[0] = new Player("Player1", new Tank[] {new Tank(0,600,200),new Tank(0,500,200)});
-		players[1] = new Player("Player2", new Tank[] {new Tank(0,200,200),new Tank(0,100,200)});
-		
-		tanksPerPlayer = players[0].getTanks().length;
-		currentPlayer = 0;
-		currentTank = 1;
-		players[currentPlayer].setFocus(this);
-		
-		gui = new GUI();
-		gui.setCamera(camera);
-		gui.setGameState(this);
-		gui.setPlayers(players);
-		gui.setWorld(world);
-		
-		camera.setFocus(world);
+//		numberOfPlayers = 2; // Placeholder for testing
+//		world = new World(0); // ID 0 - Test Level   ID 1 - Possible New Level
+//		players = new Player[numberOfPlayers];
+//		projectiles = new ArrayList<Projectile>();
+//		timeStarted = System.nanoTime();
+//		roundsPlayed = 0;
+//		winner = "";
+//		winnerChosen = false;
+//		
+////		// Quick Fix - for testing.
+////		players[0] = new Player("Player1", new Tank[] {new Tank(1,600,200),new Tank(1,500,200)});
+////		players[1] = new Player("Player2", new Tank[] {new Tank(1,200,200),new Tank(1,100,200)});
+//		
+//		tanksPerPlayer = players[0].getTanks().length;
+//		currentPlayer = 0;
+//		currentTank = 1;
+//		players[currentPlayer].setFocus(this);
+//		
+//		gui = new GUI();
+//		gui.setCamera(camera);
+//		gui.setGameState(this);
+//		gui.setPlayers(players);
+//		gui.setWorld(world);
+//		
+//		camera.setFocus(world);
 	}
 
 	@Override
@@ -88,6 +88,30 @@ public class GameState extends BasicGameState{
 		if (winnerChosen) displayWinner(winner, g);
 		
 		if (gc.isShowingFPS()) debugRender(g);
+	}
+	
+	public void startGame(World world, Player[] players){
+		this.world = world;
+		this.players = players;
+		
+		projectiles = new ArrayList<Projectile>();
+		timeStarted = System.nanoTime();
+		roundsPlayed = 0;
+		winner = "";
+		winnerChosen = false;
+		
+		tanksPerPlayer = players[0].getTanks().length;
+		currentPlayer = 0;
+		currentTank = 1;//shouldn't this be 0?
+		players[currentPlayer].setFocus(this);
+		
+		gui = new GUI();
+		gui.setCamera(camera);
+		gui.setGameState(this);
+		gui.setPlayers(players);
+		gui.setWorld(world);
+		
+		camera.setFocus(world);
 	}
 
 	private void addToHistory() {
