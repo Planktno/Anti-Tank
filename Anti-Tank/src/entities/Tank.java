@@ -83,11 +83,11 @@ public class Tank {
 			body.render(relpos.x, relpos.y, scale);
 		
 			//Debug Mode
-			if (gc.isShowingFPS()) debugRender(g);
+			if (gc.isShowingFPS()) debugRender(g, relpos);
 		}
 	}
 
-	private void debugRender(Graphics g) {
+	private void debugRender(Graphics g, Vector2f pos) {
 		int offset = 40;
 		g.drawString(Integer.toString(hitpoints), pos.x -offset, pos.y-15);
 		g.drawString("Wep: " + currentWeapon,pos.x + offset,pos.y+20);

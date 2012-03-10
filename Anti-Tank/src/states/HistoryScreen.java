@@ -80,7 +80,7 @@ public class HistoryScreen extends BasicGameState {
 			gr.drawString(match[1], camera.getOffset().getX() + 310 * camera.getScale(), camera.getOffset().getY() + (285 + (i * 40)) * camera.getScale());
 			
 			if(match.length == 3) {
-				gr.drawString(match[2], camera.getOffset().getX() + 580 * camera.getScale(), camera.getOffset().getY() + (285 + (4 * 40)) * camera.getScale());
+				gr.drawString(match[2], camera.getOffset().getX() + 580 * camera.getScale(), camera.getOffset().getY() + (285 + (i * 40)) * camera.getScale());
 			}
 			if (match.length == 4) {
 				gr.drawString(match[2], camera.getOffset().getX() + 400 * camera.getScale(), camera.getOffset().getY() + (285 + (i * 40)) * camera.getScale());
