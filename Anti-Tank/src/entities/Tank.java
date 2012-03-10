@@ -215,7 +215,7 @@ public class Tank {
 	}
 
 	public Image getImage() {
-		return body.getCurrentImage();
+		return body.getImage(0);
 	}
 
 	public float getbAngle() {
