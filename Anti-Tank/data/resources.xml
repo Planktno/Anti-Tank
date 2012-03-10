@@ -25,7 +25,7 @@
 	<resource type="image" id="WORLD_3_LEVEL">data/worlds/largeTestLevel.png</resource>
 	
 <!-- TANK INFORMATION - Format is: (bX,bY,hitPoints,movementSpeed,wepID1,wepID2) -->
-	<resource type="text" id="TANK_1_INFO">15,16,100,10,0,1,30</resource>
+	<resource type="text" id="TANK_1_INFO">15,15,100,10,0,1,30</resource>
 <!-- TANK ANIMATION IMAGES -->
 	<resource type="animation" id="TANK_1" tw="32" duration="500" >data/TankAwesome.png</resource>
 	
