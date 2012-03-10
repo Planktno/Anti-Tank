@@ -155,11 +155,11 @@ public class Tank {
 		
 		// TODO Tank Movement Inputs
 		if(in.isKeyDown(Input.KEY_A)) {
-			if(vel.y == 0)  this.vel.set(-5f, -0.2f * weight);
+			if(vel.y == 0)  this.vel.set(-0.5f*movementSpeed, -0.2f * weight);
 			else this.vel.set(-5f, vel.y);
 		}
 		if(in.isKeyDown(Input.KEY_D)) {
-			if(vel.y == 0)  this.vel.set(5f, -0.2f * weight);
+			if(vel.y == 0)  this.vel.set(0.5f*movementSpeed, -0.2f * weight);
 			else this.vel.set(5f, vel.y);
 		}
 		if(in.isKeyPressed(Input.KEY_W)) {
