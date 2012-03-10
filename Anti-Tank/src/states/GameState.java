@@ -100,6 +100,7 @@ public class GameState extends BasicGameState{
 		winner = "";
 		winnerChosen = false;
 		
+		numberOfPlayers = players.length; // Missing and causing crashes!!
 		tanksPerPlayer = players[0].getTanks().length;
 		currentPlayer = 0;
 		currentTank = 1;//shouldn't this be 0?
