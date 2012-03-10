@@ -93,11 +93,15 @@ public class Camera {
 	}
 	
 	public Vector2f getRelFocusPos(Vector2f pos) { //get the relative position on the screen relative to the current focus (for gameElements)
-		return new Vector2f((pos.getX() + focusOffset.getX())*scale*focusScale + offset.getX(), (pos.getY() + focusOffset.getY())*scale*focusScale + offset.getY());
+		return new Vector2f((pos.getX() - focusOffset.getX())*scale*focusScale + offset.getX(), (pos.getY() - focusOffset.getY())*scale*focusScale + offset.getY());
 	}
 	
-	public float getFocusScale() { //get the current 'game scale' (for gameElements) CHANGE THE NAME
+	public float getMultipliedScale() { //get the current 'game scale' (for gameElements) CHANGE THE NAME
 		return focusScale * scale;
+	}
+	
+	public float getFocusScale() {
+		return focusScale;
 	}
 	
 	public void setFocusScale(float focusScale) {
@@ -124,9 +128,12 @@ public class Camera {
 			//get tank position
 			Vector2f tpos = tank.getPos();
 			//calculate offset
-			focusOffset = new Vector2f(tpos.getX()-(frameWidth/2)*focusScale, tpos.getY()-(frameHeight/2)*focusScale);
+			focusOffset = new Vector2f((tpos.getX()-frameWidth/2)*focusScale, (tpos.getY()-frameHeight/2)*focusScale);
 		} else if(projectile != null) {
-
+			//get tank position
+			Vector2f ppos = projectile.getPos();
+			//calculate offset
+			focusOffset = new Vector2f((ppos.getX()-frameWidth/2)*focusScale, (ppos.getY()-frameHeight/2)*focusScale);
 		} else {
 			
 		}

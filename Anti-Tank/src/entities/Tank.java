@@ -1,5 +1,6 @@
 package entities;
 
+import game.Animation;
 import game.ResourceManager;
 
 import org.newdawn.slick.GameContainer;
@@ -16,7 +17,7 @@ public class Tank {
 	private Vector2f pos;		// Position of the Tank
 	private Vector2f vel;		// Velocity of the Tank
 	private Vector2f bPos; 		// Position of the Barrel of the tank
-	private Image body;			// Image for the body of the Tank
+	private Animation body;			// Image for the body of the Tank
 	private Image barrel;	    // Image for the barrel of the Tank
 	private float bAngle;		// Angle of the barrel relative to horizontal (in degrees)
 	private float bx;			// Position of the barrel in x direction w.r.t body
@@ -30,6 +31,7 @@ public class Tank {
 	private float movementSpeed;// Movement speed of tank.
 	private boolean isAlive; 	// Flag to see if tank is alive.
 	private boolean hasShot;	// Flag to check if tank has shot this round
+	private float weight;
 	
 	
 	
@@ -54,8 +56,8 @@ public class Tank {
 
 	private void loadResources(int id, int[] wepIDs) {
 		// YAY finally loading from resource manager :D
-		body = ResourceManager.getInstance().getImage("TANK_" + id + "_BODY");
-		barrel = ResourceManager.getInstance().getImage("TANK_" + id + "_BARREL");
+		body = ResourceManager.getInstance().getAnimation("TANK_" + id);
+		barrel = body.getImage(4); //should be 4
 		
 		String[] info = ResourceManager.getInstance().getText("TANK_" + id + "_INFO").split(",");
 		
@@ -65,11 +67,12 @@ public class Tank {
 		movementSpeed = Float.parseFloat(info[3]);
 		wepIDs[0] = Integer.parseInt(info[4]);
 		wepIDs[1] = Integer.parseInt(info[5]);
+		weight = Integer.parseInt(info[6]);
 	}
 
 	public void render (GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
 		if (isAlive) {
-			float scale = cam.getFocusScale();
+			float scale = cam.getMultipliedScale();
 			Vector2f relpos = cam.getRelFocusPos(pos);
 			Vector2f relbpos = cam.getRelFocusPos(bPos);
 			float bhalfheight = barrel.getHeight()/2; // Used to allow barrel to be drawn around point it rotates about.
@@ -77,7 +80,7 @@ public class Tank {
 			// Rotate the barrel to the correct angle and draw both barrel and body.
 			barrel.setRotation(bAngle);
 			barrel.draw(relbpos.x , relbpos.y - (bhalfheight*scale), scale); 
-			body.draw(relpos.x, relpos.y, scale);
+			body.render(relpos.x, relpos.y, scale);
 		
 			//Debug Mode
 			if (gc.isShowingFPS()) debugRender(g);
@@ -96,17 +99,19 @@ public class Tank {
 	
 	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in, GameState gs){
 		if (isAlive){
+			body.update(delta);
+			
 			// Keep old position
 			Vector2f old_pos = new Vector2f(pos.x, pos.y);
 			Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
 		
-			if (!hasShot) checkInputs(in, world, gs); // Check Inputs
-		
-			updatePositions(delta);// Update Position (body, barrel and all weapons)
+			updatePositions(delta, world);// Update Position (body, barrel and all weapons)
 			checkCollisions(world, old_pos, old_bPos);// Check Collisions
+			
+			if (!hasShot) checkInputs(in, world, gs, delta); // Check Inputs
 		
 			// Update Velocity
-			vel.set(vel.x, vel.y + world.getGravity()*delta/100);
+			vel.set(vel.x, vel.y + world.getGravity()*delta * weight/1000);
 		} else {
 			gs.getCurrentPlayer().nextTank();
 		}
@@ -119,37 +124,48 @@ public class Tank {
 			Vector2f old_pos = new Vector2f(pos.x, pos.y);
 			Vector2f old_bPos = new Vector2f(bPos.x, bPos.y);
 
-			updatePositions(delta);// Update Position (body, barrel and all weapons)
+			updatePositions(delta, world);// Update Position (body, barrel and all weapons)
 			checkCollisions(world, old_pos, old_bPos); // Check Collisions
 
 			// Update Velocity
-			vel.set(vel.x, vel.y + world.getGravity() * delta / 100);
+			vel.set(vel.x, vel.y + world.getGravity() * delta * weight/ 1000);
 		}
 	}
 
-	private void updatePositions(int delta) {
-		pos.add(new Vector2f((vel.x*delta/100),(vel.y*delta/100)));
-		bPos.add(new Vector2f((vel.x*delta/100),(vel.y*delta/100)));
+	private void updatePositions(int delta, World world) {
+		pos.add(new Vector2f((vel.x*delta/100),(vel.y * delta/100)));
+		bPos.set(pos.x+bx, pos.y+by);
 		for (int i = 0; i < weapons.length; i++) weapons[i].updatePosition(bPos.x+wepx, bPos.y+wepy);
 	}
 
 	private void checkCollisions(World world, Vector2f old_pos,
 			Vector2f old_bPos) {
 		if (GameState.checkCollision(this, world)){ 
-			vel.set(vel.x,0); // TODO Not properly implemented
+			vel.set(0,0); // TODO Not properly implemented
 			pos.set(old_pos);
 			bPos.set(old_bPos);
 		}
 	}
 	
-	private void checkInputs(Input in, World world, GameState gs) {
+	private void checkInputs(Input in, World world, GameState gs, int delta) {
 		if(in.isKeyDown(Input.KEY_UP)) launchSpeedUp();
 		if(in.isKeyDown(Input.KEY_DOWN)) launchSpeedDown();
 		if(in.isKeyDown(Input.KEY_LEFT)) {barrelRotateAnticlockwise(); updateWepXY();} 
 		if(in.isKeyDown(Input.KEY_RIGHT)) {barrelRotateClockwise(); updateWepXY();}
 		
 		// TODO Tank Movement Inputs
-		
+		if(in.isKeyDown(Input.KEY_A)) {
+			if(vel.y == 0)  this.vel.set(-5f, -0.2f * weight);
+			else this.vel.set(-5f, vel.y);
+		}
+		if(in.isKeyDown(Input.KEY_D)) {
+			if(vel.y == 0)  this.vel.set(5f, -0.2f * weight);
+			else this.vel.set(5f, vel.y);
+		}
+		if(in.isKeyPressed(Input.KEY_W)) {
+			if(vel.y >= -0.2f * weight && vel.y <= 0)  this.vel.add(new Vector2f(0, -15*delta/(world.getGravity()))); //this implementation is really stupid, but can't think of another
+		}
+			
 		if(in.isKeyPressed(Input.KEY_SPACE)) changeWeapon();
 		
 		if(in.isKeyPressed(Input.KEY_ENTER)) {
@@ -199,7 +215,7 @@ public class Tank {
 	}
 
 	public Image getImage() {
-		return body;
+		return body.getImage(0);
 	}
 
 	public float getbAngle() {

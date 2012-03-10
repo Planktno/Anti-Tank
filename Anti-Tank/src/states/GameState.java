@@ -20,6 +20,7 @@ import entities.Tank;
 import entities.World;
 import game.GUI;
 import game.GunsAndHats;
+import game.PixelPos;
 
 public class GameState extends BasicGameState{
 
@@ -47,31 +48,31 @@ public class GameState extends BasicGameState{
 	@Override
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
-		numberOfPlayers = 2; // Placeholder for testing
-		world = new World(3); // ID 0 - Test Level   ID 1 - Possible New Level
-		players = new Player[numberOfPlayers];
-		projectiles = new ArrayList<Projectile>();
-		timeStarted = System.nanoTime();
-		roundsPlayed = 0;
-		winner = "";
-		winnerChosen = false;
-		
-		// Quick Fix - for testing.
-		players[0] = new Player("Player1", new Tank[] {new Tank(0,600,200),new Tank(0,500,200)});
-		players[1] = new Player("Player2", new Tank[] {new Tank(0,200,200),new Tank(0,100,200)});
-		
-		tanksPerPlayer = players[0].getTanks().length;
-		currentPlayer = 0;
-		currentTank = 1;
-		players[currentPlayer].setFocus(this);
-		
-		gui = new GUI();
-		gui.setCamera(camera);
-		gui.setGameState(this);
-		gui.setPlayers(players);
-		gui.setWorld(world);
-		
-		camera.setFocus(world);
+//		numberOfPlayers = 2; // Placeholder for testing
+//		world = new World(0); // ID 0 - Test Level   ID 1 - Possible New Level
+//		players = new Player[numberOfPlayers];
+//		projectiles = new ArrayList<Projectile>();
+//		timeStarted = System.nanoTime();
+//		roundsPlayed = 0;
+//		winner = "";
+//		winnerChosen = false;
+//		
+////		// Quick Fix - for testing.
+////		players[0] = new Player("Player1", new Tank[] {new Tank(1,600,200),new Tank(1,500,200)});
+////		players[1] = new Player("Player2", new Tank[] {new Tank(1,200,200),new Tank(1,100,200)});
+//		
+//		tanksPerPlayer = players[0].getTanks().length;
+//		currentPlayer = 0;
+//		currentTank = 1;
+//		players[currentPlayer].setFocus(this);
+//		
+//		gui = new GUI();
+//		gui.setCamera(camera);
+//		gui.setGameState(this);
+//		gui.setPlayers(players);
+//		gui.setWorld(world);
+//		
+//		camera.setFocus(world);
 	}
 
 	@Override
@@ -87,6 +88,30 @@ public class GameState extends BasicGameState{
 		if (winnerChosen) displayWinner(winner, g);
 		
 		if (gc.isShowingFPS()) debugRender(g);
+	}
+	
+	public void startGame(World world, Player[] players){
+		this.world = world;
+		this.players = players;
+		
+		projectiles = new ArrayList<Projectile>();
+		timeStarted = System.nanoTime();
+		roundsPlayed = 0;
+		winner = "";
+		winnerChosen = false;
+		
+		tanksPerPlayer = players[0].getTanks().length;
+		currentPlayer = 0;
+		currentTank = 1;//shouldn't this be 0?
+		players[currentPlayer].setFocus(this);
+		
+		gui = new GUI();
+		gui.setCamera(camera);
+		gui.setGameState(this);
+		gui.setPlayers(players);
+		gui.setWorld(world);
+		
+		camera.setFocus(world);
 	}
 
 	private void addToHistory() {
@@ -149,6 +174,9 @@ public class GameState extends BasicGameState{
 			}
 		}
 		
+		if(in.isKeyPressed(Input.KEY_P)) camera.setFocusScale(camera.getFocusScale()*1.1f);
+		if(in.isKeyPressed(Input.KEY_O)) camera.setFocusScale(camera.getFocusScale()*0.9f);
+		
 		camera.update(delta);
 		
 		// Debug Mode Toggle
@@ -156,16 +184,20 @@ public class GameState extends BasicGameState{
 	}
 
 	public static boolean checkCollision(Tank tank, World world){
-		HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
-		HashSet<String> maskWorld = world.getPixelMap();
+//		HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
+//		HashSet<String> maskWorld = world.getPixelMap();
+		HashSet<PixelPos> maskTank = getMask(tank.getPos(), tank.getImage());
+		HashSet<PixelPos> maskWorld = world.getPixelMap();
 		maskTank.retainAll(maskWorld); // Only keep those pixels that overlap.
 		if (maskTank.size() > 0) return true; // Collides
 		return false; // Doesn't Collide
 	}
 
 	public static boolean checkCollision(Projectile proj, World world){
-		HashSet<String> maskProj = getMask(proj.getPos(), proj.getImage());
-		HashSet<String> maskWorld = world.getPixelMap();
+//		HashSet<String> maskProj = getMask(proj.getPos(), proj.getImage());
+//		HashSet<String> maskWorld = world.getPixelMap();
+		HashSet<PixelPos> maskProj = getMask(proj.getPos(), proj.getImage());
+		HashSet<PixelPos> maskWorld = world.getPixelMap();
 		maskProj.retainAll(maskWorld); // Only keep those pixels that overlap.
 		if (maskProj.size() > 0) return true; // Collides
 		return false; // Doesn't Collide
@@ -181,8 +213,10 @@ public class GameState extends BasicGameState{
 		float py = proj.getPos().getY();
 		
 		if (px > tx1 && px < tx2 && py > ty1 && py < ty2){
-			HashSet<String> maskProj = getMask(proj.getPos(), proj.getImage());
-			HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
+//			HashSet<String> maskProj = getMask(proj.getPos(), proj.getImage());
+//			HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
+			HashSet<PixelPos> maskProj = getMask(proj.getPos(), proj.getImage());
+			HashSet<PixelPos> maskTank = getMask(tank.getPos(), tank.getImage());
 			maskProj.retainAll(maskTank); // Only keep those pixels that overlap.
 			if (maskProj.size() > 0) return true; // Collides
 			return false; // Doesn't Collide
@@ -203,13 +237,14 @@ public class GameState extends BasicGameState{
 		projectiles.remove(proj);
 	}
 	
-	public static HashSet<String> getMask(Vector2f pos, Image img) {
-		HashSet<String> mask = new HashSet<String>();
+	public static HashSet<PixelPos> getMask(Vector2f pos, Image img) {
+		HashSet<PixelPos> mask = new HashSet<PixelPos>();
 		
 		for(int i = 0; i < img.getWidth(); i++) {
 			for(int j = 0; j < img.getHeight(); j++) {
 				if(img.getColor(i, j).getAlpha() != 0) { //is non transparent
-					mask.add((Math.floor(pos.getX())+i) + "," + (Math.round(pos.getY())+j));
+					//mask.add((Math.floor(pos.getX())+i) + "," + (Math.round(pos.getY())+j));
+					mask.add(new PixelPos((int)Math.floor(pos.getX())+i, (int)Math.floor(pos.getY())+j));
 				}
 			}
 		}
