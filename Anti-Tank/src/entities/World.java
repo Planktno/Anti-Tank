@@ -160,6 +160,7 @@ public class World {
 	}
 	level = levelBuffer.getImage();
 	updatePixelMap();// Need to update the pixel map after a destruction so collision detection works - Peter
+	System.out.println("destroyCircle() called");
 	}
 	
 	public void destroyLine(Vector2f pos, float angle, int length, int width) {
@@ -170,6 +171,7 @@ public class World {
 		}
 		level = levelBuffer.getImage();
 		updatePixelMap();// Need to update the pixel map after a destruction so collision detection works - Peter
+		System.out.println("destroyLine() called");
 	}
 	public void destroyCircleNoUpdate(float radius, Vector2f pos) {
 		float distance = 0;
@@ -190,7 +192,7 @@ public class World {
 				}	
 			}
 		}
-		
+		System.out.println("destroyCircleNoUpdate() called");
 		
 	}
 }

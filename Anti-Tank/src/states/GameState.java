@@ -245,7 +245,7 @@ public class GameState extends BasicGameState{
 			for(int j = 0; j < img.getHeight(); j++) {
 				if(img.getColor(i, j).getAlpha() != 0) { //is non transparent
 					//mask.add((Math.floor(pos.getX())+i) + "," + (Math.round(pos.getY())+j));
-					mask.add(new PixelPos((int)Math.floor(pos.getX())+i, (int)Math.floor(pos.getY())+j));
+					mask.add(new PixelPos((int)Math.floor(pos.getX()+i), (int)Math.floor(pos.getY()+j)));
 				}
 			}
 		}

@@ -74,7 +74,7 @@ public class PreGameMenu extends BasicGameState {
 	}
 	
 	public void startGame(GameState gameState) {
-		World world = new World(0); // ID 0 - Test Level   ID 1 - Possible New Level
+		World world = new World(2); // ID 0 - Test Level   ID 1 - Possible New Level
 		// Quick Fix - for testing.
 		Player[] players =  new Player[2];
 		players[0] = new Player("Player1", new Tank[] {new Tank(1,600,200),new Tank(1,500,200)});

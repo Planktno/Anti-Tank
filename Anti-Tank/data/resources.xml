@@ -24,10 +24,10 @@
 	<resource type="image" id="WORLD_3_BACKGROUND">data/worlds/worldTwoBackground.png</resource>
 	<resource type="image" id="WORLD_3_LEVEL">data/worlds/largeTestLevel.png</resource>
 	
-<!-- TANK INFORMATION - Format is: (bX,bY,hitPoints,movementSpeed,wepID1,wepID2) -->
-	<resource type="text" id="TANK_1_INFO">15,15,100,10,0,1,30</resource>
+<!-- TANK INFORMATION - Format is: (bX,bY,hitPoints,movementSpeed,wepID1,wepID2,weight) -->
+	<resource type="text" id="TANK_1_INFO">15,12,100,10,0,1,30</resource>
 <!-- TANK ANIMATION IMAGES -->
-	<resource type="animation" id="TANK_1" tw="32" duration="500" >data/TankAwesome.png</resource>
+	<resource type="animation" id="TANK_1" tw="32" duration="500" >data/TankAwesomeTest.png</resource>
 	
 <!-- WEAPON INFORMATION - Format is: (ammoCount,maxSpeed,projectileID) -->
 	<resource type="text" id="WEAPON_0_INFO">20,100,0</resource>

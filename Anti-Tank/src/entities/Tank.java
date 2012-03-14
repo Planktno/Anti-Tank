@@ -59,6 +59,11 @@ public class Tank {
 		body = ResourceManager.getInstance().getAnimation("TANK_" + id);
 		barrel = body.getImage(4); //should be 4
 		
+		barrel = barrel.getSubImage(1, 12, 29, 7); 
+		// Keep Barrel images within the box I have added to the schema please. This is to
+		// allow the barrel to be drawn and rotated correctly at different scales - Peter
+		
+		
 		String[] info = ResourceManager.getInstance().getText("TANK_" + id + "_INFO").split(",");
 		
 		bx = Float.parseFloat(info[0]);
@@ -115,9 +120,16 @@ public class Tank {
 		} else {
 			gs.getCurrentPlayer().nextTank();
 		}
+		
+		checkIsOnScreen(world);
 	}
 		
 	
+	private void checkIsOnScreen(World world) {
+		int worldheight = world.getImage().getHeight();
+		if (pos.getY() > worldheight) isAlive = false;
+	}
+
 	public void updateInBackground (GameContainer gc, StateBasedGame game, int delta, World world){
 		if (isAlive){
 			// Keep old position

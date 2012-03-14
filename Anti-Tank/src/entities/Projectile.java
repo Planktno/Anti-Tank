@@ -42,7 +42,7 @@ public class Projectile {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
-		float scale = cam.getScale();
+		float scale = cam.getMultipliedScale();
 		Vector2f relpos = cam.getRelFocusPos(pos);
 		float halfwidth = img.getWidth()/2;
 		float halfheight = img.getHeight()/2;
