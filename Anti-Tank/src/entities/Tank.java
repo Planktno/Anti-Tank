@@ -138,6 +138,7 @@ public class Tank {
 
 	public void updateInBackground (GameContainer gc, StateBasedGame game, int delta, World world){
 		if (isAlive){
+			body.update(delta);
 			// Keep old position
 			Vector2f old_pos = new Vector2f(pos.x, pos.y);
 			Vector2f old_bPos = new Vector2f(bPos.x, bPos.y);
