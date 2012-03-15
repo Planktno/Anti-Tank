@@ -32,10 +32,11 @@ public class Tank {
 	private boolean isAlive; 	// Flag to see if tank is alive.
 	private boolean hasShot;	// Flag to check if tank has shot this round
 	private float weight;
+	private int player;
 	
 	
-	
-	public Tank(int id, float x, float y){
+	public Tank(int id, float x, float y, int player){
+		this.player = player;
 		pos = new Vector2f(x,y);
 		vel = new Vector2f(0,0);
 		launchSpeed = 0;
@@ -56,7 +57,12 @@ public class Tank {
 
 	private void loadResources(int id, int[] wepIDs) {
 		// YAY finally loading from resource manager :D
-		body = ResourceManager.getInstance().getAnimation("TANK_" + id);
+		switch(player) {
+		case 1: body = ResourceManager.getInstance().getAnimation("TANK_" + id + "_RED"); break;
+		case 2: body = ResourceManager.getInstance().getAnimation("TANK_" + id + "_GREEN"); break;
+		case 3: body = ResourceManager.getInstance().getAnimation("TANK_" + id + "_PURPLE"); break;
+		case 4: body = ResourceManager.getInstance().getAnimation("TANK_" + id + "_CYAN"); break;
+		}
 		barrel = body.getImage(4); //should be 4
 		
 		barrel = barrel.getSubImage(1, 12, 29, 7); 
