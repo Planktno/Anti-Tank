@@ -112,7 +112,7 @@ public class GameState extends BasicGameState{
 		gui.setPlayers(players);
 		gui.setWorld(world);
 		
-		camera.setFocus(world);
+		camera.setFocus(players[0].getCurrentTank());
 	}
 
 	private void addToHistory() {
@@ -271,6 +271,7 @@ public class GameState extends BasicGameState{
 		}
 
 		players[currentPlayer].setFocus(this); // Give focus to the new player
+		camera.setFocus(players[currentPlayer].getCurrentTank());
 	}
 
 	public Player getCurrentPlayer() {

@@ -65,18 +65,32 @@ public class Camera {
 	}
 	
 	public void setFocus(World world) {
+		//get world size
+		int wH = world.getImage().getHeight();
+		int wW = world.getImage().getWidth();
+		//calculate scale to render entire world
+		if(frameHeight/(float)wH >= frameWidth/(float)wW) {
+			focusScale = frameHeight/(float)wH;
+			focusOffset = new Vector2f(0, 0);
+		} else {
+			focusScale = frameWidth/(float)wW;
+			focusOffset = new Vector2f(0, 0);
+		}
+		
 		this.world = world;
 		this.tank = null;
 		this.projectile = null;
 	}
 	
 	public void setFocus(Tank tank) {
+		focusScale = 1;
 		this.world = null;
 		this.tank = tank;
 		this.projectile = null;
 	}
 	
 	public void setFocus(Projectile projectile) {
+		focusScale = 1;
 		this.world = null;
 		this.tank = null;
 		this.projectile = projectile;
@@ -111,24 +125,11 @@ public class Camera {
 	public void update(int delta) { //delta function to calculate the smooth focus change
 		if(this.smoothFocusChange) {
 			//return relPos using focusOffset and focusScale as calculated by update
-		} else if(world != null) {
-			//get world size
-			int wH = world.getImage().getHeight();
-			int wW = world.getImage().getWidth();
-			//calculate scale to render entire world
-			if(frameHeight/(float)wH >= frameWidth/(float)wW) {
-				focusScale = frameHeight/(float)wH;
-				focusOffset = new Vector2f(0, 0);
-			} else {
-				focusScale = frameWidth/(float)wW;
-				focusOffset = new Vector2f(0, 0);
-			}
-			
 		} else if(tank != null) {
 			//get tank position
 			Vector2f tpos = tank.getPos();
 			//calculate offset
-			focusOffset = new Vector2f((tpos.getX()-frameWidth/2)*focusScale, (tpos.getY()-frameHeight/2)*focusScale);
+			focusOffset = new Vector2f((tpos.getX()+tank.getImage().getWidth()/2-frameWidth/2)*focusScale, (tpos.getY()-frameHeight/2)*focusScale);
 		} else if(projectile != null) {
 			//get tank position
 			Vector2f ppos = projectile.getPos();
