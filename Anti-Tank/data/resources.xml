@@ -34,8 +34,15 @@
 	
 <!-- TANK INFORMATION - Format is: (bX,bY,hitPoints,movementSpeed,wepID1,wepID2,weight) -->
 	<resource type="text" id="TANK_1_INFO">15,12,100,10,0,1,30</resource>
+	<resource type="text" id="TANK_2_INFO">15,12,100,10,0,1,30</resource>
+	<resource type="text" id="TANK_3_INFO">15,12,100,10,0,1,30</resource>
+	<resource type="text" id="TANK_4_INFO">15,12,100,10,0,1,30</resource>
+	
 <!-- TANK ANIMATION IMAGES -->
-	<resource type="animation" id="TANK_1" tw="32" duration="500" >data/TankAwesomeTest.png</resource>
+	<resource type="animation" id="TANK_1" tw="32" duration="500" >data/tanks/TankRed.png</resource>
+	<resource type="animation" id="TANK_2" tw="32" duration="500" >data/tanks/TankCyan.png</resource>
+	<resource type="animation" id="TANK_3" tw="32" duration="500" >data/tanks/TankPurple.png</resource>
+	<resource type="animation" id="TANK_4" tw="32" duration="500" >data/tanks/TankGreen.png</resource>
 	
 	
 <!-- WEAPON INFORMATION - Format is: (ammoCount,maxSpeed,projectileID) -->

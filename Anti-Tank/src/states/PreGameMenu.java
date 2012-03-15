@@ -226,8 +226,8 @@ public class PreGameMenu extends BasicGameState {
 	
 	public Player[] createPlayers() {
 		players = new Player[numberOfPlayers];
-		for (int i = 0; i < numberOfPlayers; i++){
-			players[i] = new Player(playerNames[i], createTanks(i)); 
+		for (int i = 1; i <= numberOfPlayers; i++){
+			players[i-1] = new Player(playerNames[i-1], createTanks(i)); 
 		}
 		return players;
 	}
@@ -239,7 +239,7 @@ public class PreGameMenu extends BasicGameState {
 		
 		for (int j = 0; j < tanksPerPlayer; j++){
 			int tankX = rand.nextInt(worldWidth - 40) + 20;
-			playerTanks[j] = new Tank(1, tankX, 200); // TODO Change 1 to i when more colours of tanks implemented.
+			playerTanks[j] = new Tank(i, tankX, 200); // TODO Change 1 to i when more colours of tanks implemented.
 		}
 		
 		return playerTanks;
