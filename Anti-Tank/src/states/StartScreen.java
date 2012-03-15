@@ -48,13 +48,10 @@ public class StartScreen extends BasicGameState{
 	public void render(GameContainer gc, StateBasedGame game, Graphics gr)
 			throws SlickException {
 		float scale = camera.getScale();
-		gr.drawString("LOL",0,0);
 		background.draw(camera.getOffset().getX(), camera.getOffset().getY(), scale);
 		b_start.draw(camera.getOffset().getX()+50*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), scale);
 		b_history.draw(camera.getOffset().getX()+310*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), scale);
 		b_exit.draw(camera.getOffset().getX()+550*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), scale);
-		// +n*camera.getScale()
-		gr.drawString(scale+"", 100, 100);
 	}
 
 	@Override
