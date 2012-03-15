@@ -2,6 +2,7 @@ package states;
 
 import java.util.Random;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -49,7 +50,11 @@ public class PreGameMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
-		playerNames = new String[4];
+		playerNames = new String[maxNumPlayers];
+		for (int i = 1; i <= maxNumPlayers; i++) {
+			playerNames[i-1] = "Player " + i;
+		}
+		
 		worldId = 0;
 		tanksPerPlayer = 1;
 		numberOfPlayers = 2;
@@ -67,20 +72,23 @@ public class PreGameMenu extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g)
 			throws SlickException {
+		g.setColor(Color.white);
+		
 		float scale = cam.getScale();
-		backgroundImg.draw(0,0,scale);
+		int offset = (int) cam.getOffset().getX();
+		backgroundImg.draw(cam.getOffset().getX(),cam.getOffset().getY(),scale);
 		
 		int lx = (int) (50*scale);
 		int spacing = (int) (30*scale);
-		g.drawString("Number of players:   " + this.numberOfPlayers, lx, spacing*1);
-		g.drawString("Tanks per player:    " + this.tanksPerPlayer, lx, spacing*2);
-		g.drawString("Your chosen world: World " + this.worldId, lx, spacing*3);
+		g.drawString("Number of players:   " + this.numberOfPlayers, lx + offset, spacing*1);
+		g.drawString("Tanks per player:    " + this.tanksPerPlayer, lx + offset, spacing*2);
+		g.drawString("Your chosen world: World " + this.worldId, lx + offset, spacing*3);
 		
-		worldImg.draw(lx + spacing*2 ,spacing*4, scale);
+		worldImg.draw(lx + spacing*2 + offset, spacing*4, scale);
 		
-		g.drawString("To START press ENTER", lx, spacing*15);
+		g.drawString("To START press ENTER", lx + offset, spacing*15);
 		
-		g.drawString(">", lx - (20*scale), spacing*currentMenuItem);
+		g.drawString(">", lx - (20*scale) + offset, spacing*currentMenuItem);
 	}
 
 	@Override
@@ -238,12 +246,7 @@ public class PreGameMenu extends BasicGameState {
 	}
 	
 	public void startGame(GameState gameState) {
-		World world = new World(worldId); // ID 0 - Test Level   ID 1 - Possible New Level
-		// Quick Fix - for testing.
-//		Player[] players =  new Player[2];
-//		players[0] = new Player("Player1", new Tank[] {new Tank(1,600,200),new Tank(1,500,200)});
-//		players[1] = new Player("Player2", new Tank[] {new Tank(1,200,200),new Tank(1,100,200)});
-		
+		World world = new World(worldId);	
 		gameState.startGame(world, players);
 	}
 

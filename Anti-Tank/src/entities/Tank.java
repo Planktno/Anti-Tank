@@ -178,9 +178,9 @@ public class Tank {
 			if(vel.y >= -0.2f * weight && vel.y <= 0)  this.vel.add(new Vector2f(0, -15*delta/(world.getGravity()))); //this implementation is really stupid, but can't think of another
 		}
 			
-		if(in.isKeyPressed(Input.KEY_SPACE)) changeWeapon();
+		if(in.isKeyPressed(Input.KEY_F)) changeWeapon();
 		
-		if(in.isKeyPressed(Input.KEY_ENTER)) {
+		if(in.isKeyPressed(Input.KEY_SPACE)) {
 			if (weapons[currentWeapon].getAmmoCount() > 0) {
 				weapons[currentWeapon].shoot(launchSpeed, bAngle, gs);
 				setHasShot(true);

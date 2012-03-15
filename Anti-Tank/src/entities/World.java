@@ -69,8 +69,8 @@ public class World {
 
 	private void debugRender(Graphics g) {
 		g.drawString("Current Controls:",300,10);
-		g.drawString("Change Weapon - Space", 300, 25);
-		g.drawString("Fire Weapon - Enter", 300, 40);
+		g.drawString("Change Weapon - F", 300, 25);
+		g.drawString("Fire Weapon - Space", 300, 40);
 		g.drawString("Launch Speed UP/DOWN - Up/Down Arrows", 300, 55);
 		g.drawString("Change Barrel Angle - Right/Left Arrows", 300, 70);
 		g.drawString("Randomise Wind - Period", 300, 85);
@@ -135,7 +135,7 @@ public class World {
 	}
 	
 	public void destroyCircle(float radius, Vector2f pos) {
-	float distance = 0;
+//	float distance = 0;
 	float x = (int) pos.getX();
 	float y = (int) pos.getY();
 	float radiusSquared = radius * radius;
@@ -160,7 +160,7 @@ public class World {
 	}
 	level = levelBuffer.getImage();
 	updatePixelMap();// Need to update the pixel map after a destruction so collision detection works - Peter
-	System.out.println("destroyCircle() called");
+//	System.out.println("destroyCircle() called");
 	}
 	
 	public void destroyLine(Vector2f pos, float angle, int length, int width) {
@@ -171,7 +171,7 @@ public class World {
 		}
 		level = levelBuffer.getImage();
 		updatePixelMap();// Need to update the pixel map after a destruction so collision detection works - Peter
-		System.out.println("destroyLine() called");
+//		System.out.println("destroyLine() called");
 	}
 	public void destroyCircleNoUpdate(float radius, Vector2f pos) {
 		float distance = 0;
@@ -192,7 +192,7 @@ public class World {
 				}	
 			}
 		}
-		System.out.println("destroyCircleNoUpdate() called");
+//		System.out.println("destroyCircleNoUpdate() called");
 		
 	}
 }
