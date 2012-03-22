@@ -112,6 +112,8 @@ public class GameState extends BasicGameState{
 		gui.setPlayers(players);
 		gui.setWorld(world);
 		
+		camera.setFocus(world);
+		camera.setSmooth(true);
 		camera.setFocus(players[0].getCurrentTank());
 	}
 

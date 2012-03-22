@@ -16,8 +16,11 @@ public class Camera {
 	private Projectile projectile;
 	private Vector2f focusOffset; //The added offset (to int offset) to center on the focused object
 	private float focusScale; //The multiplied scale to offer a good visibility of the focused object
-	private boolean smoothFocusChange; //Changed focus should be done smoothly
 	
+	private boolean smoothFocusChange; //Changed focus should be done smoothly
+	private static float smoothVelocity = 0.0001f;
+	private Vector2f startingDistance;
+	private Vector2f deltaDistance;
 	
 	public Camera(int frameWidth, int frameHeight, int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
@@ -38,6 +41,8 @@ public class Camera {
 		focusOffset = new Vector2f(0,0);
 		focusScale = 1;
 		smoothFocusChange = false;
+		startingDistance = new Vector2f(0,0);
+		deltaDistance = new Vector2f(0,0);
 	}
 	
 	public int getScreenWidth() {
@@ -68,6 +73,20 @@ public class Camera {
 		//get world size
 		int wH = world.getImage().getHeight();
 		int wW = world.getImage().getWidth();
+		
+		if(this.tank != null) {
+			Vector2f worldcenter = new Vector2f(world.getImage().getWidth()/2, world.getImage().getHeight()/2);
+			startingDistance = new Vector2f(worldcenter.x - tank.getPos().x, worldcenter.y - tank.getPos().y);
+			deltaDistance = new Vector2f(0,0);
+		} else if(this.projectile != null) {
+			Vector2f worldcenter = new Vector2f(world.getImage().getWidth()/2, world.getImage().getHeight()/2);
+			startingDistance = new Vector2f(worldcenter.x - projectile.getPos().x, worldcenter.y - projectile.getPos().y);
+			deltaDistance = new Vector2f(0,0);
+		} else { //World
+			startingDistance = new Vector2f(0,0);
+			deltaDistance = new Vector2f(0,0);
+		}
+		
 		//calculate scale to render entire world
 		if(frameHeight/(float)wH >= frameWidth/(float)wW) {
 			focusScale = frameHeight/(float)wH;
@@ -83,15 +102,24 @@ public class Camera {
 	}
 	
 	public void setFocus(Tank tank) {
+		if(this.tank != null) {
+			startingDistance = new Vector2f(this.tank.getPos().x - tank.getPos().x, this.tank.getPos().y -tank.getPos().y);
+			deltaDistance = startingDistance.copy();
+		} else if(this.projectile != null) {
+			startingDistance = new Vector2f(this.projectile.getPos().x - tank.getPos().x, this.projectile.getPos().y -tank.getPos().y);
+			deltaDistance = startingDistance.copy();
+		} else { //World
+			Vector2f worldcenter = new Vector2f(world.getImage().getWidth()/2, world.getImage().getHeight()/2);
+			startingDistance = new Vector2f(worldcenter.x - tank.getPos().x, worldcenter.y -tank.getPos().y);
+			deltaDistance = startingDistance.copy();
+		}
 		focusScale = 1;
-		this.world = null;
 		this.tank = tank;
 		this.projectile = null;
 	}
 	
 	public void setFocus(Projectile projectile) {
 		focusScale = 1;
-		this.world = null;
 		this.tank = null;
 		this.projectile = projectile;
 	}
@@ -122,9 +150,25 @@ public class Camera {
 		this.focusScale = focusScale;
 	}
 	
+	public void setSmooth(boolean smooth) {
+		this.smoothFocusChange = smooth;
+	}
+	
 	public void update(int delta) { //delta function to calculate the smooth focus change
 		if(this.smoothFocusChange) {
 			//return relPos using focusOffset and focusScale as calculated by update
+			if(tank != null) {
+				Vector2f tpos = tank.getPos();
+				//deltaDistance = deltaDistance.sub(startingDistance.scale(delta*smoothVelocity));
+				deltaDistance = deltaDistance.scale((float)Math.pow(0.999, delta));
+				focusScale = 1-((startingDistance.length())/(float)(2*world.getImage().getWidth()))*(float)Math.sin(Math.PI*deltaDistance.length()/startingDistance.length());
+				focusOffset = new Vector2f((tpos.getX()+deltaDistance.x+tank.getImage().getWidth()/2-frameWidth/2)*focusScale, (tpos.getY()+deltaDistance.y-frameHeight/2)*focusScale);
+			} else if(projectile != null) {
+				Vector2f ppos = projectile.getPos();
+				
+			} else { //World
+				
+			}
 		} else if(tank != null) {
 			//get tank position
 			Vector2f tpos = tank.getPos();
