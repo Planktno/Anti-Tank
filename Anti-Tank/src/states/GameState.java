@@ -33,7 +33,7 @@ public class GameState extends BasicGameState{
 	private int roundsPlayed;
 	private int numberOfPlayers;
 	private int tanksPerPlayer;
-	private Camera camera;
+	private Camera cam;
 	private GUI gui;
 	private String winner; // Only non-empty if there is actually a winner
 	private boolean winnerChosen; // True if and only if there is a winner
@@ -42,7 +42,7 @@ public class GameState extends BasicGameState{
 	
 	public GameState(int id, Camera camera){
 		stateID = id;
-		this.camera = camera;
+		this.cam = camera;
 	}
 
 	@Override
@@ -80,9 +80,9 @@ public class GameState extends BasicGameState{
 		g.setColor(Color.white); // So that all text in the game is rendered in white
 				
 		// Render World, then Projectiles, then Players.
-		world.render(gc,game,g,camera);
-		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).render(gc,game,g,camera);
-		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,camera);
+		world.render(gc,game,g,cam);
+		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).render(gc,game,g,cam);
+		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,cam);
 		gui.render(gc, game, g);
 		
 		if (winnerChosen) displayWinner(winner, g);
@@ -107,14 +107,14 @@ public class GameState extends BasicGameState{
 		players[currentPlayer].setFocus(this);
 		
 		gui = new GUI();
-		gui.setCamera(camera);
+		gui.setCamera(cam);
 		gui.setGameState(this);
 		gui.setPlayers(players);
 		gui.setWorld(world);
 		
-		camera.setFocus(world);
-		camera.setSmooth(true);
-		camera.setFocus(players[0].getCurrentTank());
+		cam.setFocus(world);
+		cam.setSmooth(true);
+		cam.setFocus(players[0].getCurrentTank());
 	}
 
 	private void addToHistory() {
@@ -177,10 +177,13 @@ public class GameState extends BasicGameState{
 			}
 		}
 		
-		if(in.isKeyPressed(Input.KEY_P)) camera.setFocusScale(camera.getFocusScale()*1.1f);
-		if(in.isKeyPressed(Input.KEY_O)) camera.setFocusScale(camera.getFocusScale()*0.9f);
+		if(in.isKeyPressed(Input.KEY_P)) cam.setFocusScale(cam.getFocusScale()*1.1f);
+		if(in.isKeyPressed(Input.KEY_O)) cam.setFocusScale(cam.getFocusScale()*0.9f);
 		
-		camera.update(delta);
+		cam.update(delta);
+		
+		// Only the currently used tank animates. Makes it clearer which tank is active. - Peter
+		players[currentPlayer].getCurrentTank().getAnim().update(delta); 
 		
 		// Debug Mode Toggle
 		if (in.isKeyPressed(Input.KEY_F12)) gc.setShowFPS(!gc.isShowingFPS());
@@ -273,7 +276,7 @@ public class GameState extends BasicGameState{
 		}
 
 		players[currentPlayer].setFocus(this); // Give focus to the new player
-		camera.setFocus(players[currentPlayer].getCurrentTank());
+		cam.setFocus(players[currentPlayer].getCurrentTank());
 	}
 
 	public Player getCurrentPlayer() {

@@ -110,8 +110,6 @@ public class Tank {
 	
 	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in, GameState gs){
 		if (isAlive){
-			body.update(delta);
-			
 			// Keep old position
 			Vector2f old_pos = new Vector2f(pos.x, pos.y);
 			Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
@@ -138,7 +136,6 @@ public class Tank {
 
 	public void updateInBackground (GameContainer gc, StateBasedGame game, int delta, World world){
 		if (isAlive){
-			body.update(delta);
 			// Keep old position
 			Vector2f old_pos = new Vector2f(pos.x, pos.y);
 			Vector2f old_bPos = new Vector2f(bPos.x, bPos.y);
@@ -235,6 +232,10 @@ public class Tank {
 
 	public Image getImage() {
 		return body.getImage(0);
+	}
+	
+	public Animation getAnim(){
+		return body;
 	}
 
 	public float getbAngle() {
