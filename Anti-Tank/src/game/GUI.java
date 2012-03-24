@@ -95,8 +95,8 @@ public class GUI {
 		controlY = backFrame.getHeight()*scale;
 		if (!GunsAndHats.isFULLSCREEN())
 		{
-			screenX = camera.getFrameWidth();
-			screenY = camera.getFrameHeight();
+			screenX = camera.getScreenWidth();
+			screenY = camera.getScreenHeight();
 		}
 		else
 		{
@@ -121,10 +121,10 @@ public class GUI {
 			
 		//initialize tank numbers
 		Image[] tankNos = new Image[] {
-			sprites.getSubImage(252, 84, 15, 20),
-			sprites.getSubImage(269, 84, 15, 20),
-			sprites.getSubImage(287, 84, 15, 20),
-			sprites.getSubImage(304, 84, 15, 20)};
+			sprites.getSubImage(253, 85, 14, 18),
+			sprites.getSubImage(270, 85, 14, 18),
+			sprites.getSubImage(288, 85, 14, 18),
+			sprites.getSubImage(305, 85, 14, 18)};
 			
 		//initialize current tank of each team
 		Image[] currTank = new Image[]{
