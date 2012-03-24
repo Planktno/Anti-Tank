@@ -15,7 +15,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import states.EndGameScreen;
 import states.GameState;
 import states.HistoryScreen;
-import states.InGameMenu;
 import states.PreGameMenu;
 import states.StartScreen;
 import entities.Camera;
@@ -33,19 +32,17 @@ public class GunsAndHats extends StateBasedGame {
 	
 	// Id codes for the different states in the game.
 	public static int STARTSCREEN = 1;
-	public static boolean isFULLSCREEN() {
-		return FULLSCREEN;
-	}
-
-
 	public static int PREGAMESTATE = 2;
 	public static int GAMESTATE = 3;
-	public static int INGAMEMENU = 4;
-	public static int ENDGAMESCREEN = 5;
-	public static int HISTORYSCREEN = 6; 
+	public static int ENDGAMESCREEN = 4;
+	public static int HISTORYSCREEN = 5; 
 
 	private Camera camera;
 
+	public static boolean isFULLSCREEN() {
+		return FULLSCREEN;
+	}
+	
 	public GunsAndHats() {
 		super("Guns and Hats");
 	}
@@ -67,7 +64,6 @@ public class GunsAndHats extends StateBasedGame {
 		this.addState(new StartScreen(STARTSCREEN, camera));
 		this.addState(new PreGameMenu(PREGAMESTATE, camera));
 		this.addState(new GameState(GAMESTATE, camera));
-		this.addState(new InGameMenu(INGAMEMENU, camera));
 		this.addState(new EndGameScreen(ENDGAMESCREEN, camera));
 		this.addState(new HistoryScreen(HISTORYSCREEN, camera));
 

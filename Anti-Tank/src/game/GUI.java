@@ -79,9 +79,7 @@ public class GUI {
 		drawTwoDigitNumber(n2, x+40*scale, y, scale);
 	}
 	
-	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
-		//gr.drawString("Testing GUI", 0, 0);
-		
+	public void render(GameContainer gc, StateBasedGame game, Graphics gr, GameState gs) {		
 		//********* The Player Section ************
 		//moved from wind, needed it here
 		float scale = camera.getScale();

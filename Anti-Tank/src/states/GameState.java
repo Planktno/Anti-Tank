@@ -85,7 +85,7 @@ public class GameState extends BasicGameState{
 		world.render(gc,game,g,cam);
 		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).render(gc,game,g,cam);
 		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,cam);
-		gui.render(gc, game, g);
+		gui.render(gc, game, g, this);
 		
 		if (winnerChosen) displayWinner(winner, g);
 		
@@ -200,8 +200,11 @@ public class GameState extends BasicGameState{
 		
 		cam.update(delta);
 		
-		// Only the currently used tank animates. Makes it clearer which tank is active. - Peter
-		players[currentPlayer].getCurrentTank().getAnim().update(delta); 
+		// Animates all tanks - Peter
+		for (int i = 0; i < this.numberOfPlayers; i++){
+			players[i].getCurrentTank().getAnim().update(delta); 
+		}
+		
 		
 		// Debug Mode Toggle
 		if (in.isKeyPressed(Input.KEY_F12)) gc.setShowFPS(!gc.isShowingFPS());
@@ -331,6 +334,10 @@ public class GameState extends BasicGameState{
 
 	public int getCurrentPlayerNo() {
 		return currentPlayer;
+	}
+
+	public void changeFocus() {
+		cam.setFocus(players[currentPlayer].getCurrentTank());
 	}
 	
 }

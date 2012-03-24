@@ -14,6 +14,8 @@ import states.GameState;
 
 public class Tank {
 
+	private static final int MAXMOVEMENT = 400;
+	
 	private Vector2f pos;		// Position of the Tank
 	private Vector2f vel;		// Velocity of the Tank
 	private Vector2f bPos; 		// Position of the Barrel of the tank
@@ -33,6 +35,7 @@ public class Tank {
 	private boolean hasShot;	// Flag to check if tank has shot this round
 	private float weight;
 	private int player;
+	private int movementAmount;	// Amount a player can move per turn
 	
 	
 	public Tank(int id, float x, float y, int player){
@@ -44,6 +47,7 @@ public class Tank {
 		currentWeapon = 0;
 		isAlive = true;
 		hasShot = false;
+		movementAmount = MAXMOVEMENT;
 			
 		int[] wepIDs = new int[2]; // ID's of the two (changeable) weapons a tank has
 		loadResources(id, wepIDs); // Using ResourceManager
@@ -92,6 +96,7 @@ public class Tank {
 			barrel.setRotation(bAngle);
 			barrel.draw(relbpos.x , relbpos.y - (bhalfheight*scale), scale); 
 			body.render(relpos.x, relpos.y, scale);
+			
 		
 			//Debug Mode
 			if (gc.isShowingFPS()) debugRender(g, relpos);
@@ -106,6 +111,7 @@ public class Tank {
 		g.drawString("Power: " + launchSpeed,pos.x+offset,pos.y+50);
 		g.drawString("Angle: " + bAngle,pos.x+offset,pos.y+65);
 		g.drawString(""+hasShot,pos.x+offset,pos.y+80);
+		g.drawString("Mov:" + this.movementAmount, pos.x + offset, pos.y+5);
 	}
 	
 	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in, GameState gs){
@@ -118,11 +124,13 @@ public class Tank {
 			checkCollisions(world, old_pos, old_bPos);// Check Collisions
 			
 			if (!hasShot) checkInputs(in, world, gs, delta); // Check Inputs
+			else movementAmount = MAXMOVEMENT;
 		
 			// Update Velocity
 			vel.set(vel.x, vel.y + world.getGravity()*delta * weight/1000);
 		} else {
 			gs.getCurrentPlayer().nextTank();
+			gs.changeFocus();
 		}
 		
 		checkIsOnScreen(world);
@@ -170,17 +178,30 @@ public class Tank {
 		if(in.isKeyDown(Input.KEY_RIGHT)) {barrelRotateClockwise(); updateWepXY();}
 		
 		// TODO Tank Movement Inputs
-		if(in.isKeyDown(Input.KEY_A)) {
-			if(vel.y == 0)  this.vel.set(-0.5f*movementSpeed, -0.2f * weight);
-			else this.vel.set(-5f, vel.y);
-		}
-		if(in.isKeyDown(Input.KEY_D)) {
-			if(vel.y == 0)  this.vel.set(0.5f*movementSpeed, -0.2f * weight);
-			else this.vel.set(5f, vel.y);
-		}
-		if(in.isKeyPressed(Input.KEY_W)) {
-			if(vel.y >= -0.2f * weight && vel.y <= 0)  this.vel.add(new Vector2f(0, -15*delta/(world.getGravity()))); //this implementation is really stupid, but can't think of another
-		}
+		
+			if(in.isKeyDown(Input.KEY_A)) {
+				if(movementAmount > 0){
+					if(vel.y == 0)  this.vel.set(-0.5f*movementSpeed, -0.2f * weight);
+					else this.vel.set(-5f, vel.y);
+					this.movementAmount--;
+				}
+			}
+			
+			if(in.isKeyDown(Input.KEY_D)) {
+				if(movementAmount > 0){
+					if(vel.y == 0)  this.vel.set(0.5f*movementSpeed, -0.2f * weight);
+					else this.vel.set(5f, vel.y);
+					this.movementAmount--;
+				}
+			}
+			
+			if(in.isKeyPressed(Input.KEY_W)) {
+				if (movementAmount > 0) {
+					if(vel.y >= -0.2f * weight && vel.y <= 0)  this.vel.add(new Vector2f(0, -15*delta/(world.getGravity()))); //this implementation is really stupid, but can't think of another
+					this.movementAmount -= 10;
+				}
+			}
+		
 			
 		if(in.isKeyPressed(Input.KEY_F)) changeWeapon();
 		
@@ -289,6 +310,10 @@ public class Tank {
 
 	public void setHasShot(boolean b) {
 		hasShot = b;
+	}
+
+	public int getMovementAmount() {
+		return movementAmount;
 	}
 
 	
