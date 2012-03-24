@@ -20,6 +20,14 @@ import states.StartScreen;
 import entities.Camera;
 
 public class GunsAndHats extends StateBasedGame {
+	
+	/**
+	 * - GUI Movement
+	 * - Hats
+	 * - PreGameMenu
+	 * - Sounds & Music
+	 * - MOAR WEAPONS
+	 */
 
 	private static final int FRAMEWIDTH = 800;
 	private static final int FRAMEHEIGHT = 600;
