@@ -38,6 +38,8 @@ public class GameState extends BasicGameState{
 	private String winner; // Only non-empty if there is actually a winner
 	private boolean winnerChosen; // True if and only if there is a winner
 	private int currentTank; // Keeps track of how many tanks have been played - only used in keeping track of how many rounds have been played.
+	private boolean goToNextPlayer;
+	private int frameCount;
 	
 	
 	public GameState(int id, Camera camera){
@@ -99,6 +101,8 @@ public class GameState extends BasicGameState{
 		roundsPlayed = 0;
 		winner = "";
 		winnerChosen = false;
+		frameCount = 0;
+		goToNextPlayer = false;
 		
 		numberOfPlayers = players.length; // Missing and causing crashes!!
 		tanksPerPlayer = players[0].getTanks().length;
@@ -148,7 +152,7 @@ public class GameState extends BasicGameState{
 			if (players[currentPlayer].getCurrentTank().hasShot()){
 				if (projectiles.isEmpty()) {
 					players[currentPlayer].getCurrentTank().setHasShot(false);
-					nextPlayer();
+					goToNextPlayer = true;
 				}		
 			}
 			
@@ -177,8 +181,22 @@ public class GameState extends BasicGameState{
 			}
 		}
 		
+		// Added this to avoid major unwanted jump when camera refocused.
+		// Just waits one frame so the delta value is decent again after the terrain destruction
+		// before it goes to the next player and moves the camera. - Peter
+		if (goToNextPlayer){
+			if (frameCount == 0){
+				frameCount++;
+			} else {
+				frameCount = 0;
+				goToNextPlayer = false;
+				nextPlayer();
+			}
+		}
+		
 		if(in.isKeyPressed(Input.KEY_P)) cam.setFocusScale(cam.getFocusScale()*1.1f);
 		if(in.isKeyPressed(Input.KEY_O)) cam.setFocusScale(cam.getFocusScale()*0.9f);
+		if(in.isKeyPressed(Input.KEY_ESCAPE)) gc.exit();
 		
 		cam.update(delta);
 		

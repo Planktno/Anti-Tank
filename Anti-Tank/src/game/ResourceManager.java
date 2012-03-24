@@ -193,7 +193,7 @@ public class ResourceManager {
 		Image[] sprites = new Image[image.getWidth()/tw];
 		for(int i = 0; i < image.getWidth(); i += tw) {
 			sprites[i/tw] = image.getSubImage(i, 0, tw, image.getHeight());
-			System.out.print(i/tw);
+//			System.out.print(i/tw);
 		}
 		int[] sequence = {0,1,2,3,2,1};
 		animationMap.put(id, new Animation(sprites, duration, sequence));
