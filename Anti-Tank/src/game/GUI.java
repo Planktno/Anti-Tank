@@ -68,6 +68,7 @@ public class GUI {
 			Digit[c1].draw(x,y,scale);
 			Digit[c2].draw(x+12*scale,y,scale);}
 		else {
+		if (n<0) n=0;
 		int c1=n/100; int c2=(n-100)/10; int c3=(n-100)%10;
 			Digit[c1].draw(x,y,scale);
 			Digit[c2].draw(x+12*scale,y,scale);
@@ -146,11 +147,12 @@ public class GUI {
 			int currentTank = players[i].getCurrentTankNo();
 			currTank[i] = tankNos[currentTank].copy();
 			if(i == currentPlayer) {
+				
 				//Draw the ith Player as the currentPlayer
 				//Display currentTank
-				currPlayer[i].draw(/*camera.getOffset().getX()+*/xOffset[i], /*camera.getOffset().getY()+*/5*scale, (float)(scale*0.8));
+				currPlayer[i].draw(xOffset[i], 5*scale, (float)(scale*0.8));
 			} else {
-				Players[i].draw(/*camera.getOffset().getX()+*/xOffset[i], /*camera.getOffset().getY()+*/5*scale, (float)(scale*0.8));
+				Players[i].draw(xOffset[i], 5*scale, (float)(scale*0.8));
 			}
 			currTank[i].draw(xOffset[i]+80*scale, 12*scale, (float)(scale*0.8));
 		}
@@ -166,15 +168,12 @@ public class GUI {
 		drawNumber(rounds+1, screenX-controlX/5, controlY/30, (float)(scale));
 
 		//Draw the current time
-		//long time = gc.getTime()-gs.getTimeStarted();
-		long time = gc.getTime()/1000 - gs.getTimeStarted()/1000000000+1;
+		long time = gc.getTime()/1000 - gs.getTimeStarted()/1000000000;
 		Image Colon = sprites.getSubImage(565, 109, 6, 19);
-		formatTime(time+1,screenX-controlX/2-controlX/19,controlY/6+controlY/30,scale);
+		formatTime(time,screenX-controlX/2-controlX/19,controlY/6+controlY/30,scale);
 		Colon.draw(screenX-controlX/2-controlX/19+30*scale,controlY/6+controlY/30, scale);
 				
 		//********** The Current Round Section **************
-	
-		
 		//Draw the wind + windAngle
 		float wind = world.getWindSpeed();
 		float windAngle = world.getWindAngle();
@@ -233,8 +232,6 @@ public class GUI {
 			angleRightP.draw(screenX-controlX/6, controlY/2+controlY/30, scale);
 		if (leftPressed == true)
 			angleLeftP.draw(screenX-controlX/2-controlX/8, controlY/2+controlY/30, scale);
-
-		
 		
 		//load shooting strength
 		Image nullStrength = sprites.getSubImage(0, 120, 29, 245-120);
@@ -243,7 +240,7 @@ public class GUI {
 		Image strengthUpP = sprites.getSubImage(86, 122, 84-61, 142-120);
 		Image strengthDownP = sprites.getSubImage(86, 145, 84-61, 142-122);
 		
-		//adjusted strength meter
+		//draw empty strength meter
 		Image fullStrength = sprites.getSubImage(31, 120, 28, 125);
 		nullStrength.draw(screenX-controlX+controlX/14, controlY/7, (float)(scale));
 		strengthUp.draw(screenX-controlX+controlX/14+controlX/50, controlY/30, (float)(scale));
@@ -261,9 +258,8 @@ public class GUI {
 		if (downPressed == true)
 			strengthDownP.draw(screenX-controlX+controlX/14+controlX/50, controlY-controlY/3+controlY/18, (float)(scale));
 		
-		//Draw the weapon(selection)
-				
 		//Weapon[] weapons = currentTank.getWeapons();
+		//only works with 2 weapons
 		int currentWeapon = currentTank.getCurrentWeapon();
 		Image[] projectiles = new Image[] {
 				sprites.getSubImage(169, 316, 42, 35),
