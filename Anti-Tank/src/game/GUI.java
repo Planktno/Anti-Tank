@@ -63,12 +63,12 @@ public class GUI {
 	}
 	
 	public void drawNumber(int n, float x, float y, float scale){
+		if (n<0) n=0;
 		if (n<100) {
 		int c1=n/10, c2=n%10;
 			Digit[c1].draw(x,y,scale);
 			Digit[c2].draw(x+12*scale,y,scale);}
 		else {
-		if (n<0) n=0;
 		int c1=n/100; int c2=(n-100)/10; int c3=(n-100)%10;
 			Digit[c1].draw(x,y,scale);
 			Digit[c2].draw(x+12*scale,y,scale);
