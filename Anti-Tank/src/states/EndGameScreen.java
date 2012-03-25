@@ -56,10 +56,10 @@ public class EndGameScreen extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr)
 			throws SlickException {
-		if(winner==0) background0.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
-		if(winner==1) background1.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
-		if(winner==2) background2.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
-		if(winner==3) background3.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
+		if(winner==1) background0.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
+		if(winner==2) background1.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
+		if(winner==3) background2.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
+		if(winner==4) background3.draw(camera.getOffset().getX(), camera.getOffset().getY(), camera.getScale());
 		if(gc.getTime() - time >= 5000) {
 			b_start.draw(camera.getOffset().getX()+50*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), camera.getScale());
 			b_history.draw(camera.getOffset().getX()+310*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), camera.getScale());
@@ -79,8 +79,7 @@ public class EndGameScreen extends BasicGameState {
 				if(mouseX >= camera.getOffset().getX() + 50*camera.getScale() && mouseX <= camera.getOffset().getX() + 50*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 					b_start=b_start_hover.copy();
 					if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-						game.getState(GunsAndHats.GAMESTATE).init(gc, game);
-						game.enterState(GunsAndHats.GAMESTATE);
+						game.enterState(GunsAndHats.PREGAMESTATE);
 					}
 				} else {
 					b_start = ResourceManager.getInstance().getImage("SS_BUTTON_NEW_GAME");

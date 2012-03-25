@@ -1,6 +1,7 @@
 package entities;
 
 import game.Animation;
+import game.GUI;
 import game.ResourceManager;
 
 import org.newdawn.slick.GameContainer;
@@ -85,7 +86,7 @@ public class Tank {
 		weight = Integer.parseInt(info[6]);
 	}
 
-	public void render (GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
+	public void render (GameContainer gc, StateBasedGame game, Graphics g, Camera cam, GUI gui){
 		if (isAlive) {
 			float scale = cam.getMultipliedScale();
 			Vector2f relpos = cam.getRelFocusPos(pos);
@@ -96,6 +97,7 @@ public class Tank {
 			barrel.setRotation(bAngle);
 			barrel.draw(relbpos.x , relbpos.y - (bhalfheight*scale), scale); 
 			body.render(relpos.x, relpos.y, scale);
+			gui.drawNumber(this.hitpoints, relpos.x , relpos.y - 16*cam.getFocusScale(), cam.getFocusScale());
 			
 		
 			//Debug Mode
@@ -129,8 +131,8 @@ public class Tank {
 			// Update Velocity
 			vel.set(vel.x, vel.y + world.getGravity()*delta * weight/1000);
 		} else {
-			gs.getCurrentPlayer().nextTank();
-			gs.changeFocus();
+			//gs.getCurrentPlayer().nextTank();
+			gs.nextPlayer();
 		}
 		
 		checkIsOnScreen(world);

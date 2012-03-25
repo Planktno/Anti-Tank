@@ -36,6 +36,7 @@ public class GameState extends BasicGameState{
 	private Camera cam;
 	private GUI gui;
 	private String winner; // Only non-empty if there is actually a winner
+	private int winnerInt;
 	private boolean winnerChosen; // True if and only if there is a winner
 	private int currentTank; // Keeps track of how many tanks have been played - only used in keeping track of how many rounds have been played.
 	private boolean goToNextPlayer;
@@ -84,7 +85,7 @@ public class GameState extends BasicGameState{
 		// Render World, then Projectiles, then Players.
 		world.render(gc,game,g,cam);
 		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).render(gc,game,g,cam);
-		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,cam);
+		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,cam, gui);
 		gui.render(gc, game, g, this);
 		
 		if (winnerChosen) displayWinner(winner, g);
@@ -151,7 +152,6 @@ public class GameState extends BasicGameState{
 			
 			if (players[currentPlayer].getCurrentTank().hasShot()){
 				if (projectiles.isEmpty()) {
-					players[currentPlayer].getCurrentTank().setHasShot(false);
 					goToNextPlayer = true;
 				}		
 			}
@@ -163,20 +163,23 @@ public class GameState extends BasicGameState{
 			}
 
 			// If only one player isn't a loser, display them as the winner, then end the game.
-			boolean loserTest = false;
-			String winnerName = "";
-			for (int i = 0; i < players.length; i++) {
-				loserTest = loserTest || players[i].isLoser();
-				if (!players[i].isLoser())
-					winnerName = players[i].getPlayerName();
+			int losers = 0;
+			for(int i = 0; i < players.length; i++) {
+				if(players[i].isLoser()) losers++;
 			}
-			if (loserTest) {
-				winner = winnerName;
+			if(losers == players.length-1) {
+				for(int i = 0; i < players.length; i++) {
+					if(!players[i].isLoser()) {
+						winner = "Player " + (i+1);
+						winnerInt = i+1;
+						nextPlayer();
+					}
+				}
 			}
 		} else { // If there is a winner!
 			if (in.isKeyPressed(Input.KEY_ENTER)) {
 				addToHistory(); // Add the game to history.txt
-				game.getState(GunsAndHats.ENDGAMESCREEN).init(gc, game);
+				((EndGameScreen)game.getState(GunsAndHats.ENDGAMESCREEN)).setWinner(winnerInt);
 				game.enterState(GunsAndHats.ENDGAMESCREEN);
 			}
 		}
@@ -280,24 +283,25 @@ public class GameState extends BasicGameState{
 	}
 	
 	public void nextPlayer() {
+		players[currentPlayer].getCurrentTank().setHasShot(false);
+		
 		players[currentPlayer].nextTank(); // Move to next tank on old player's team
 		players[currentPlayer].removeFocus(); // Remove focus from old player
 		
 		// Move to next player
-		if (currentPlayer + 1 == numberOfPlayers) {
+		currentPlayer++;
+		if(currentPlayer == numberOfPlayers) {
 			currentPlayer = 0;
-			if (currentTank + 1 == (numberOfPlayers * tanksPerPlayer)){
-				currentTank = 1;
-				roundsPlayed++;
-				world.randomizeWind();
-			}
-		} else {
-			currentPlayer++; 
-			currentTank++;
+			roundsPlayed++;
+			world.randomizeWind();
 		}
-
-		players[currentPlayer].setFocus(this); // Give focus to the new player
-		cam.setFocus(players[currentPlayer].getCurrentTank());
+		
+		if(players[currentPlayer].isLoser()) {
+			nextPlayer();
+		} else {
+			players[currentPlayer].setFocus(this); // Give focus to the new player
+			cam.setFocus(players[currentPlayer].getCurrentTank());
+		}
 	}
 
 	public Player getCurrentPlayer() {

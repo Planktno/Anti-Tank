@@ -1,6 +1,8 @@
 package entities;
 
 
+import game.GUI;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -39,9 +41,9 @@ public class Player {
 		}
 	}
 
-	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
+	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam, GUI gui){
 		if (!isLoser){
-			for (int i = 0; i < tanks.length; i++) tanks[i].render(gc,game,g,cam);	
+			for (int i = 0; i < tanks.length; i++) tanks[i].render(gc,game,g,cam, gui);	
 		
 			if (gc.isShowingFPS()) debugRender(g);
 		}
@@ -51,8 +53,10 @@ public class Player {
 	}
 
 	public void nextTank(){
-		if (currentTank + 1 == tanks.length) currentTank = 0;
-		else currentTank += 1;
+		currentTank++;
+		if(currentTank == tanks.length) currentTank = 0;
+		
+		if(!isLoser && !tanks[currentTank].isAlive()) nextTank();
 	}
 	
 	public void setFocus(GameState gs){

@@ -62,7 +62,7 @@ public class GUI {
 		this.world = world;
 	}
 	
-	private void drawNumber(int n, float x, float y, float scale){
+	public void drawNumber(int n, float x, float y, float scale){
 		if (n<100) {
 		int c1=n/10, c2=n%10;
 			Digit[c1].draw(x,y,scale);
