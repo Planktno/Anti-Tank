@@ -1,5 +1,6 @@
 package states;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -20,6 +21,7 @@ import entities.Tank;
 import entities.World;
 import game.GUI;
 import game.GunsAndHats;
+import game.History;
 import game.PixelPos;
 
 public class GameState extends BasicGameState{
@@ -41,6 +43,7 @@ public class GameState extends BasicGameState{
 	private int currentTank; // Keeps track of how many tanks have been played - only used in keeping track of how many rounds have been played.
 	private boolean goToNextPlayer;
 	private int frameCount;
+	private String loserStr;
 	
 	
 	public GameState(int id, Camera camera){
@@ -51,31 +54,7 @@ public class GameState extends BasicGameState{
 	@Override
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
-//		numberOfPlayers = 2; // Placeholder for testing
-//		world = new World(0); // ID 0 - Test Level   ID 1 - Possible New Level
-//		players = new Player[numberOfPlayers];
-//		projectiles = new ArrayList<Projectile>();
-//		timeStarted = System.nanoTime();
-//		roundsPlayed = 0;
-//		winner = "";
-//		winnerChosen = false;
-//		
-////		// Quick Fix - for testing.
-////		players[0] = new Player("Player1", new Tank[] {new Tank(1,600,200),new Tank(1,500,200)});
-////		players[1] = new Player("Player2", new Tank[] {new Tank(1,200,200),new Tank(1,100,200)});
-//		
-//		tanksPerPlayer = players[0].getTanks().length;
-//		currentPlayer = 0;
-//		currentTank = 1;
-//		players[currentPlayer].setFocus(this);
-//		
-//		gui = new GUI();
-//		gui.setCamera(camera);
-//		gui.setGameState(this);
-//		gui.setPlayers(players);
-//		gui.setWorld(world);
-//		
-//		camera.setFocus(world);
+
 	}
 
 	@Override
@@ -120,16 +99,32 @@ public class GameState extends BasicGameState{
 		cam.setFocus(world);
 		cam.setSmooth(true);
 		cam.setFocus(players[0].getCurrentTank());
+		
+		loserStr = "";
 	}
 
-	private void addToHistory() {
-		// TODO Auto-generated method stub
+	private void addToHistory(GameContainer gc) {
+		try{
+			History h = new History();
+			long time = gc.getTime()/1000 - this.getTimeStarted()/1000000000;
+			int min=(int)time/60;
+			int s=(int)time%60;
+			String str = winner + ", " + loserStr;
+			if(min < 10) str = str + "0" + min + ":";
+			else str = str + min + ";";
+			
+			if(s < 10) str = str + "0" + s;
+			else str = str + s;
+			h.addMatch(str);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void displayWinner(String win, Graphics g) {
-		
-		g.drawString(win + " is the WINNER!", 300, 300);
-		g.drawString("Press ENTER to exit", 300, 315);
+		g.drawString(win + " is the WINNER!", cam.getScreenWidth()/2 - 50, cam.getScreenHeight()/2 - 50);
+		g.drawString("Press ENTER to exit", cam.getScreenWidth()/2 - 50, cam.getScreenHeight()/2 - 35);
 	}
 
 	private void debugRender(Graphics g) {
@@ -142,7 +137,9 @@ public class GameState extends BasicGameState{
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
 		Input in = gc.getInput();
-		if (winner != "") winnerChosen = true; // Check to see if there is a winner yet
+		if (winner != "") {// Check to see if there is a winner yet
+			winnerChosen = true; 
+		}
 		
 		if (!winnerChosen) { // If there is no winner yet..
 			// Update World, then Projectiles, then Players.
@@ -158,8 +155,12 @@ public class GameState extends BasicGameState{
 			
 			// If any player has no tanks left alive, set them as a loser.
 			for (int i = 0; i < players.length; i++) {
-				if (players[i].getAliveTanks() == 0)
-					players[i].setLoser();
+				if (players[i].getAliveTanks() == 0) {
+					if(!players[i].isLoser()){
+						loserStr = players[i].getPlayerName() + ", " + loserStr;
+						players[i].setLoser();
+					}
+				}
 			}
 
 			// If only one player isn't a loser, display them as the winner, then end the game.
@@ -170,15 +171,16 @@ public class GameState extends BasicGameState{
 			if(losers == players.length-1) {
 				for(int i = 0; i < players.length; i++) {
 					if(!players[i].isLoser()) {
-						winner = "Player " + (i+1);
+						winner = players[i].getPlayerName();
 						winnerInt = i+1;
 						nextPlayer();
 					}
 				}
 			}
 		} else { // If there is a winner!
+			cam.setFocus(world);
 			if (in.isKeyPressed(Input.KEY_ENTER)) {
-				addToHistory(); // Add the game to history.txt
+				addToHistory(gc); // Add the game to history.txt
 				((EndGameScreen)game.getState(GunsAndHats.ENDGAMESCREEN)).setWinner(winnerInt);
 				game.enterState(GunsAndHats.ENDGAMESCREEN);
 			}
@@ -261,6 +263,7 @@ public class GameState extends BasicGameState{
 
 	public void addProjectile(Projectile proj) {
 		projectiles.add(proj);
+		cam.setFocus(proj);
 	}
 	
 	public void destroyProjectile(Projectile proj){
@@ -283,6 +286,7 @@ public class GameState extends BasicGameState{
 	}
 	
 	public void nextPlayer() {
+		
 		players[currentPlayer].getCurrentTank().setHasShot(false);
 		
 		players[currentPlayer].nextTank(); // Move to next tank on old player's team

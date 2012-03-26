@@ -73,7 +73,7 @@ public class HistoryScreen extends BasicGameState {
 //		gr.drawString("4th Place", camera.getOffset().getX() + 490 * camera.getScale(), camera.getOffset().getY() + (255 * camera.getScale()));
 //		gr.drawString("Time", camera.getOffset().getX() + 586 * camera.getScale(), camera.getOffset().getY() + (255 * camera.getScale()));
 		for (int i = 0; i < matches.length; i++) {
-			String[] match = matches[i].split(",");
+			String[] match = matches[matches.length-1-i].split(",");
 			gr.setColor(Color.black);
 			gr.drawString("No."+(i+1) + ":", camera.getOffset().getX() + 165 * camera.getScale(), camera.getOffset().getY() + (285 + (i * 40)) * camera.getScale());
 			gr.drawString(match[0], camera.getOffset().getX() + 225 * camera.getScale(), camera.getOffset().getY() + (285 + (i * 40)) * camera.getScale());

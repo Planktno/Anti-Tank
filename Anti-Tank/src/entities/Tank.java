@@ -117,7 +117,9 @@ public class Tank {
 	}
 	
 	public void update (GameContainer gc, StateBasedGame game, int delta, World world, Input in, GameState gs){
+		checkIsOnScreen(world);
 		if (isAlive){
+			
 			// Keep old position
 			Vector2f old_pos = new Vector2f(pos.x, pos.y);
 			Vector2f old_bPos = new Vector2f(bPos.x,bPos.y);
@@ -134,17 +136,18 @@ public class Tank {
 			//gs.getCurrentPlayer().nextTank();
 			gs.nextPlayer();
 		}
-		
-		checkIsOnScreen(world);
 	}
 		
 	
 	private void checkIsOnScreen(World world) {
 		int worldheight = world.getImage().getHeight();
-		if (pos.getY() > worldheight) isAlive = false;
+		if (pos.getY() > worldheight) {
+			isAlive = false;
+		}
 	}
 
 	public void updateInBackground (GameContainer gc, StateBasedGame game, int delta, World world){
+		checkIsOnScreen(world);
 		if (isAlive){
 			// Keep old position
 			Vector2f old_pos = new Vector2f(pos.x, pos.y);

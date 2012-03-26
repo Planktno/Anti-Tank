@@ -56,7 +56,14 @@ public class Player {
 		currentTank++;
 		if(currentTank == tanks.length) currentTank = 0;
 		
-		if(!isLoser && !tanks[currentTank].isAlive()) nextTank();
+		if(!tanks[currentTank].isAlive()) {
+			for(int i = 0; i<tanks.length; i++) {
+				if(tanks[i].isAlive()) {
+					nextTank();
+					return;
+				}
+			}
+		}
 	}
 	
 	public void setFocus(GameState gs){

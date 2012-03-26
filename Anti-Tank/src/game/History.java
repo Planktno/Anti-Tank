@@ -1,6 +1,14 @@
 package game;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 
 public class History {
@@ -49,10 +57,17 @@ public class History {
 	}
 	
 	public String[] getMatches() throws IOException {
-		String[] str = new String[MAXIMUM_HISTORY];
+		ArrayList<String> strs = new ArrayList<String>();
 		BufferedReader in = new BufferedReader(new InputStreamReader(new DataInputStream(new FileInputStream(FILEPATH)))); // read matches from file
-		for (int i = 0; i < MAXIMUM_HISTORY; i++) str[i] = in.readLine(); //every line is one String in the Array str
-		return str;
+		for (int i = 0; i < MAXIMUM_HISTORY; i++) {
+			String temp = in.readLine();
+			if(temp != null) strs.add(temp); //every line is one String in the Array str
+		}
+		String[] strArray = new String[strs.size()];
+		for(int i = 0; i<strs.size(); i++) {
+			strArray[i] = strs.get(i);
+		}
+		return strArray;
 	}
 	
 //	public static void main(String[] args) throws IOException {

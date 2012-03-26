@@ -79,7 +79,10 @@ public class StartScreen extends BasicGameState{
 		if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
 			if(mouseX >= camera.getOffset().getX() + 310*camera.getScale() && mouseX <= camera.getOffset().getX() + 310*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 				b_history=b_history_hover.copy();
-				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) game.enterState(GunsAndHats.HISTORYSCREEN);
+				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+					game.getState(GunsAndHats.HISTORYSCREEN).init(gc, game);
+					game.enterState(GunsAndHats.HISTORYSCREEN);
+				}
 			} else {
 				b_history = ResourceManager.getInstance().getImage("SS_BUTTON_HISTORY");  
 			}

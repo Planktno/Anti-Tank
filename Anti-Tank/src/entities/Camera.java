@@ -75,25 +75,16 @@ public class Camera {
 		int wW = world.getImage().getWidth();
 		
 		if(this.tank != null) {
-			Vector2f worldcenter = new Vector2f(world.getImage().getWidth()/2, world.getImage().getHeight()/2);
+			Vector2f worldcenter = new Vector2f(wW/2, wH/2);
 			startingDistance = new Vector2f(worldcenter.x - tank.getPos().x, worldcenter.y - tank.getPos().y);
-			deltaDistance = new Vector2f(0,0);
+			deltaDistance = startingDistance.copy();
 		} else if(this.projectile != null) {
-			Vector2f worldcenter = new Vector2f(world.getImage().getWidth()/2, world.getImage().getHeight()/2);
+			Vector2f worldcenter = new Vector2f(wW/2, wH/2);
 			startingDistance = new Vector2f(worldcenter.x - projectile.getPos().x, worldcenter.y - projectile.getPos().y);
-			deltaDistance = new Vector2f(0,0);
+			deltaDistance = startingDistance.copy();
 		} else { //World
 			startingDistance = new Vector2f(0,0);
-			deltaDistance = new Vector2f(0,0);
-		}
-		
-		//calculate scale to render entire world
-		if(frameHeight/(float)wH >= frameWidth/(float)wW) {
-			focusScale = frameHeight/(float)wH;
-			focusOffset = new Vector2f(0, 0);
-		} else {
-			focusScale = frameWidth/(float)wW;
-			focusOffset = new Vector2f(0, 0);
+			deltaDistance = startingDistance.copy();
 		}
 		
 		this.world = world;
@@ -119,6 +110,17 @@ public class Camera {
 	}
 	
 	public void setFocus(Projectile projectile) {
+		if(this.tank != null) {
+			startingDistance = new Vector2f(this.tank.getPos().x - projectile.getPos().x, this.tank.getPos().y -projectile.getPos().y);
+			deltaDistance = startingDistance.copy();
+		} else if(this.projectile != null) {
+			startingDistance = new Vector2f(this.projectile.getPos().x - projectile.getPos().x, this.projectile.getPos().y -projectile.getPos().y);
+			deltaDistance = startingDistance.copy();
+		} else { //World
+			Vector2f worldcenter = new Vector2f(world.getImage().getWidth()/2, world.getImage().getHeight()/2);
+			startingDistance = new Vector2f(worldcenter.x - projectile.getPos().x, worldcenter.y -projectile.getPos().y);
+			deltaDistance = startingDistance.copy();
+		}
 		focusScale = 1;
 		this.tank = null;
 		this.projectile = projectile;
@@ -165,23 +167,44 @@ public class Camera {
 				focusOffset = new Vector2f((tpos.getX()+deltaDistance.x+tank.getImage().getWidth()/2-frameWidth/2)*focusScale, (tpos.getY()+deltaDistance.y-frameHeight/2)*focusScale);
 			} else if(projectile != null) {
 				Vector2f ppos = projectile.getPos();
-				
+				//deltaDistance = deltaDistance.sub(startingDistance.scale(delta*smoothVelocity));
+				deltaDistance = deltaDistance.scale((float)Math.pow(0.999, delta));
+				focusScale = 1-((startingDistance.length())/(float)(2*world.getImage().getWidth()))*(float)Math.sin(Math.PI*deltaDistance.length()/startingDistance.length());
+				focusOffset = new Vector2f((ppos.getX()+deltaDistance.x+projectile.getImage().getWidth()/2-frameWidth/2)*focusScale, (ppos.getY()+deltaDistance.y-frameHeight/2)*focusScale);
 			} else { //World
+				//get world size
+				int wH = world.getImage().getHeight();
+				int wW = world.getImage().getWidth();
 				
+				Vector2f wpos = new Vector2f(wW/2, wH/2);
+				//deltaDistance = deltaDistance.sub(startingDistance.scale(delta*smoothVelocity));
+				deltaDistance = deltaDistance.scale((float)Math.pow(0.999, delta));
+				
+				//calculate scale to render entire world
+				float targetFocusScale;
+				if(frameHeight/(float)wH >= frameWidth/(float)wW) {
+					targetFocusScale = frameHeight/(float)wH;
+				} else {
+					targetFocusScale = frameWidth/(float)wW;
+				}
+				
+				focusScale = targetFocusScale/(1+deltaDistance.length());
+				focusOffset = deltaDistance;
 			}
-		} else if(tank != null) {
-			//get tank position
-			Vector2f tpos = tank.getPos();
-			//calculate offset
-			focusOffset = new Vector2f((tpos.getX()+tank.getImage().getWidth()/2-frameWidth/2)*focusScale, (tpos.getY()-frameHeight/2)*focusScale);
-		} else if(projectile != null) {
-			//get tank position
-			Vector2f ppos = projectile.getPos();
-			//calculate offset
-			focusOffset = new Vector2f((ppos.getX()-frameWidth/2)*focusScale, (ppos.getY()-frameHeight/2)*focusScale);
-		} else {
-			
 		}
+//		} else if(tank != null) {
+//			//get tank position
+//			Vector2f tpos = tank.getPos();
+//			//calculate offset
+//			focusOffset = new Vector2f((tpos.getX()+tank.getImage().getWidth()/2-frameWidth/2)*focusScale, (tpos.getY()-frameHeight/2)*focusScale);
+//		} else if(projectile != null) {
+//			//get tank position
+//			Vector2f ppos = projectile.getPos();
+//			//calculate offset
+//			focusOffset = new Vector2f((ppos.getX()-frameWidth/2)*focusScale, (ppos.getY()-frameHeight/2)*focusScale);
+//		} else {
+//			
+//		}
 		
 	}
 }

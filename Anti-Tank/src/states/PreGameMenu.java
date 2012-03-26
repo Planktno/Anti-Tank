@@ -55,6 +55,12 @@ public class PreGameMenu extends BasicGameState {
 			playerNames[i-1] = "Player " + i;
 		}
 		
+		//TEMPORARY NAME CHANGES
+		playerNames[0] = "Gordon";
+		playerNames[1] = "Oana";
+		playerNames[2] = "Peter";
+		playerNames[3] = "Victor";
+		            
 		worldId = 0;
 		tanksPerPlayer = 1;
 		numberOfPlayers = 2;
@@ -211,10 +217,10 @@ public class PreGameMenu extends BasicGameState {
 	}
 	
 	public void addPlayer() { //adds a Player to the end
-		if(playerNames[0] == null) playerNames[0] = "Player1";
-		else if(playerNames[1] == null) playerNames[1] = "Player2";
-		else if(playerNames[2] == null) playerNames[2] = "Player3";
-		else if(playerNames[3] == null) playerNames[3] = "Player4";
+		if(playerNames[0] == null) playerNames[0] = "Gordon";
+		else if(playerNames[1] == null) playerNames[1] = "Oana";
+		else if(playerNames[2] == null) playerNames[2] = "Peter";
+		else if(playerNames[3] == null) playerNames[3] = "Victor";
 	}
 	
 	public void removePlayer() { //removes the last Player
