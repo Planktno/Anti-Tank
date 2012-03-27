@@ -1,5 +1,6 @@
 package states;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.newdawn.slick.Color;
@@ -8,10 +9,12 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Camera;
+import entities.Hat;
 import entities.Player;
 import entities.Tank;
 import entities.World;
@@ -252,8 +255,14 @@ public class PreGameMenu extends BasicGameState {
 	}
 	
 	public void startGame(GameState gameState) {
-		World world = new World(worldId);	
-		gameState.startGame(world, players);
+		World world = new World(worldId);
+		
+		//Temp
+		ArrayList<Hat> hats = new ArrayList<Hat>();
+		Hat hat = new Hat(4, new Vector2f(200,0), 1);
+		hats.add(hat);
+		
+		gameState.startGame(world, players, hats);
 	}
 
 }
