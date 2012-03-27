@@ -22,6 +22,7 @@ public class Hat {
 	private float vx, vy;
 	
 	private Tank wearer;
+	private boolean hatEffects;
 	
 	public Hat(int type, Vector2f pos, float scale) {
 		this.type = type;
@@ -37,6 +38,7 @@ public class Hat {
 		vx = vy = 0;
 		
 		wearer = null;
+		hatEffects = false;
 	}
 	
 	public void update(GameContainer gc, StateBasedGame game, int delta, World world, Input in, GameState gs, Camera cam) {
@@ -58,10 +60,20 @@ public class Hat {
 				}
 			}
 		} else {
-			if(!wearer.isAlive()) wearer = null;
+			if(!wearer.isAlive()) {
+				wearer = null;
+				hatEffects = false;
+			}
 			else {
 				pos = new Vector2f(wearer.getPos()).add(new Vector2f(0,-16*cam.getFocusScale()));
-				//HatEffects here
+				if(!hatEffects) {
+					switch(type) {
+					case 1: break;
+					case 2: break;
+					case 3: break;
+					case 4: wearer.setWeight(3); break;
+					}
+				}
 			}
 		}
 	}

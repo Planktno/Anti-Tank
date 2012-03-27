@@ -321,7 +321,9 @@ public class Tank {
 		return movementAmount;
 	}
 
-	
+	public void setWeight(float weight) {
+		this.weight = weight;
+	}
 	
 }
 
