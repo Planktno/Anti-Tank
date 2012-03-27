@@ -15,6 +15,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Camera;
+import entities.Hat;
 import entities.Player;
 import entities.Projectile;
 import entities.Tank;
@@ -23,6 +24,7 @@ import game.GUI;
 import game.GunsAndHats;
 import game.History;
 import game.PixelPos;
+import game.ResourceManager;
 
 public class GameState extends BasicGameState{
 
@@ -30,6 +32,7 @@ public class GameState extends BasicGameState{
 	private World world;
 	private Player[] players;
 	private ArrayList<Projectile> projectiles;
+	private ArrayList<Hat> hats;
 	private int currentPlayer;
 	private long timeStarted;
 	private int roundsPlayed;
@@ -60,10 +63,11 @@ public class GameState extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.white); // So that all text in the game is rendered in white
-				
+	
 		// Render World, then Projectiles, then Players.
 		world.render(gc,game,g,cam);
 		for (int i = 0; i < projectiles.size(); i++) projectiles.get(i).render(gc,game,g,cam);
+		for(Hat hat : hats) hat.render(gc, game, g, cam);
 		for (int i = 0; i < players.length; i++) players[i].render(gc,game,g,cam, gui);
 		gui.render(gc, game, g, this);
 		
@@ -77,6 +81,12 @@ public class GameState extends BasicGameState{
 		this.players = players;
 		
 		projectiles = new ArrayList<Projectile>();
+		hats = new ArrayList<Hat>();
+		//temp
+		Hat hat = new Hat(4, new Vector2f(200,200), 1);
+		hats.add(hat);
+		
+		
 		timeStarted = System.nanoTime();
 		roundsPlayed = 0;
 		winner = "";
@@ -199,6 +209,8 @@ public class GameState extends BasicGameState{
 			}
 		}
 		
+		for(Hat hat : hats) hat.update(gc, game, delta, world, in, this, cam);
+		
 		if(in.isKeyPressed(Input.KEY_P)) cam.setFocusScale(cam.getFocusScale()*1.1f);
 		if(in.isKeyPressed(Input.KEY_O)) cam.setFocusScale(cam.getFocusScale()*0.9f);
 		if(in.isKeyPressed(Input.KEY_ESCAPE)) gc.exit();
@@ -241,16 +253,51 @@ public class GameState extends BasicGameState{
 		float ty1 = tank.getPos().getY();
 		float ty2 = tank.getPos().getY() + tank.getImage().getHeight();
 		
-		float px = proj.getPos().getX();
-		float py = proj.getPos().getY();
+		float px1 = proj.getPos().getX();
+		float px2 = px1 + proj.getImage().getWidth();
+		float py1 = proj.getPos().getY();
+		float py2 = py1 + proj.getImage().getHeight();
 		
-		if (px > tx1 && px < tx2 && py > ty1 && py < ty2){
+		if (((px1 > tx1 && px1 < tx2)||(px2 > tx1 && px2 < tx2)) &&  ((py1 > ty1 && py1 < ty2)||(py2 > ty1 && py2 < ty2))){
 //			HashSet<String> maskProj = getMask(proj.getPos(), proj.getImage());
 //			HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
 			HashSet<PixelPos> maskProj = getMask(proj.getPos(), proj.getImage());
 			HashSet<PixelPos> maskTank = getMask(tank.getPos(), tank.getImage());
 			maskProj.retainAll(maskTank); // Only keep those pixels that overlap.
 			if (maskProj.size() > 0) return true; // Collides
+			return false; // Doesn't Collide
+		}
+		return false;
+	}
+	
+	public static boolean checkCollision(Hat hat, World world){
+//		HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
+//		HashSet<String> maskWorld = world.getPixelMap();
+		HashSet<PixelPos> maskHat = getMask(hat.getPosition(), hat.getImage());
+		HashSet<PixelPos> maskWorld = world.getPixelMap();
+		maskHat.retainAll(maskWorld); // Only keep those pixels that overlap.
+		if (maskHat.size() > 0) return true; // Collides
+		return false; // Doesn't Collide
+	}
+	
+	public static boolean checkCollision(Hat hat, Tank tank){
+		float tx1 = tank.getPos().getX();
+		float tx2 = tank.getPos().getX() + tank.getImage().getWidth();
+		float ty1 = tank.getPos().getY();
+		float ty2 = tank.getPos().getY() + tank.getImage().getHeight();
+		
+		float hx1 = hat.getPosition().getX();
+		float hx2 = hx1 + hat.getImage().getWidth();
+		float hy1 = hat.getPosition().getY();
+		float hy2 = hy1 + hat.getImage().getHeight();
+		
+		if (((hx1 > tx1 && hx1 < tx2)||(hx2 > tx1 && hx2 < tx2)) &&  ((hy1 > ty1 && hy1 < ty2)||(hy2 > ty1 && hy2 < ty2))){
+//			HashSet<String> maskProj = getMask(proj.getPos(), proj.getImage());
+//			HashSet<String> maskTank = getMask(tank.getPos(), tank.getImage());
+			HashSet<PixelPos> maskHat = getMask(hat.getPosition(), hat.getImage());
+			HashSet<PixelPos> maskTank = getMask(tank.getPos(), tank.getImage());
+			maskHat.retainAll(maskTank); // Only keep those pixels that overlap.
+			if (maskHat.size() > 0) return true; // Collides
 			return false; // Doesn't Collide
 		}
 		return false;

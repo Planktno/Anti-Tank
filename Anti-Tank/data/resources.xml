@@ -59,5 +59,6 @@
 <!-- PROJECTILE IMAGES -->
 	<resource type="image" id="PROJECTILE_0_IMAGE">data/projectiles/proj.png</resource>
 	<resource type="image" id="PROJECTILE_1_IMAGE">data/projectiles/proj1.png</resource>
-
+<!-- HATS -->
+	<resource type="image" id="HATS">data/tanks/hatsRed.png</resource>
 </resources>

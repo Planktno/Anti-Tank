@@ -72,9 +72,8 @@ public class Projectile {
 		}
 		
 		// Check projectile is in the level, if not: delete it.
-		int worldwidth = world.getImage().getWidth();
 		int worldheight = world.getImage().getHeight();
-		if (pos.getX() > worldwidth || pos.getX() < 0 || pos.getY() > worldheight) gs.destroyProjectile(this);
+		if (pos.getY() > worldheight) gs.destroyProjectile(this);
 		
 		 // Update Position
 		pos.set(pos.x+(vel.x*delta/100),pos.y+(vel.y*delta/100));
