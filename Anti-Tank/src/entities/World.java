@@ -3,6 +3,7 @@ package entities;
 import game.PixelPos;
 import game.ResourceManager;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.newdawn.slick.Color;
@@ -135,45 +136,47 @@ public class World {
 	}
 	
 	public void destroyCircle(float radius, Vector2f pos) {
-//	float distance = 0;
-	float x = (int) pos.getX();
-	float y = (int) pos.getY();
-	float radiusSquared = radius * radius;
-	
-	for (int i = (int)Math.floor(y-radius); i < y + radius; i++) {
+		ArrayList<PixelPos> toRemove = new ArrayList<PixelPos>();
+			
+	//	float distance = 0;
+		float x = (int) pos.getX();
+		float y = (int) pos.getY();
+		float radiusSquared = radius * radius;
 		
-		for (int j = (int)Math.floor(x-radius); j < x + radius; j++){
-			if (i < levelBuffer.getHeight() && (i >= 0)){
-				if (j < levelBuffer.getWidth() && (j >= 0)) {
-					float distanceSquared = ((y-i)*(y-i)) + ((x-j)*(x-j)); // This is about 2x quicker than the other method.
-					if (distanceSquared <= radiusSquared) {
-						levelBuffer.setRGBA(j, i, 0, 0, 0, 0); 
+		for (int i = (int)Math.floor(y-radius); i < y + radius; i++) {
+			for (int j = (int)Math.floor(x-radius); j < x + radius; j++){
+				if (i < levelBuffer.getHeight() && (i >= 0)){
+					if (j < levelBuffer.getWidth() && (j >= 0)) {
+						float distanceSquared = ((y-i)*(y-i)) + ((x-j)*(x-j)); // This is about 2x quicker than the other method.
+						if (distanceSquared <= radiusSquared) {
+							levelBuffer.setRGBA(j, i, 0, 0, 0, 0); 
+							toRemove.add(new PixelPos(j,i));
+						}
+	//					distance = (float)Math.sqrt(Math.pow((y-i),2)+ Math.pow((x-j), 2));
+	//					if (distance <= radius) {
+	//						levelBuffer.setRGBA(j, i, 0, 0, 0, 0); // Swapped i and j, they were round the wrong way! - Peter :)
+	//					}
 					}
-//					distance = (float)Math.sqrt(Math.pow((y-i),2)+ Math.pow((x-j), 2));
-//					if (distance <= radius) {
-//						levelBuffer.setRGBA(j, i, 0, 0, 0, 0); // Swapped i and j, they were round the wrong way! - Peter :)
-//					}
-				}
-			}	
+				}	
+			}
+		
 		}
-	
-	}
-	level = levelBuffer.getImage();
-	updatePixelMap();// Need to update the pixel map after a destruction so collision detection works - Peter
-//	System.out.println("destroyCircle() called");
+		level = levelBuffer.getImage();
+		pixelMap.removeAll(toRemove);
+		//	System.out.println("destroyCircle() called");
 	}
 	
 	public void destroyLine(Vector2f pos, float angle, int length, int width) {
-
+		ArrayList<PixelPos> toRemove = new ArrayList<PixelPos>();
+		
 		for (int x = 0; x <= length*(Math.cos(angle)); x++) {
 			float y = (float)(x * Math.tan(angle));
-			destroyCircleNoUpdate(width/2, new Vector2f(x + pos.getX(),y + pos.getY()));
+			destroyCircleNoUpdate(width/2, new Vector2f(x + pos.getX(),y + pos.getY()), toRemove);
 		}
 		level = levelBuffer.getImage();
-		updatePixelMap();// Need to update the pixel map after a destruction so collision detection works - Peter
-//		System.out.println("destroyLine() called");
+		pixelMap.removeAll(toRemove);
 	}
-	public void destroyCircleNoUpdate(float radius, Vector2f pos) {
+	public void destroyCircleNoUpdate(float radius, Vector2f pos, ArrayList<PixelPos> toRemove) {
 		float distance = 0;
 		float x = (int) pos.getX();
 		float y = (int) pos.getY();
@@ -187,6 +190,7 @@ public class World {
 						System.out.println(i+","+j+","+distance);
 						if (distance <= radius) {
 							levelBuffer.setRGBA(j, i, 0, 0, 0, 0); // Swapped i and j, they were round the wrong way! - Peter :)
+							toRemove.add(new PixelPos(j,i));
 						}
 					}
 				}	
