@@ -378,6 +378,10 @@ public class GameState extends BasicGameState{
 	public void damagePlayers(float blastRadius, Vector2f pos, int baseDamage) {
 		for (int i = 0; i < players.length; i++) players[i].damageTanks(blastRadius, pos, baseDamage);
 	}
+	
+	public void damagePlayers(float blastLength, float blastWidth, float angle, Vector2f pos, int baseDamage) {
+		for (int i = 0; i < players.length; i++) players[i].damageTanks(blastLength, blastWidth, angle, pos, baseDamage);
+	}
 
 	public Player getPlayer(int i) {
 		return players[i];

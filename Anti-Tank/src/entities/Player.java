@@ -103,6 +103,10 @@ public class Player {
 			}
 		}
 	}
+	
+	public void damageTanks(float blastLength, float blastWidth, float angle, Vector2f pos, int baseDamage) {
+		//TODO
+	}
 
 	public Tank getTank(int j) {
 		return tanks[j];

@@ -43,7 +43,7 @@ public class Tank {
 		this.player = player;
 		pos = new Vector2f(x,y);
 		vel = new Vector2f(0,0);
-		launchSpeed = 0;
+		launchSpeed = 0.1f;
 		bAngle = 0;
 		currentWeapon = 0;
 		isAlive = true;
@@ -57,7 +57,11 @@ public class Tank {
 		barrel.setCenterOfRotation(0,barrel.getHeight()/2); // So that it rotates about its end.
 		bPos = new Vector2f(pos.x+bx, pos.y+by);
 		Vector2f wepPos = new Vector2f(bPos.x + wepx, bPos.y + wepy);
-		weapons = new Weapon[] {new Weapon(wepIDs[0],wepPos), new Weapon(wepIDs[1],wepPos)}; // ID of 0 is a placeholder
+		if(wepIDs[1] != 0) {
+			weapons = new Weapon[] {new Weapon(wepIDs[0],wepPos), new Weapon(wepIDs[1],wepPos)};
+		} else {
+			weapons = new Weapon[] {new Weapon(wepIDs[0],wepPos)};
+		}
 	}
 
 	private void loadResources(int id, int[] wepIDs) {
@@ -248,7 +252,7 @@ public class Tank {
 	}
 	
 	private void launchSpeedDown() {
-		if (launchSpeed <= 0) launchSpeed = 0;
+		if (launchSpeed <= 0.1f) launchSpeed = 0.1f;
 		else launchSpeed -= 0.005;
 	}
 

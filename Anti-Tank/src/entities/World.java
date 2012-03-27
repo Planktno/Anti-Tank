@@ -137,8 +137,7 @@ public class World {
 	
 	public void destroyCircle(float radius, Vector2f pos) {
 		ArrayList<PixelPos> toRemove = new ArrayList<PixelPos>();
-			
-	//	float distance = 0;
+
 		float x = (int) pos.getX();
 		float y = (int) pos.getY();
 		float radiusSquared = radius * radius;
@@ -152,10 +151,6 @@ public class World {
 							levelBuffer.setRGBA(j, i, 0, 0, 0, 0); 
 							toRemove.add(new PixelPos(j,i));
 						}
-	//					distance = (float)Math.sqrt(Math.pow((y-i),2)+ Math.pow((x-j), 2));
-	//					if (distance <= radius) {
-	//						levelBuffer.setRGBA(j, i, 0, 0, 0, 0); // Swapped i and j, they were round the wrong way! - Peter :)
-	//					}
 					}
 				}	
 			}
@@ -163,7 +158,6 @@ public class World {
 		}
 		level = levelBuffer.getImage();
 		pixelMap.removeAll(toRemove);
-		//	System.out.println("destroyCircle() called");
 	}
 	
 	public void destroyLine(Vector2f pos, float angle, int length, int width) {
@@ -177,26 +171,24 @@ public class World {
 		pixelMap.removeAll(toRemove);
 	}
 	public void destroyCircleNoUpdate(float radius, Vector2f pos, ArrayList<PixelPos> toRemove) {
-		float distance = 0;
 		float x = (int) pos.getX();
 		float y = (int) pos.getY();
+		float radiusSquared = radius * radius;
 		
 		for (int i = (int)Math.floor(y-radius); i < y + radius; i++) {
-			
 			for (int j = (int)Math.floor(x-radius); j < x + radius; j++){
 				if (i < levelBuffer.getHeight() && (i >= 0)){
 					if (j < levelBuffer.getWidth() && (j >= 0)) {
-						distance = (float)Math.sqrt(Math.pow((y-i),2)+ Math.pow((x-j), 2));
-						System.out.println(i+","+j+","+distance);
-						if (distance <= radius) {
-							levelBuffer.setRGBA(j, i, 0, 0, 0, 0); // Swapped i and j, they were round the wrong way! - Peter :)
+						float distanceSquared = ((y-i)*(y-i)) + ((x-j)*(x-j)); // This is about 2x quicker than the other method.
+						if (distanceSquared <= radiusSquared) {
+							levelBuffer.setRGBA(j, i, 0, 0, 0, 0); 
 							toRemove.add(new PixelPos(j,i));
 						}
 					}
 				}	
 			}
+		
 		}
-//		System.out.println("destroyCircleNoUpdate() called");
 		
 	}
 }
