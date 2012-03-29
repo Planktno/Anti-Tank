@@ -28,9 +28,12 @@ public class Weapon {
 	}
 	
 	public void shoot(float launchSpeed, float bAngle, GameState gs){
-		Projectile proj = new Projectile(projID,pos.x+24*(float)Math.cos(Math.toRadians(bAngle)),pos.y+24*(float)Math.sin(Math.toRadians(bAngle)),launchSpeed*maxSpeed,bAngle);
+		Projectile proj = new Projectile(projID,pos.x,pos.y,launchSpeed*maxSpeed,bAngle);
 		gs.addProjectile(proj);
 		ammoCount -= 1;
+		
+//		+24*(float)Math.cos(Math.toRadians(bAngle))
+//		+24*(float)Math.sin(Math.toRadians(bAngle))
 	}
 	
 	public int getAmmoCount(){
@@ -47,5 +50,9 @@ public class Weapon {
 
 	public int getProjectile() {
 		return this.projID;
+	}
+	
+	public Vector2f getPosition(){
+		return this.pos;
 	}
 }
