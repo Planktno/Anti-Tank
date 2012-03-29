@@ -80,10 +80,12 @@ public class Hat {
 								case 1: newWeapons[i] = new Weapon(2,wepPosition); break;
 								case 2: newWeapons[i] = new Weapon(7,wepPosition); break;
 								case 3: newWeapons[i] = new Weapon(4,wepPosition); break;
-								case 4: newWeapons[i] = new Weapon(7,wepPosition); break;
+								case 4: newWeapons[i] = new Weapon(9,wepPosition); break;
 								case 5: newWeapons[i] = new Weapon(5,wepPosition); break;
-								case 6: newWeapons[i] = new Weapon(7,wepPosition); break;
+								case 6: newWeapons[i] = new Weapon(8,wepPosition); break;
 								case 7: newWeapons[i] = new Weapon(7,wepPosition); break;
+								case 8: newWeapons[i] = new Weapon(8,wepPosition); break;
+								case 9: newWeapons[i] = new Weapon(9,wepPosition); break;
 								}
 							}
 							wearer.setWeapons(newWeapons);

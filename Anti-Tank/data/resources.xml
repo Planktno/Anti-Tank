@@ -60,31 +60,39 @@
 	
 <!-- WEAPON INFORMATION - Format is: (ammoCount,maxSpeed,projectileID), lasers have maxSpeed of 100 -->
 	<!-- Weapon 0 is no Weapon -->
-	<resource type="text" id="WEAPON_1_INFO">2000,80,1</resource>
-	<resource type="text" id="WEAPON_2_INFO">2000,65,2</resource>
+	<resource type="text" id="WEAPON_1_INFO">2000,100,1</resource>
+	<resource type="text" id="WEAPON_2_INFO">2000,80,2</resource>
 	<resource type="text" id="WEAPON_3_INFO">2000,100,3</resource>
 	<resource type="text" id="WEAPON_4_INFO">2000,100,4</resource>
-	<resource type="text" id="WEAPON_5_INFO">2000,65,5</resource>
-	<resource type="text" id="WEAPON_6_INFO">2000,55,6</resource>
+	<resource type="text" id="WEAPON_5_INFO">2000,100,5</resource>
+	<resource type="text" id="WEAPON_6_INFO">2000,80,6</resource>
 	<resource type="text" id="WEAPON_7_INFO">2000,65,7</resource>
+	<resource type="text" id="WEAPON_8_INFO">2000,65,8</resource>
+	<resource type="text" id="WEAPON_9_INFO">2000,100,9</resource>
+	
 	
 	
 <!-- PROJECTILE INFORMATION - Format is: (blastLength (0 for circle), blastWidth (blastRadius for circle),baseDamage) -->
 	<resource type="text" id="PROJECTILE_1_INFO">0,30,30</resource>
 	<resource type="text" id="PROJECTILE_2_INFO">0,50,50</resource>
 	<resource type="text" id="PROJECTILE_3_INFO">500,6,10</resource>
-	<resource type="text" id="PROJECTILE_4_INFO">650,10,30</resource>
+	<resource type="text" id="PROJECTILE_4_INFO">650,6,30</resource>
 	<resource type="text" id="PROJECTILE_5_INFO">0,40,20</resource>
-	<resource type="text" id="PROJECTILE_6_INFO">0,70,35</resource>
-	<resource type="text" id="PROJECTILE_7_INFO">0,100,100</resource>
+	<resource type="text" id="PROJECTILE_6_INFO">0,70,45</resource>
+	<resource type="text" id="PROJECTILE_7_INFO">0,70,70</resource>
+	<resource type="text" id="PROJECTILE_8_INFO">0,100,70</resource>
+	<resource type="text" id="PROJECTILE_9_INFO">800,6,50</resource>
+	
 <!-- PROJECTILE IMAGES -->
 	<resource type="image" id="PROJECTILE_1_IMAGE">data/projectiles/missile_small.png</resource>
 	<resource type="image" id="PROJECTILE_2_IMAGE">data/projectiles/missile_big.png</resource>
-	<resource type="image" id="PROJECTILE_3_IMAGE">data/projectiles/laser_small.png</resource>
-	<resource type="image" id="PROJECTILE_4_IMAGE">data/projectiles/laser_big.png</resource>
+	<resource type="image" id="PROJECTILE_3_IMAGE">data/projectiles/laser_red.png</resource>
+	<resource type="image" id="PROJECTILE_4_IMAGE">data/projectiles/laser_green.png</resource>
 	<resource type="image" id="PROJECTILE_5_IMAGE">data/projectiles/grenade_small.png</resource>
 	<resource type="image" id="PROJECTILE_6_IMAGE">data/projectiles/grenade_big.png</resource>
 	<resource type="image" id="PROJECTILE_7_IMAGE">data/projectiles/ultimate.png</resource>
+	<resource type="image" id="PROJECTILE_8_IMAGE">data/projectiles/HolyHandGrenade.png</resource>
+	<resource type="image" id="PROJECTILE_9_IMAGE">data/projectiles/laser_blue.png</resource>
 <!-- HATS -->
 	<resource type="image" id="HATS">data/tanks/hatsRed.png</resource>
 </resources>

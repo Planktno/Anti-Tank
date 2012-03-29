@@ -76,14 +76,14 @@ public class GameState extends BasicGameState{
 		if (gc.isShowingFPS()) debugRender(g);
 	}
 	
-	public void startGame(World world, Player[] players, ArrayList<Hat> hats){
+	public void startGame(World world, Player[] players, ArrayList<Hat> hats, GameContainer gc){
 		this.world = world;
 		this.players = players;
 		
 		projectiles = new ArrayList<Projectile>();
 		this.hats = hats;
 	
-		timeStarted = System.nanoTime();
+		timeStarted = gc.getTime();
 		roundsPlayed = 0;
 		winner = "";
 		winnerChosen = false;

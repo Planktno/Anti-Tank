@@ -168,7 +168,7 @@ public class GUI {
 		drawNumber(rounds+1, screenX-controlX/5, controlY/30, (float)(scale));
 
 		//Draw the current time
-		long time = gc.getTime()/1000 - gs.getTimeStarted()/1000000000;
+		long time = gc.getTime()/1000 - gs.getTimeStarted()/1000;
 		Image Colon = sprites.getSubImage(565, 109, 6, 19);
 		formatTime(time,screenX-controlX/2-controlX/19,controlY/6+controlY/30,scale);
 		Colon.draw(screenX-controlX/2-controlX/19+30*scale,controlY/6+controlY/30, scale);

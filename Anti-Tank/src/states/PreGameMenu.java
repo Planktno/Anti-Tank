@@ -129,7 +129,7 @@ public class PreGameMenu extends BasicGameState {
 					createPlayers();
 					GameState gameState = (GameState)game.getState(GunsAndHats.GAMESTATE);
 					gameState.init(gc, game);
-					startGame(gameState);
+					startGame(gameState,gc);
 					game.enterState(GunsAndHats.GAMESTATE);
 				}
 			}
@@ -252,7 +252,7 @@ public class PreGameMenu extends BasicGameState {
 	public Player[] createPlayers() {
 		players = new Player[numberOfPlayers];
 		for (int i = 1; i <= numberOfPlayers; i++){
-			players[i-1] = new Player(playerNames[i-1], createTanks(i,2)); // 2 = tankId. should be selectable
+			players[i-1] = new Player(playerNames[i-1], createTanks(i,2)); // 2 = tankId. should be selectable probably..
 		}
 		return players;
 	}
@@ -270,13 +270,13 @@ public class PreGameMenu extends BasicGameState {
 		return playerTanks;
 	}
 	
-	public void startGame(GameState gs) {
+	public void startGame(GameState gs, GameContainer gc) {
 		World world = new World(worldId);
 		
 		ArrayList<Hat> hats = new ArrayList<Hat>();
 		hats = dispenseHats();
 		
-		gs.startGame(world, players, hats);
+		gs.startGame(world, players, hats, gc);
 	}
 
 	private ArrayList<Hat> dispenseHats() {
