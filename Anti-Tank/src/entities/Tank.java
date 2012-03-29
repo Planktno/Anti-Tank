@@ -338,5 +338,9 @@ public class Tank {
 	public int getCurrentProjectileId(){
 		return weapons[currentWeapon].getProjectile();
 	}
+	
+	public void setHealth(int hp){
+		this.hitpoints = hp;
+	}
 }
 
