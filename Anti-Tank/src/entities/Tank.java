@@ -335,12 +335,8 @@ public class Tank {
 		this.maximumMovement = i;
 	}
 	
-	private Weapon getActualWeapon(){
-		return weapons[currentWeapon];
-	}
-	
 	public int getCurrentProjectileId(){
-		return this.getActualWeapon().getProjectile();
+		return weapons[currentWeapon].getProjectile();
 	}
 }
 
