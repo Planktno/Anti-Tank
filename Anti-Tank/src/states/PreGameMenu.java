@@ -156,30 +156,16 @@ public class PreGameMenu extends BasicGameState {
 
 	private void decrementMenuItem() {
 		switch (currentMenuItem){
-		case 1:
-			numPlayersDown();
-			break;
-		case 2:
-			numTanksDown();
-			break;
-		case 3:
-			worldIdDown();
-			updateWorldImg();
-			break;
+		case 1: numPlayersDown(); break;
+		case 2: numTanksDown(); break;
+		case 3: worldIdDown(); updateWorldImg(); break;
 		}
 	}
 	private void incrementMenuItem() {
 		switch (currentMenuItem){
-		case 1:
-			numPlayersUp();
-			break;
-		case 2:
-			numTanksUp();
-			break;
-		case 3:
-			worldIdUp();
-			updateWorldImg();
-			break;
+		case 1: numPlayersUp(); break;
+		case 2: numTanksUp(); break;
+		case 3: worldIdUp(); updateWorldImg(); break;
 		}
 		
 	}
@@ -266,19 +252,19 @@ public class PreGameMenu extends BasicGameState {
 	public Player[] createPlayers() {
 		players = new Player[numberOfPlayers];
 		for (int i = 1; i <= numberOfPlayers; i++){
-			players[i-1] = new Player(playerNames[i-1], createTanks(i)); 
+			players[i-1] = new Player(playerNames[i-1], createTanks(i,2)); // 2 = tankId. should be selectable
 		}
 		return players;
 	}
 	
-	private Tank[] createTanks(int i){
+	private Tank[] createTanks(int i, int tankType){
 		Random rand = new Random();		
 		Tank[] playerTanks = new Tank[tanksPerPlayer];
 		int worldWidth = ResourceManager.getInstance().getImage("WORLD_" + worldId + "_LEVEL").getWidth();
 		
 		for (int j = 0; j < tanksPerPlayer; j++){
 			int tankX = rand.nextInt(worldWidth - 40) + 20;
-			playerTanks[j] = new Tank(2, tankX, 200, i); // TODO Change 1 to i when more colours of tanks implemented.
+			playerTanks[j] = new Tank(tankType, tankX, 200, i); // TODO Change 1 to i when more colours of tanks implemented.
 		}
 		
 		return playerTanks;
@@ -298,11 +284,12 @@ public class PreGameMenu extends BasicGameState {
 		Random rand = new Random();
 		int worldWidth = ResourceManager.getInstance().getImage("WORLD_" + worldId + "_LEVEL").getWidth();
 		
-		int numberOfHats = rand.nextInt(5) + numberOfPlayers; // Arbitrary choices tbh..
+		int numberOfHats = numberOfPlayers; 
 		
-		for (int j = 0; j < numberOfHats; j++){
+		for (int i = 0; i < numberOfHats; i++){
 			int hatX = rand.nextInt(worldWidth - 40) + 20;
-			hats.add(new Hat(rand.nextInt(4)+1, new Vector2f(hatX,0), 1));
+			hats.add(new Hat(rand.nextInt(4)+1, new Vector2f(hatX,-900), 1)); // Has to be large & negative Y value.. don't ask!
+			System.out.println("Hat " + i);
 		}
 		
 		return hats;

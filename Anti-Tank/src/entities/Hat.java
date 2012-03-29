@@ -59,6 +59,7 @@ public class Hat {
 					}
 				}
 			}
+			System.out.println("Hat:" + pos.x + " " + pos.y);
 		} else {
 			if(!wearer.isAlive()) {
 				wearer = null;
