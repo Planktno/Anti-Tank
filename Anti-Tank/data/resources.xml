@@ -50,13 +50,13 @@
 	
 <!-- WEAPON INFORMATION - Format is: (ammoCount,maxSpeed,projectileID), lasers have maxSpeed of 100 -->
 	<!-- Weapon 0 is no Weapon -->
-	<resource type="text" id="WEAPON_1_INFO">200,80,1</resource>
-	<resource type="text" id="WEAPON_2_INFO">200,65,2</resource>
-	<resource type="text" id="WEAPON_3_INFO">200,100,3</resource>
-	<resource type="text" id="WEAPON_4_INFO">200,100,4</resource>
-	<resource type="text" id="WEAPON_5_INFO">200,65,5</resource>
-	<resource type="text" id="WEAPON_6_INFO">200,55,6</resource>
-	<resource type="text" id="WEAPON_7_INFO">200,65,7</resource>
+	<resource type="text" id="WEAPON_1_INFO">2000,80,1</resource>
+	<resource type="text" id="WEAPON_2_INFO">2000,65,2</resource>
+	<resource type="text" id="WEAPON_3_INFO">2000,100,3</resource>
+	<resource type="text" id="WEAPON_4_INFO">2000,100,4</resource>
+	<resource type="text" id="WEAPON_5_INFO">2000,65,5</resource>
+	<resource type="text" id="WEAPON_6_INFO">2000,55,6</resource>
+	<resource type="text" id="WEAPON_7_INFO">2000,65,7</resource>
 	
 	
 <!-- PROJECTILE INFORMATION - Format is: (blastLength (0 for circle), blastWidth (blastRadius for circle),baseDamage) -->

@@ -254,15 +254,28 @@ public class PreGameMenu extends BasicGameState {
 		return playerTanks;
 	}
 	
-	public void startGame(GameState gameState) {
+	public void startGame(GameState gs) {
 		World world = new World(worldId);
 		
-		//Temp
 		ArrayList<Hat> hats = new ArrayList<Hat>();
-		Hat hat = new Hat(4, new Vector2f(200,0), 1);
-		hats.add(hat);
+		hats = dispenseHats();
 		
-		gameState.startGame(world, players, hats);
+		gs.startGame(world, players, hats);
+	}
+
+	private ArrayList<Hat> dispenseHats() {
+		ArrayList<Hat> hats = new ArrayList<Hat>();
+		Random rand = new Random();
+		int worldWidth = ResourceManager.getInstance().getImage("WORLD_" + worldId + "_LEVEL").getWidth();
+		
+		int numberOfHats = rand.nextInt(5) + numberOfPlayers; // Arbitrary choices tbh..
+		
+		for (int j = 0; j < numberOfHats; j++){
+			int hatX = rand.nextInt(worldWidth - 40) + 20;
+			hats.add(new Hat(rand.nextInt(4)+1, new Vector2f(hatX,0), 1));
+		}
+		
+		return hats;
 	}
 
 }

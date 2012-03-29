@@ -15,7 +15,7 @@ import states.GameState;
 
 public class Tank {
 
-	private static final int MAXMOVEMENT = 400;
+	public static final int MAXMOVEMENT = 400;
 	
 	private Vector2f pos;		// Position of the Tank
 	private Vector2f vel;		// Velocity of the Tank
@@ -37,6 +37,7 @@ public class Tank {
 	private float weight;
 	private int player;
 	private int movementAmount;	// Amount a player can move per turn
+	private int maximumMovement;
 	
 	
 	public Tank(int id, float x, float y, int player){
@@ -48,6 +49,7 @@ public class Tank {
 		currentWeapon = 0;
 		isAlive = true;
 		hasShot = false;
+		maximumMovement = MAXMOVEMENT;
 		movementAmount = MAXMOVEMENT;
 			
 		int[] wepIDs = new int[2]; // ID's of the two (changeable) weapons a tank has
@@ -132,7 +134,7 @@ public class Tank {
 			checkCollisions(world, old_pos, old_bPos);// Check Collisions
 			
 			if (!hasShot) checkInputs(in, world, gs, delta); // Check Inputs
-			else movementAmount = MAXMOVEMENT;
+			else movementAmount = maximumMovement;
 		
 			// Update Velocity
 			vel.set(vel.x, vel.y + world.getGravity()*delta * weight/1000);
@@ -327,6 +329,10 @@ public class Tank {
 
 	public void setWeight(float weight) {
 		this.weight = weight;
+	}
+
+	public void setMaxMovementAmount(int i) {
+		this.maximumMovement = i;
 	}
 	
 }

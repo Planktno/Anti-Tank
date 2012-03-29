@@ -68,7 +68,7 @@ public class Hat {
 				pos = new Vector2f(wearer.getPos()).add(new Vector2f(0,-16*cam.getFocusScale()));
 				if(!hatEffects) {
 					switch(type) {
-					case 1: break;
+					case 1: wearer.setMaxMovementAmount(Tank.MAXMOVEMENT*2); break;
 					case 2: break;
 					case 3: break;
 					case 4: wearer.setWeight(3); break;
