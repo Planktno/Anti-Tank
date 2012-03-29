@@ -44,4 +44,8 @@ public class Weapon {
 	public void updatePosition(float x, float y) {
 		pos.set(x,y);
 	}
+
+	public int getProjectile() {
+		return this.projID;
+	}
 }
