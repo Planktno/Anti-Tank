@@ -8,9 +8,14 @@
 	<resource type="image" id="SS_BUTTON_HISTORY">data/button_history.png</resource>
 	<resource type="image" id="SS_BUTTON_NEW_GAME_HOVER">data/button_new_game_hover.png</resource>
 	<resource type="image" id="SS_BUTTON_NEW_GAME">data/button_new_game.png</resource>
+	<resource type="image" id="SS_BUTTON_START_GAME">data/button_start_game.png</resource>
 <!-- PREGAMEMENU -->
 	<resource type="image" id="PRE_GAME_MENU_BG">data/preGameMenuBackground.png</resource>
-	
+	<resource type="image" id="LEFT_BIG">data/left_big.png</resource>
+	<resource type="image" id="LEFT_SMALL">data/left_small.png</resource>
+	<resource type="image" id="RIGHT_BIG">data/right_big.png</resource>
+	<resource type="image" id="RIGHT_SMALL">data/right_small.png</resource>
+		
 <!-- WORLD INFORMATION - Format is: (gravity,maxWindSpeed)-->	
 	<resource type="text" id="WORLD_0_INFO">10,5</resource>
 	<resource type="text" id="WORLD_1_INFO">10,5</resource>

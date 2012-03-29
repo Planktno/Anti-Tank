@@ -42,6 +42,12 @@ public class PreGameMenu extends BasicGameState {
 	
 	Image backgroundImg;
 	Image worldImg;
+	Image b_start;
+//	Image b_start_hover;
+	Image left_big;
+	Image left_small;
+	Image right_big;
+	Image right_small;
 
 	private Camera cam;
 	
@@ -71,10 +77,16 @@ public class PreGameMenu extends BasicGameState {
 		
 		backgroundImg = ResourceManager.getInstance().getImage("PRE_GAME_MENU_BG");
 		updateWorldImg();
+		b_start         = new Image ("data/button_start_game.png");
+	
 	}
 	
 	private void updateWorldImg() {
-		worldImg = ResourceManager.getInstance().getImage("WORLD_" + worldId + "_THUMB");
+		this.worldImg = ResourceManager.getInstance().getImage("WORLD_" + worldId + "_THUMB");
+		this.right_small = ResourceManager.getInstance().getImage("RIGHT_SMALL");
+		this.right_big = ResourceManager.getInstance().getImage("RIGHT_BIG");
+		this.left_big = ResourceManager.getInstance().getImage("LEFT_BIG");
+
 	}
 
 
@@ -86,6 +98,7 @@ public class PreGameMenu extends BasicGameState {
 		float scale = cam.getScale();
 		int offset = (int) cam.getOffset().getX();
 		backgroundImg.draw(cam.getOffset().getX(),cam.getOffset().getY(),scale);
+		b_start.draw(cam.getOffset().getX()+550*cam.getScale(), cam.getOffset().getY()+450*cam.getScale(), cam.getScale());
 		
 		int lx = (int) (50*scale);
 		int spacing = (int) (30*scale);
@@ -93,11 +106,13 @@ public class PreGameMenu extends BasicGameState {
 		g.drawString("Tanks per player:    " + this.tanksPerPlayer, lx + offset, spacing*2);
 		g.drawString("Your chosen world: World " + this.worldId, lx + offset, spacing*3);
 		
-		worldImg.draw(lx + spacing*2 + offset, spacing*4, scale);
+		worldImg.draw(lx + spacing*3 + offset, spacing*4, scale);
+		right_small.draw(lx - (40 * scale) + offset, spacing*currentMenuItem);
+		right_big.draw(lx + 400 * scale + offset, spacing* 11/2 );
+		left_big.draw(lx - 55 * scale + offset, spacing* 11/2);
 		
-		g.drawString("To START press ENTER", lx + offset, spacing*15);
-		
-		g.drawString(">", lx - (20*scale) + offset, spacing*currentMenuItem);
+//		g.drawString("To START press ENTER", lx + offset, spacing*15);
+//		g.drawString(">", lx - (20*scale) + offset, spacing*currentMenuItem);
 	}
 
 	@Override
@@ -105,15 +120,30 @@ public class PreGameMenu extends BasicGameState {
 			throws SlickException {
 		Input in = gc.getInput();
 		checkInputs(in);
+		int mouseX = in.getMouseX();
+		int mouseY = in.getMouseY();
+		
+		if(mouseY >= cam.getOffset().getY() + 450*cam.getScale() && mouseY <= cam.getOffset().getY() + 450*cam.getScale() + b_start.getHeight()*cam.getScale()) {
+			if(mouseX >= cam.getOffset().getX() + 550*cam.getScale() && mouseX <= cam.getOffset().getX() + 550*cam.getScale() + b_start.getWidth()*cam.getScale()) {
+				if (in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+					createPlayers();
+					GameState gameState = (GameState)game.getState(GunsAndHats.GAMESTATE);
+					gameState.init(gc, game);
+					startGame(gameState);
+					game.enterState(GunsAndHats.GAMESTATE);
+				}
+			}
+		}
+		
 		
 		//Temporary
-		if (in.isKeyPressed(Input.KEY_ENTER)){
-			createPlayers();
-			GameState gameState = (GameState)game.getState(GunsAndHats.GAMESTATE);
-			gameState.init(gc, game);
-			startGame(gameState);
-			game.enterState(GunsAndHats.GAMESTATE);
-		}
+//		if (in.isKeyPressed(Input.KEY_ENTER)){
+//			createPlayers();
+//			GameState gameState = (GameState)game.getState(GunsAndHats.GAMESTATE);
+//			gameState.init(gc, game);
+//			startGame(gameState);
+//			game.enterState(GunsAndHats.GAMESTATE);
+//		}
 		
 	}
 
