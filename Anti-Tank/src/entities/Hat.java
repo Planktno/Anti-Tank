@@ -46,13 +46,13 @@ public class Hat {
 			vy += world.getGravity() * delta / 100;
 			Vector2f deltaPos = new Vector2f(vx*delta/100, vy*delta/100);
 			pos.add(deltaPos);
-			if(gs.checkCollision(this, world)) {
+			if(GameState.checkCollision(this, world)) {
 				vx = vy = 0;
 				pos.sub(deltaPos);
 			}
 			for(Player p : gs.getPlayers()) {
 				for(Tank t : p.getTanks()) {
-					if(t.isAlive() && gs.checkCollision(this, t)) {
+					if(t.isAlive() && GameState.checkCollision(this, t)) {
 						wearer = t;
 						vx = vy = 0;
 						return;
@@ -67,10 +67,26 @@ public class Hat {
 			else {
 				pos = new Vector2f(wearer.getPos()).add(new Vector2f(0,-16*cam.getFocusScale()));
 				if(!hatEffects) {
+					hatEffects = true;
 					switch(type) {
 					case 1: wearer.setMaxMovementAmount(Tank.MAXMOVEMENT*2); break;
-					case 2: break;
-					case 3: break;
+					case 2: wearer.setHealth(2*wearer.returnHp()); break;
+					case 3: Weapon[] weapons = wearer.getWeapons();
+							Weapon[] newWeapons = new Weapon[weapons.length];
+							for(int i = 0; i < weapons.length; i++) {
+								Vector2f wepPosition = weapons[0].getPosition();
+								switch(weapons[i].getProjectile()) {
+								case 1: newWeapons[i] = new Weapon(2,wepPosition); break;
+								case 2: newWeapons[i] = new Weapon(7,wepPosition); break;
+								case 3: newWeapons[i] = new Weapon(4,wepPosition); break;
+								case 4: newWeapons[i] = new Weapon(7,wepPosition); break;
+								case 5: newWeapons[i] = new Weapon(5,wepPosition); break;
+								case 6: newWeapons[i] = new Weapon(7,wepPosition); break;
+								case 7: newWeapons[i] = new Weapon(7,wepPosition); break;
+								}
+							}
+							wearer.setWeapons(newWeapons);
+							break;
 					case 4: wearer.setWeight(3); break;
 					}
 				}
