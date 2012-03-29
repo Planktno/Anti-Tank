@@ -80,7 +80,7 @@ public class Projectile {
 			gs.destroyProjectile(this); // Delete the projectile
 			if(laser) {
 				//world.destroyLine(pos, rotation, 200, 20);
-				world.destroyLine(pos, (float)Math.toRadians(rotation), (int)Math.floor(blastLength), (int)Math.floor(blastRadius));
+				world.destroyLine(pos, (float)Math.toRadians(rotation), (int)Math.floor(blastLength), (int)Math.floor(blastRadius) + 4);
 				gs.damagePlayers(blastLength, blastRadius, (float)Math.toRadians(rotation), pos, baseDamage);
 			} else {
 				world.destroyCircle(blastRadius, pos);// Destroy part of the world
