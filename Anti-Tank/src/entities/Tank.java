@@ -342,5 +342,9 @@ public class Tank {
 	public void setHealth(int hp){
 		this.hitpoints = hp;
 	}
+	
+	public int getMaxMovement() {
+		return this.maximumMovement;
+	}
 }
 
