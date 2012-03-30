@@ -262,15 +262,16 @@ public class GUI {
 		//only works with 2 weapons
 		int currentWeapon = currentTank.getCurrentProjectileId();
 		Image[] projectiles = new Image[] {
-				sprites.getSubImage(169,404, 42, 35),    //small missile
-				sprites.getSubImage(169,404, 42, 35),    //small missile
-				sprites.getSubImage(224,404, 42, 35),    //big missile
-				sprites.getSubImage(169, 316, 42, 35),   //small laser
-				sprites.getSubImage(224, 316, 42, 35),   // big laser
-				sprites.getSubImage(168, 360, 42, 35),   //small grenade
+				sprites.getSubImage(169, 404, 42, 35),   //small missile
+				sprites.getSubImage(224, 404, 42, 35),   //big missile
+				sprites.getSubImage(169, 316, 42, 35),   //red laser
+				sprites.getSubImage(224, 316, 42, 35),   // green laser
+				sprites.getSubImage(169, 360, 42, 35),   //small grenade
 				sprites.getSubImage(224, 360, 42, 35),   //big grenade
-				sprites.getSubImage(224, 448, 42, 35)};    //ultimate
-		projectiles[currentWeapon].draw(screenX-controlX+controlX/27, controlY-controlY/6, scale);
+				sprites.getSubImage(169, 448, 42, 35),   //ultimate
+				sprites.getSubImage(224, 448, 42, 35),   //holy hand grenade
+				sprites.getSubImage(169, 492, 42, 35)};  //blue laser
+		projectiles[currentWeapon-1].draw(screenX-controlX+controlX/27, controlY-controlY/6, scale);
 
 		
 		//draw movement meter
