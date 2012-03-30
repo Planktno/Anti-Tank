@@ -260,11 +260,18 @@ public class GUI {
 		
 		//Weapon[] weapons = currentTank.getWeapons();
 		//only works with 2 weapons
-		int currentWeapon = currentTank.getCurrentWeapon();
+		int currentWeapon = currentTank.getCurrentProjectileId();
 		Image[] projectiles = new Image[] {
-				sprites.getSubImage(169, 316, 42, 35),
-				sprites.getSubImage(224, 316, 42, 35)};
+				sprites.getSubImage(169,404, 42, 35),    //small missile
+				sprites.getSubImage(169,404, 42, 35),    //small missile
+				sprites.getSubImage(224,404, 42, 35),    //big missile
+				sprites.getSubImage(169, 316, 42, 35),   //small laser
+				sprites.getSubImage(224, 316, 42, 35),   // big laser
+				sprites.getSubImage(168, 360, 42, 35),   //small grenade
+				sprites.getSubImage(224, 360, 42, 35),   //big grenade
+				sprites.getSubImage(224, 448, 42, 35)};    //ultimate
 		projectiles[currentWeapon].draw(screenX-controlX+controlX/27, controlY-controlY/6, scale);
+
 		
 		//draw movement meter
 		Image movementPanel = sprites.getSubImage(166, 247, 105, 38);
@@ -272,7 +279,7 @@ public class GUI {
 		
 		float mov = players[currentPlayer].getCurrentTank().getMovementAmount();
 		movementPanel.draw(screenX-2*controlX/3-controlX/50, controlY, scale);
-		movementFull = movementFull.getSubImage(0, 0, (int)(88*(mov/400)), 14);
+		movementFull = movementFull.getSubImage(0, 0, (int)(88*(mov/players[currentPlayer].getCurrentTank().getMaxMovement())), 14);
 		movementFull.draw(screenX-controlX/2-controlX/8, controlY+controlY/20-scale, scale);
 		
 		Image selectWeapon = sprites.getSubImage(62, 206, 22, 19);
