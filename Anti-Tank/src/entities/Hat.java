@@ -71,7 +71,7 @@ public class Hat {
 					hatEffects = true;
 					switch(type) {
 					case 1: wearer.setMaxMovementAmount(Tank.MAXMOVEMENT*2); break;
-					case 2: wearer.setHealth(2*wearer.returnHp()); break;
+					case 2: wearer.setHealth(50+wearer.returnHp()); break;
 					case 3: Weapon[] weapons = wearer.getWeapons();
 							Weapon[] newWeapons = new Weapon[weapons.length];
 							for(int i = 0; i < weapons.length; i++) {
@@ -81,7 +81,7 @@ public class Hat {
 								case 2: newWeapons[i] = new Weapon(7,wepPosition); break;
 								case 3: newWeapons[i] = new Weapon(4,wepPosition); break;
 								case 4: newWeapons[i] = new Weapon(9,wepPosition); break;
-								case 5: newWeapons[i] = new Weapon(5,wepPosition); break;
+								case 5: newWeapons[i] = new Weapon(6,wepPosition); break;
 								case 6: newWeapons[i] = new Weapon(8,wepPosition); break;
 								case 7: newWeapons[i] = new Weapon(7,wepPosition); break;
 								case 8: newWeapons[i] = new Weapon(8,wepPosition); break;

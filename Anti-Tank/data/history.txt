@@ -1,8 +1,8 @@
-Oana, Gordon, 03:32
-Gordon, Oana, 03:15
-Gordon, Victor, Peter, Oana, 05:51
-Oana, Gordon, 03:02
-Oana, Gordon, 04:10
-Gordon, Oana, 03:08
-Oana, Gordon, 03:01
-Oana, Gordon, 02:51
+Gordon, Oana, 12608;45
+Oana, Gordon, 12614;35
+Oana, Gordon, 12649;40
+Gordon, Oana, 13803;29
+Gordon, Oana, 13805;00
+Gordon, Oana, 13805;38
+Gordon, Oana, 13809;43
+Gordon, Oana, 13818;25

@@ -3,6 +3,7 @@ package states;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -24,7 +25,6 @@ import game.GUI;
 import game.GunsAndHats;
 import game.History;
 import game.PixelPos;
-import game.ResourceManager;
 
 public class GameState extends BasicGameState{
 
@@ -342,6 +342,7 @@ public class GameState extends BasicGameState{
 			currentPlayer = 0;
 			roundsPlayed++;
 			world.randomizeWind();
+			addNewHat();
 		}
 		
 		if(players[currentPlayer].isLoser()) {
@@ -350,6 +351,13 @@ public class GameState extends BasicGameState{
 			players[currentPlayer].setFocus(this); // Give focus to the new player
 			cam.setFocus(players[currentPlayer].getCurrentTank());
 		}
+	}
+
+	private void addNewHat() { // New hat every round?? - P
+		Random rand = new Random();
+		int worldWidth = world.getImage().getWidth();
+		int hatX = rand.nextInt(worldWidth - 40) + 20;
+		hats.add(new Hat(rand.nextInt(4)+1, new Vector2f(hatX,-900), 1));
 	}
 
 	public Player getCurrentPlayer() {

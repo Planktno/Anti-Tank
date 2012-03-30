@@ -103,7 +103,7 @@ public class Tank {
 			barrel.setRotation(bAngle);
 			barrel.draw(relbpos.x , relbpos.y - (bhalfheight*scale), scale); 
 			body.render(relpos.x, relpos.y, scale);
-			gui.drawNumber(this.hitpoints, relpos.x + 16*cam.getFocusScale(), relpos.y - 16*cam.getFocusScale(), cam.getFocusScale());
+			gui.drawNumber(this.hitpoints, relpos.x, relpos.y + 42*cam.getFocusScale(), cam.getFocusScale());
 			
 		
 			//Debug Mode

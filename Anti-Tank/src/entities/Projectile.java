@@ -92,16 +92,20 @@ public class Projectile {
 		int worldheight = world.getImage().getHeight();
 		if (pos.getY() > worldheight) gs.destroyProjectile(this);
 		
+//		Used to speed up and/or slow down projectile flight.. one complaint I
+//		had when testing out the game on my flat mates was that it was too quick too see what was going on.
+		int speedFactor = 15;
+		
 		 // Update Position
-		pos.set(pos.x+(vel.x*delta/100),pos.y+(vel.y*delta/100));
+		pos.set(pos.x+(vel.x*delta/(speedFactor*10)),pos.y+(vel.y*delta/(speedFactor*10)));
 		
 		 // Update Velocity
-		float windX = world.getWindX()*delta/100;
-		float windY = world.getWindY()*delta/100;
-		float grav = world.getGravity()*delta/100;
-		if(!laser) vel.set(vel.x + windX * delta/10, vel.y + (windY + grav)*delta/10);
+		float windX = world.getWindX()*delta/(speedFactor*10);//150150;
+		float windY = world.getWindY()*delta/(speedFactor*10);
+		float grav = world.getGravity()*delta/(speedFactor*10);
+		if(!laser) vel.set(vel.x + windX * delta/speedFactor, vel.y + (windY + grav)*delta/speedFactor);
 		else {
-			blastLength -= new Vector2f(vel.x*delta/100,vel.y*delta/100).length();
+			blastLength -= new Vector2f(vel.x*delta/(speedFactor*10),vel.y*delta/(speedFactor*10)).length();
 			if(blastLength < 0) {
 				gs.destroyProjectile(this);
 			}

@@ -289,7 +289,6 @@ public class PreGameMenu extends BasicGameState {
 		for (int i = 0; i < numberOfHats; i++){
 			int hatX = rand.nextInt(worldWidth - 40) + 20;
 			hats.add(new Hat(rand.nextInt(4)+1, new Vector2f(hatX,-900), 1)); // Has to be large & negative Y value.. don't ask!
-			System.out.println("Hat " + i);
 		}
 		
 		return hats;
