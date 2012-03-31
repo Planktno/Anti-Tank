@@ -252,7 +252,7 @@ public class PreGameMenu extends BasicGameState {
 	public Player[] createPlayers() {
 		players = new Player[numberOfPlayers];
 		for (int i = 1; i <= numberOfPlayers; i++){
-			players[i-1] = new Player(playerNames[i-1], createTanks(i,2)); // 2 = tankId. should be selectable probably..
+			players[i-1] = new Player(playerNames[i-1], createTanks(i,3)); // 2 = tankId. should be selectable probably..
 		}
 		return players;
 	}
