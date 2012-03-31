@@ -408,7 +408,7 @@ public class PreGameMenuNew extends BasicGameState{
 			return new Player(p.getPlayerName(), newTs);
 		} else {
 			tankError = true;
-			return null;
+			return p;
 		}
 	}
 
