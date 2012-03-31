@@ -68,6 +68,8 @@ public class GunsAndHats extends StateBasedGame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		ResourceManager.getInstance().getMusic("MUSIC").loop();
 
 		this.addState(new StartScreen(STARTSCREEN, camera));
 		this.addState(new PreGameMenu(PREGAMESTATE, camera));

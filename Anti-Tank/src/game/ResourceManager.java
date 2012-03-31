@@ -184,7 +184,7 @@ public class ResourceManager {
 	// ********************* Music ****************
 	private void addElementAsMusic(Element resourceElement)
 			throws SlickException {
-		loadSound(resourceElement.getAttribute("id"),
+		loadMusic(resourceElement.getAttribute("id"),
 				resourceElement.getTextContent());
 	}
 
@@ -196,7 +196,7 @@ public class ResourceManager {
 		Music music = null;
 
 		try {
-			music = new Music(path);
+			music = new Music(path, true);
 		} catch (SlickException e) {
 			throw new SlickException("Could not load sound", e);
 		}

@@ -96,7 +96,7 @@
 <!-- HATS -->
 	<resource type="image" id="HATS">data/tanks/hatsRed.png</resource>
 <!--  MUSIC -->
-	<!-- <resource type="music" id="MUSIC">data/music.ogg</resource> -->
+	<resource type="music" id="MUSIC">data/sounds/music.wav</resource>
 <!-- SOUNDS -->
 	<resource type="sound" id="WEAPON_1_SOUND">data/sounds/missile_small_launch.wav</resource>
 	<resource type="sound" id="WEAPON_2_SOUND">data/sounds/missile_big_launch.wav</resource>
