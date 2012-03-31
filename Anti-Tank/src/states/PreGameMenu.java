@@ -148,6 +148,8 @@ public class PreGameMenu extends BasicGameState {
 	}
 
 	private void checkInputs(Input in, StateBasedGame game) {
+		if(in.isKeyPressed(Input.KEY_K)) ResourceManager.getInstance().getMusic("MUSIC").pause();
+		if(in.isKeyPressed(Input.KEY_L)) ResourceManager.getInstance().getMusic("MUSIC").resume();
 		if (in.isKeyPressed(Input.KEY_UP)) upMenuItems();
 		if (in.isKeyPressed(Input.KEY_DOWN)) downMenuItems();
 		if (in.isKeyPressed(Input.KEY_RIGHT)) incrementMenuItem(); // Increment current menu item

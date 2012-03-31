@@ -212,8 +212,8 @@ public class GameState extends BasicGameState{
 		
 		for(Hat hat : hats) hat.update(gc, game, delta, world, in, this, cam);
 		
-		if(in.isKeyPressed(Input.KEY_P)) cam.setFocusScale(cam.getFocusScale()*1.1f);
-		if(in.isKeyPressed(Input.KEY_O)) cam.setFocusScale(cam.getFocusScale()*0.9f);
+		if(in.isKeyPressed(Input.KEY_K)) ResourceManager.getInstance().getMusic("MUSIC").pause();
+		if(in.isKeyPressed(Input.KEY_L)) ResourceManager.getInstance().getMusic("MUSIC").resume();
 		if(in.isKeyPressed(Input.KEY_ESCAPE)) gc.exit();
 		if(in.isKeyPressed(Input.KEY_ENTER)); // To avoid annoying quick screen switches after the end of the match!
 		
