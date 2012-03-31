@@ -41,7 +41,7 @@
 <!-- TANK INFORMATION - Format is: (bX,bY,hitPoints,movementSpeed,wepID1,wepID2,weight) -->
 	<resource type="text" id="TANK_1_INFO">15,12,100,15,1,5,25</resource> <!-- Heavy Tank -->
 	<resource type="text" id="TANK_2_INFO">15,20,80,35,3,5,5</resource> <!-- Slime -->
-	<resource type="text" id="TANK_3_INFO">14,22,120,8,1,3,30</resource> <!-- Planet -->
+	<resource type="text" id="TANK_3_INFO">16,19,120,8,1,3,30</resource> <!-- Planet -->
 	
 <!-- TANK ANIMATION IMAGES -->
 	<resource type="animation" id="TANK_1_RED" tw="32" duration="500" >data/tanks/TankRed.png</resource>
