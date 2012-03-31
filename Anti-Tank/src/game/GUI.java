@@ -15,6 +15,7 @@ import states.GameState;
 import entities.Camera;
 import entities.Player;
 import entities.Tank;
+import entities.Weapon;
 //import entities.Weapon;
 import entities.World;
 public class GUI {
@@ -290,6 +291,7 @@ public class GUI {
 		int mouseY = input.getMouseY();
 		
 		//change weapon by mouse
+		int cWeapon = players[currentPlayer].getCurrentTank().getCurrentWeapon();
 		if (mouseX > screenX-controlX+controlX/14+controlX/50 &&
 			mouseX < screenX-controlX+controlX/14+controlX/50+selectWeapon.getWidth()*scale &&
 			mouseY > controlY-controlY/30 &&
@@ -300,11 +302,12 @@ public class GUI {
 			mouseY > controlY-controlY/30 &&
 			mouseY < controlY-controlY/30+selectWeapon.getHeight()*scale &&
 			input.isMousePressed(0)) {
-				
-			if (currentWeapon==0)
-				players[currentPlayer].getCurrentTank().setCurrentWeapon(1);
-			else
-				players[currentPlayer].getCurrentTank().setCurrentWeapon(0);
+
+			cWeapon++;
+			if (cWeapon==2) cWeapon =0;
+			players[currentPlayer].getCurrentTank().setCurrentWeapon(cWeapon);
+			
+			
 		}
 		
 		//change power by mouse UP
