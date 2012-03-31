@@ -196,7 +196,7 @@ public class Tank {
 			if(in.isKeyDown(Input.KEY_A)) {
 				if(movementAmount > 0){
 					if(vel.y == 0)  this.vel.set(-0.5f*movementSpeed, -0.2f * weight);
-					else this.vel.set(-5f, vel.y);
+					else this.vel.set(-0.5f*movementSpeed, vel.y);
 					this.movementAmount--;
 				}
 			}
@@ -204,7 +204,7 @@ public class Tank {
 			if(in.isKeyDown(Input.KEY_D)) {
 				if(movementAmount > 0){
 					if(vel.y == 0)  this.vel.set(0.5f*movementSpeed, -0.2f * weight);
-					else this.vel.set(5f, vel.y);
+					else this.vel.set(0.5f*movementSpeed, vel.y);
 					this.movementAmount--;
 				}
 			}
@@ -352,6 +352,7 @@ public class Tank {
 	
 	public void setPosition(Vector2f pos) {
 		this.pos = pos;
+		bPos.set(pos.x+bx, pos.y+by);
 	}
 }
 

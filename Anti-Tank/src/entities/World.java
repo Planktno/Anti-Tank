@@ -162,11 +162,18 @@ public class World {
 	
 	public void destroyLine(Vector2f pos, float angle, int length, int width) {
 		ArrayList<PixelPos> toRemove = new ArrayList<PixelPos>();
-		
-		for (int x = 0; x <= length*(Math.cos(angle)); x++) {
-			float y = (float)(x * Math.tan(angle));
-			destroyCircleNoUpdate(width/2, new Vector2f(x + pos.getX(),y + pos.getY()), toRemove);
+		if(length*(Math.cos(angle)) >= 0){
+			for (int x = -width; x <= length*(Math.cos(angle)); x++) {
+				float y = (float)(x * Math.tan(angle));
+				destroyCircleNoUpdate(width/2, new Vector2f(x + pos.getX(),y + pos.getY()), toRemove);
+			}
+		}else{
+			for (int x = width; x >= length*(Math.cos(angle)); x--) {
+				float y = (float)(x * Math.tan(angle));
+				destroyCircleNoUpdate(width/2, new Vector2f(x + pos.getX(),y + pos.getY()), toRemove);
+			}
 		}
+
 		level = levelBuffer.getImage();
 		pixelMap.removeAll(toRemove);
 	}

@@ -68,32 +68,32 @@ public class Projectile {
 	}
 	
 	public void update(GameContainer gc, StateBasedGame game, int delta, World world, GameState gs){
-		// Check Collisions	(projectile, tanks)	
-		for (int i = 0; i < gs.getPlayers().length; i++){ // for each player
-			for (int j = 0; j < gs.getPlayer(i).getTanks().length; j++){ //for each tank
-				Tank currentTank = gs.getPlayer(i).getTank(j);
-				if (GameState.checkCollision(this, currentTank)){ // if the tank and projectile collide
-					if(!laser) {
-						sound.play();
-					}
-					currentTank.damageBy(baseDamage); // Damage the current tank by full damage of projectile
-					gs.destroyProjectile(this); // Destroy the projectile
-					world.destroyCircle(blastRadius, pos); // Destroy part of the world
-				}
-			}
-		}
-		
 		// Check Collisions	(projectile, world)	
 		if (GameState.checkCollision(this, world)){ 
 			gs.destroyProjectile(this); // Delete the projectile
 			if(laser) {
 				//world.destroyLine(pos, rotation, 200, 20);
-				world.destroyLine(pos, (float)Math.toRadians(rotation), (int)Math.floor(blastLength), (int)Math.floor(blastRadius) + 4);
+				world.destroyLine(pos, (float)Math.toRadians(rotation), (int)Math.floor(blastLength), (int)Math.floor(blastRadius) + 6);
 				gs.damagePlayers(blastLength, blastRadius, (float)Math.toRadians(rotation), pos, baseDamage);
 			} else {
 				sound.play();
 				world.destroyCircle(blastRadius, pos);// Destroy part of the world
 				gs.damagePlayers(blastRadius, pos, baseDamage);// Damage all tanks of all players in BlastRadius by some value relating to base damage
+			}
+		} else {
+			// Check Collisions	(projectile, tanks)	
+			for (int i = 0; i < gs.getPlayers().length; i++){ // for each player
+				for (int j = 0; j < gs.getPlayer(i).getTanks().length; j++){ //for each tank
+					Tank currentTank = gs.getPlayer(i).getTank(j);
+					if (GameState.checkCollision(this, currentTank)){ // if the tank and projectile collide
+						if(!laser) {
+							sound.play();
+						}
+						currentTank.damageBy(baseDamage); // Damage the current tank by full damage of projectile
+						gs.destroyProjectile(this); // Destroy the projectile
+						world.destroyCircle(blastRadius, pos); // Destroy part of the world
+					}
+				}
 			}
 		}
 		
