@@ -10,13 +10,13 @@
 	<resource type="image" id="SS_BUTTON_NEW_GAME">data/button_new_game.png</resource>
 	<resource type="image" id="SS_BUTTON_START_GAME">data/button_start_game.png</resource>
 <!-- PREGAMEMENU -->
-	<resource type="image" id="PRE_GAME_MENU_BG">data/preGameMenuBackground.png</resource>
-	<resource type="image" id="LEFT_BIG">data/left_big.png</resource>
-	<resource type="image" id="LEFT_SMALL">data/left_small.png</resource>
-	<resource type="image" id="RIGHT_BIG">data/right_big.png</resource>
-	<resource type="image" id="RIGHT_SMALL">data/right_small.png</resource>
-	<resource type="image" id="STARTGAMEBUTTON">data/button_start_game.png</resource>
-		
+	<resource type="image" id="STARTGAMEBUTTON">data/startIconWithSlimes.png</resource>
+	<resource type="image" id="PREGAMEMENUBACKGROUND">data/preGameMenuBackground1.png</resource>
+	<resource type="image" id="BORDER_WORLD">data/border.png</resource>
+	<resource type="image" id="BORDER_TANK">data/smallBorder.png</resource>
+	<resource type="image" id="SPRITES">data/sprites.png</resource>
+	<resource type="image" id="T3PLUS">data/button_purple.png</resource>
+	<resource type="image" id="T4PLUS">data/button_cyan.png</resource>
 <!-- WORLD INFORMATION - Format is: (gravity,maxWindSpeed)-->	
 	<resource type="text" id="WORLD_0_INFO">10,5</resource>
 	<resource type="text" id="WORLD_1_INFO">10,5</resource>

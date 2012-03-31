@@ -84,19 +84,19 @@ public class PreGameMenuNew extends BasicGameState{
 	@Override
 	public void init(GameContainer gc, StateBasedGame sb)
 			throws SlickException {
-		Image sprites = ResourceManager.getInstance().getImage("SPRITES_GUI");
+		Image sprites = ResourceManager.getInstance().getImage("SPRITES");
 		
-		//background;
+		background = ResourceManager.getInstance().getImage("PREGAMEMENUBACKGROUND");
 		worldThumb = ResourceManager.getInstance().getImage("WORLD_"+worldID+"_THUMB");
-		border_tanks = ResourceManager.getInstance().getImage("LEFT_SMALL");
-		border_world = ResourceManager.getInstance().getImage("WORLD_0_THUMB");
+		border_tanks = ResourceManager.getInstance().getImage("BORDER_TANK");
+		border_world = ResourceManager.getInstance().getImage("BORDER_WORLD").getScaledCopy(1.5f);
 		startGame = ResourceManager.getInstance().getImage("STARTGAMEBUTTON");
-		player1_background = sprites.getSubImage(252, 0, 126, 40);
-		player2_background = sprites.getSubImage(379, 0, 126, 40);
-		player3_background = sprites.getSubImage(506, 0, 126, 40);
-		player4_background = sprites.getSubImage(633, 0, 126, 40);
-		player3_plus = sprites.getSubImage(506, 0, 126, 40);
-		player4_plus = sprites.getSubImage(633, 0, 126, 40);
+		player1_background = sprites.getSubImage(0, 0, 85, 31);
+		player2_background = sprites.getSubImage(85+2, 0, 85, 31);
+		player3_background = sprites.getSubImage(2*(85+2), 0, 85, 31);
+		player4_background = sprites.getSubImage(3*(85+2), 0, 85, 31);
+		player3_plus = ResourceManager.getInstance().getImage("T3PLUS");
+		player4_plus = ResourceManager.getInstance().getImage("T4PLUS");
 		
 		pB_pos_Rel = camera.getRelFocusPos(pB_pos).add(camera.getOffset());
 		pB_delta_x_Rel = pB_delta_x * camera.getScale();
@@ -116,6 +116,8 @@ public class PreGameMenuNew extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr)
 			throws SlickException {
+		
+		background.draw(camera.getOffset().x, camera.getOffset().y, camera.getScale());
 		
 		//Player 1
 		player1_background.draw(pB_pos_Rel.x, pB_pos_Rel.y, camera.getScale());
@@ -171,7 +173,7 @@ public class PreGameMenuNew extends BasicGameState{
 		
 		//World
 		worldThumb.draw(world_pos_Rel.x, world_pos_Rel.y, camera.getScale());
-		//border_world.draw(world_pos_Rel.x, world_pos_Rel.y, camera.getScale());
+		border_world.draw(world_pos_Rel.x-17*camera.getScale(), world_pos_Rel.y-15*camera.getScale(), camera.getScale());
 		
 		//StartGameButton
 		startGame.draw(startGame_pos_Rel.x, startGame_pos_Rel.y, camera.getScale());
@@ -189,6 +191,11 @@ public class PreGameMenuNew extends BasicGameState{
 		Input in = gc.getInput();
 		int mx = in.getMouseX();
 		int my = in.getMouseY();
+		
+		//Check Backspace
+		if(in.isKeyPressed(Input.KEY_RETURN)) {
+			sb.enterState(GunsAndHats.STARTSCREEN);
+		}
 		
 		//Check for Position and Click
 		//Player 1
