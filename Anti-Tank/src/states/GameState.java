@@ -114,7 +114,7 @@ public class GameState extends BasicGameState{
 	private void addToHistory(GameContainer gc) {
 		try{
 			History h = new History();
-			long time = gc.getTime()/1000 - this.getTimeStarted()/1000000000;
+			long time = gc.getTime()/1000 - this.getTimeStarted()/1000;
 			int min=(int)time/60;
 			int s=(int)time%60;
 			String str = winner + ", " + loserStr;

@@ -1,8 +1,8 @@
-Oana, Gordon, 12649;40
-Gordon, Oana, 13803;29
 Gordon, Oana, 13805;00
 Gordon, Oana, 13805;38
 Gordon, Oana, 13809;43
 Gordon, Oana, 13818;25
 Gordon, Oana, 22219867;02
 Gordon, Oana, 15008;13
+Oana, Gordon, 91;44
+Gordon, Oana, 00:17
