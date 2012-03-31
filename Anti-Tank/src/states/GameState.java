@@ -28,6 +28,8 @@ import game.PixelPos;
 
 public class GameState extends BasicGameState{
 
+	private static final float hatDropChance = 0.2f; // Between 0.0 and 1.0
+	
 	private int stateID;
 	private World world;
 	private Player[] players;
@@ -342,7 +344,6 @@ public class GameState extends BasicGameState{
 			currentPlayer = 0;
 			roundsPlayed++;
 			world.randomizeWind();
-			addNewHat();
 		}
 		
 		if(players[currentPlayer].isLoser()) {
@@ -351,9 +352,15 @@ public class GameState extends BasicGameState{
 			players[currentPlayer].setFocus(this); // Give focus to the new player
 			cam.setFocus(players[currentPlayer].getCurrentTank());
 		}
+		
+		Random rand = new Random();
+		if (rand.nextFloat() < GameState.hatDropChance){
+			addNewHat();
+		}
+		
 	}
 
-	private void addNewHat() { // New hat every round?? - P
+	private void addNewHat() {
 		Random rand = new Random();
 		int worldWidth = world.getImage().getWidth();
 		int hatX = rand.nextInt(worldWidth - 40) + 20;
