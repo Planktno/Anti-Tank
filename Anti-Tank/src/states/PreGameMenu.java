@@ -119,7 +119,7 @@ public class PreGameMenu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
 		Input in = gc.getInput();
-		checkInputs(in);
+		checkInputs(in,game);
 		int mouseX = in.getMouseX();
 		int mouseY = in.getMouseY();
 		
@@ -147,11 +147,12 @@ public class PreGameMenu extends BasicGameState {
 		
 	}
 
-	private void checkInputs(Input in) {
+	private void checkInputs(Input in, StateBasedGame game) {
 		if (in.isKeyPressed(Input.KEY_UP)) upMenuItems();
 		if (in.isKeyPressed(Input.KEY_DOWN)) downMenuItems();
 		if (in.isKeyPressed(Input.KEY_RIGHT)) incrementMenuItem(); // Increment current menu item
 		if (in.isKeyPressed(Input.KEY_LEFT)) decrementMenuItem(); // Decrement current menu item
+		if (in.isKeyPressed(Input.KEY_BACK)) game.enterState(GunsAndHats.STARTSCREEN);
 	}
 
 	private void decrementMenuItem() {
