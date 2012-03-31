@@ -5,11 +5,11 @@ import game.ResourceManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import states.GameState;
-import entities.Tank;
 
 public class Projectile {
 
@@ -21,6 +21,7 @@ public class Projectile {
 	private float blastRadius;	// Area of effect of explosion
 	private int baseDamage;	    // Base amount of hitpoint damage done to tanks
 	private boolean laser;
+	private Sound sound;
 	
 	public Projectile(int id, float x, float y, float launchSpeed, float bAngle) {
 		float vx = launchSpeed * (float)Math.cos(Math.toRadians(bAngle)); // x component of initial velocity
@@ -50,6 +51,10 @@ public class Projectile {
 			vel = new Vector2f(vx,vy);
 		}
 		else laser = false;
+		
+		if(!laser) {
+			sound = ResourceManager.getInstance().getSound("PROJECTILE_" + id + "_SOUND");
+		}
 	}
 	
 	public void render(GameContainer gc, StateBasedGame game, Graphics g, Camera cam){
@@ -68,6 +73,9 @@ public class Projectile {
 			for (int j = 0; j < gs.getPlayer(i).getTanks().length; j++){ //for each tank
 				Tank currentTank = gs.getPlayer(i).getTank(j);
 				if (GameState.checkCollision(this, currentTank)){ // if the tank and projectile collide
+					if(!laser) {
+						sound.play();
+					}
 					currentTank.damageBy(baseDamage); // Damage the current tank by full damage of projectile
 					gs.destroyProjectile(this); // Destroy the projectile
 					world.destroyCircle(blastRadius, pos); // Destroy part of the world
@@ -83,6 +91,7 @@ public class Projectile {
 				world.destroyLine(pos, (float)Math.toRadians(rotation), (int)Math.floor(blastLength), (int)Math.floor(blastRadius) + 4);
 				gs.damagePlayers(blastLength, blastRadius, (float)Math.toRadians(rotation), pos, baseDamage);
 			} else {
+				sound.play();
 				world.destroyCircle(blastRadius, pos);// Destroy part of the world
 				gs.damagePlayers(blastRadius, pos, baseDamage);// Damage all tanks of all players in BlastRadius by some value relating to base damage
 			}
