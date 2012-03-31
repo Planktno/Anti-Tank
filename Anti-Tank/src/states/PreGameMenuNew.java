@@ -38,6 +38,7 @@ public class PreGameMenuNew extends BasicGameState{
 	Image background;
 	Image worldThumb;
 	Image border_tanks;
+	Image tank_add;
 	Image border_world;
 	Image startGame;
 	Image player1_background;
@@ -89,6 +90,7 @@ public class PreGameMenuNew extends BasicGameState{
 		background = ResourceManager.getInstance().getImage("PREGAMEMENUBACKGROUND");
 		worldThumb = ResourceManager.getInstance().getImage("WORLD_"+worldID+"_THUMB");
 		border_tanks = ResourceManager.getInstance().getImage("BORDER_TANK");
+		tank_add = ResourceManager.getInstance().getImage("TANK_ADD");
 		border_world = ResourceManager.getInstance().getImage("BORDER_WORLD").getScaledCopy(1.5f);
 		startGame = ResourceManager.getInstance().getImage("STARTGAMEBUTTON");
 		player1_background = sprites.getSubImage(0, 0, 85, 31);
@@ -126,6 +128,7 @@ public class PreGameMenuNew extends BasicGameState{
 				player1_tanks[i].getImage().draw(pB_pos_Rel.x + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 				border_tanks.draw(pB_pos_Rel.x + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 			} else {
+				tank_add.draw(pB_pos_Rel.x + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 				border_tanks.draw(pB_pos_Rel.x + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 			}
 		}
@@ -137,6 +140,7 @@ public class PreGameMenuNew extends BasicGameState{
 				player2_tanks[i].getImage().draw(pB_pos_Rel.x + pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 				border_tanks.draw(pB_pos_Rel.x + pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 			} else {
+				tank_add.draw(pB_pos_Rel.x + pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 				border_tanks.draw(pB_pos_Rel.x + pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 			}
 		}
@@ -149,6 +153,7 @@ public class PreGameMenuNew extends BasicGameState{
 					player3_tanks[i].getImage().draw(pB_pos_Rel.x + 2*pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 					border_tanks.draw(pB_pos_Rel.x + 2*pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 				} else {
+					tank_add.draw(pB_pos_Rel.x + 2*pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 					border_tanks.draw(pB_pos_Rel.x + 2*pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 				}
 			}
@@ -164,6 +169,7 @@ public class PreGameMenuNew extends BasicGameState{
 					player4_tanks[i].getImage().draw(pB_pos_Rel.x + 3*pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 					border_tanks.draw(pB_pos_Rel.x + 3*pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 				} else {
+					tank_add.draw(pB_pos_Rel.x + 3*pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 					border_tanks.draw(pB_pos_Rel.x + 3*pB_delta_x_Rel + tankOffsetX, pB_pos_Rel.y + (i+1)*tankDeltaY, camera.getScale());
 				}
 			}

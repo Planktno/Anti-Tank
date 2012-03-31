@@ -17,6 +17,7 @@
 	<resource type="image" id="SPRITES">data/sprites.png</resource>
 	<resource type="image" id="T3PLUS">data/button_purple.png</resource>
 	<resource type="image" id="T4PLUS">data/button_cyan.png</resource>
+	<resource type="image" id="TANK_ADD">data/button_tank.png</resource>
 <!-- WORLD INFORMATION - Format is: (gravity,maxWindSpeed)-->	
 	<resource type="text" id="WORLD_0_INFO">10,5</resource>
 	<resource type="text" id="WORLD_1_INFO">10,5</resource>
