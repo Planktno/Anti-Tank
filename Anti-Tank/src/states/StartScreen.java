@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -52,6 +53,10 @@ public class StartScreen extends BasicGameState{
 		b_start.draw(camera.getOffset().getX()+50*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), scale);
 		b_history.draw(camera.getOffset().getX()+310*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), scale);
 		b_exit.draw(camera.getOffset().getX()+550*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), scale);
+		Vector2f creditPos = camera.getRelPos(new Vector2f(200,560));
+		
+		gr.drawString("A Game by: Victor Dumitrescu, Gordon Edwards,", creditPos.x + camera.getOffset().x, creditPos.y + camera.getOffset().y);
+		gr.drawString("Peter Henderson, Oana Hritcu, Nikolaus Huber", creditPos.x + camera.getOffset().x, creditPos.y + camera.getOffset().y + 20*camera.getScale());
 	}
 
 	@Override
