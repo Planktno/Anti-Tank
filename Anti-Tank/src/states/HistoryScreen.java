@@ -14,6 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import entities.Camera;
 import game.GunsAndHats;
 import game.History;
+import game.ResourceManager;
 
 
 public class HistoryScreen extends BasicGameState {
@@ -100,6 +101,9 @@ public class HistoryScreen extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sb, int delta)
 			throws SlickException {
 		Input input = gc.getInput();
+		
+		if(input.isKeyPressed(Input.KEY_K)) ResourceManager.getInstance().getMusic("MUSIC").pause();
+		if(input.isKeyPressed(Input.KEY_L)) ResourceManager.getInstance().getMusic("MUSIC").resume();
 		
 		if(input.isKeyPressed(Input.KEY_BACK)) {
 			sb.enterState(GunsAndHats.STARTSCREEN);

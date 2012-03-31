@@ -67,6 +67,9 @@ public class StartScreen extends BasicGameState{
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
 		
+		if(input.isKeyPressed(Input.KEY_K)) ResourceManager.getInstance().getMusic("MUSIC").pause();
+		if(input.isKeyPressed(Input.KEY_L)) ResourceManager.getInstance().getMusic("MUSIC").resume();
+		
 		//if inside the right Y range for all buttons
 		if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
 			//if inside the right X range for the start button
