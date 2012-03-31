@@ -112,6 +112,7 @@ public class GameState extends BasicGameState{
 		loserStr = "";
 		
 		ResourceManager.getInstance().getMusic("MUSIC").setVolume(0.5f);
+		ResourceManager.getInstance().getMusic("MUSIC").setPosition(0);
 	}
 
 	private void addToHistory(GameContainer gc) {

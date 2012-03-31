@@ -53,7 +53,8 @@ public class StartScreen extends BasicGameState{
 		b_start.draw(camera.getOffset().getX()+50*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), scale);
 		b_history.draw(camera.getOffset().getX()+310*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), scale);
 		b_exit.draw(camera.getOffset().getX()+550*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), scale);
-		Vector2f creditPos = camera.getRelPos(new Vector2f(200,560));
+		
+		Vector2f creditPos = camera.getRelPos(new Vector2f(20,550));
 		
 		gr.drawString("A Game by: Victor Dumitrescu, Gordon Edwards,", creditPos.x + camera.getOffset().x, creditPos.y + camera.getOffset().y);
 		gr.drawString("Peter Henderson, Oana Hritcu, Nikolaus Huber", creditPos.x + camera.getOffset().x, creditPos.y + camera.getOffset().y + 20*camera.getScale());
@@ -71,7 +72,7 @@ public class StartScreen extends BasicGameState{
 			//if inside the right X range for the start button
 			if(mouseX >= camera.getOffset().getX() + 50*camera.getScale() && mouseX <= camera.getOffset().getX() + 50*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 				b_start=b_start_hover.copy();//.setRotation(5.0f);
-				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+				if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 					game.enterState(GunsAndHats.PREGAMESTATE);
 				}
 			} else {
@@ -84,7 +85,7 @@ public class StartScreen extends BasicGameState{
 		if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
 			if(mouseX >= camera.getOffset().getX() + 310*camera.getScale() && mouseX <= camera.getOffset().getX() + 310*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 				b_history=b_history_hover.copy();
-				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+				if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 					game.getState(GunsAndHats.HISTORYSCREEN).init(gc, game);
 					game.enterState(GunsAndHats.HISTORYSCREEN);
 				}
@@ -98,7 +99,7 @@ public class StartScreen extends BasicGameState{
 		if(mouseY >= camera.getOffset().getY() + 450*camera.getScale() && mouseY <= camera.getOffset().getY() + 450*camera.getScale() + b_start.getHeight()*camera.getScale()) {
 			if(mouseX >= camera.getOffset().getX() + 550*camera.getScale() && mouseX <= camera.getOffset().getX() + 550*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 				b_exit=b_exit_hover.copy();
-				if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) gc.exit();
+				if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) gc.exit();
 			} else {
 				b_exit = ResourceManager.getInstance().getImage("SS_BUTTON_EXIT"); 
 			}

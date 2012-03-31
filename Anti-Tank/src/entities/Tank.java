@@ -17,6 +17,8 @@ public class Tank {
 
 	public static final int MAXMOVEMENT = 400;
 	
+	public static int type;
+	
 	private Vector2f pos;		// Position of the Tank
 	private Vector2f vel;		// Velocity of the Tank
 	private Vector2f bPos; 		// Position of the Barrel of the tank
@@ -41,6 +43,7 @@ public class Tank {
 	
 	
 	public Tank(int id, float x, float y, int player){
+		this.type = id;
 		this.player = player;
 		pos = new Vector2f(x,y);
 		vel = new Vector2f(0,0);
@@ -345,6 +348,10 @@ public class Tank {
 	
 	public int getMaxMovement() {
 		return this.maximumMovement;
+	}
+	
+	public void setPosition(Vector2f pos) {
+		this.pos = pos;
 	}
 }
 

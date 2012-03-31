@@ -15,7 +15,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import states.EndGameScreen;
 import states.GameState;
 import states.HistoryScreen;
-import states.PreGameMenu;
+import states.PreGameMenuNew;
 import states.StartScreen;
 import entities.Camera;
 
@@ -31,8 +31,8 @@ public class GunsAndHats extends StateBasedGame {
 
 	private static final int FRAMEWIDTH = 800;
 	private static final int FRAMEHEIGHT = 600;
-	private static int SCREENWIDTH = 800;//1024;
-	private static int SCREENHEIGHT = 600;//768;
+	private static int SCREENWIDTH = 1024;//1024;
+	private static int SCREENHEIGHT = 768;//768;
 	private static int FRAMERATE = 60;
 	private static boolean FULLSCREEN = false; 
 	// If FULLSCREEN is true, we use the desktop resolution, not SCREENWIDTH and SCREENHEIGHT as above.
@@ -72,7 +72,7 @@ public class GunsAndHats extends StateBasedGame {
 		ResourceManager.getInstance().getMusic("MUSIC").loop();
 
 		this.addState(new StartScreen(STARTSCREEN, camera));
-		this.addState(new PreGameMenu(PREGAMESTATE, camera));
+		this.addState(new PreGameMenuNew(PREGAMESTATE, camera));
 		this.addState(new GameState(GAMESTATE, camera));
 		this.addState(new EndGameScreen(ENDGAMESCREEN, camera));
 		this.addState(new HistoryScreen(HISTORYSCREEN, camera));
