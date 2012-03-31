@@ -34,7 +34,7 @@ public class GunsAndHats extends StateBasedGame {
 	private static int SCREENWIDTH = 800;//1024;
 	private static int SCREENHEIGHT = 600;//768;
 	private static int FRAMERATE = 60;
-	private static boolean FULLSCREEN = true; 
+	private static boolean FULLSCREEN = false; 
 	// If FULLSCREEN is true, we use the desktop resolution, not SCREENWIDTH and SCREENHEIGHT as above.
 
 	
@@ -60,7 +60,7 @@ public class GunsAndHats extends StateBasedGame {
 		File f = new File("data/resources.xml");
 		try {
 			InputStream in = new FileInputStream(f);
-			ResourceManager.getInstance().loadResources(in, true);
+			ResourceManager.getInstance().loadResources(in, false);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -10,6 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.loading.LoadingList;
@@ -27,12 +28,14 @@ public class ResourceManager {
 	private Map<String, Image> imageMap;
 	private Map<String, Animation> animationMap;
 	private Map<String, String> textMap;
+	private Map<String, Music> musicMap;
 
 	private ResourceManager() {
 		soundMap = new HashMap<String, Sound>();
 		imageMap = new HashMap<String, Image>();
 		animationMap = new HashMap<String, Animation>();
 		textMap = new HashMap<String, String>();
+		musicMap = new HashMap<String, Music>();
 	}
 
 	public final static ResourceManager getInstance() {
@@ -92,6 +95,8 @@ public class ResourceManager {
 
 				} else if (type.equals("animation")) {
 					addElementAsAnimation(resourceElement);
+				} else if(type.equals("music")) {
+					addElementAsMusic(resourceElement);
 				}
 			}
 		}
@@ -174,6 +179,35 @@ public class ResourceManager {
 
 	public final Sound getSound(String ID) {
 		return soundMap.get(ID);
+	}
+	
+	// ********************* Music ****************
+	private void addElementAsMusic(Element resourceElement)
+			throws SlickException {
+		loadSound(resourceElement.getAttribute("id"),
+				resourceElement.getTextContent());
+	}
+
+	public Music loadMusic(String id, String path) throws SlickException {
+		if (path == null || path.length() == 0)
+			throw new SlickException("Sound resource [" + id
+					+ "] has invalid path");
+
+		Music music = null;
+
+		try {
+			music = new Music(path);
+		} catch (SlickException e) {
+			throw new SlickException("Could not load sound", e);
+		}
+
+		this.musicMap.put(id, music);
+
+		return music;
+	}
+
+	public final Music getMusic(String ID) {
+		return musicMap.get(ID);
 	}
 
 	// ********************* Animation *****************

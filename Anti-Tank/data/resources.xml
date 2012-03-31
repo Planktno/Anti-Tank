@@ -95,4 +95,22 @@
 	<resource type="image" id="PROJECTILE_9_IMAGE">data/projectiles/laser_blue.png</resource>
 <!-- HATS -->
 	<resource type="image" id="HATS">data/tanks/hatsRed.png</resource>
+<!--  MUSIC -->
+	<!-- <resource type="music" id="MUSIC">data/music.ogg</resource> -->
+<!-- SOUNDS -->
+	<resource type="sound" id="WEAPON_1_SOUND">data/sounds/missile_small_launch.wav</resource>
+	<resource type="sound" id="WEAPON_2_SOUND">data/sounds/missile_big_launch.wav</resource>
+	<resource type="sound" id="WEAPON_3_SOUND">data/sounds/laser_red_launch.wav</resource>
+	<resource type="sound" id="WEAPON_4_SOUND">data/sounds/laser_green_launch.wav</resource>
+	<resource type="sound" id="WEAPON_5_SOUND">data/sounds/grenade_small_launch.wav</resource>
+	<resource type="sound" id="WEAPON_6_SOUND">data/sounds/grenade_big_launch.wav</resource>
+	<resource type="sound" id="WEAPON_7_SOUND">data/sounds/ultimate_launch.wav</resource>
+	<resource type="sound" id="WEAPON_8_SOUND">data/sounds/HolyHandGrenade_launch.wav</resource>
+	<resource type="sound" id="WEAPON_9_SOUND">data/sounds/laser_blue_launch.wav</resource>
+	<resource type="sound" id="PROJECTILE_1_SOUND">data/sounds/missile_small_hit.wav</resource>
+	<resource type="sound" id="PROJECTILE_2_SOUND">data/sounds/missile_big_hit.wav</resource>
+	<resource type="sound" id="PROJECTILE_5_SOUND">data/sounds/grenade_small_hit.wav</resource>
+	<resource type="sound" id="PROJECTILE_6_SOUND">data/sounds/grenade_big_hit.wav</resource>
+	<resource type="sound" id="PROJECTILE_7_SOUND">data/sounds/ultimate_hit.wav</resource>
+	<resource type="sound" id="PROJECTILE_8_SOUND">data/sounds/HolyHandGrenade_hit.wav</resource>
 </resources>
