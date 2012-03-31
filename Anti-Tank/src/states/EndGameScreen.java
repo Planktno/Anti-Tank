@@ -121,6 +121,7 @@ public class EndGameScreen extends BasicGameState {
 		return id;
 	}
 	public void setWinner(int winner){
+		ResourceManager.getInstance().getMusic("MUSIC").setVolume(1);
 		this.winner=winner;
 	}
 	}

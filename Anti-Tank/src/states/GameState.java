@@ -25,6 +25,7 @@ import game.GUI;
 import game.GunsAndHats;
 import game.History;
 import game.PixelPos;
+import game.ResourceManager;
 
 public class GameState extends BasicGameState{
 
@@ -109,6 +110,8 @@ public class GameState extends BasicGameState{
 		cam.setFocus(players[0].getCurrentTank());
 		
 		loserStr = "";
+		
+		ResourceManager.getInstance().getMusic("MUSIC").setVolume(0.5f);
 	}
 
 	private void addToHistory(GameContainer gc) {
