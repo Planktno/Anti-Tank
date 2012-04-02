@@ -34,7 +34,7 @@ public class GunsAndHats extends StateBasedGame {
 	private static int SCREENWIDTH = 1024;//1024;
 	private static int SCREENHEIGHT = 768;//768;
 	private static int FRAMERATE = 60;
-	private static boolean FULLSCREEN = false; 
+	private static boolean FULLSCREEN = true; 
 	// If FULLSCREEN is true, we use the desktop resolution, not SCREENWIDTH and SCREENHEIGHT as above.
 
 	

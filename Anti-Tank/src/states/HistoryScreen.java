@@ -30,7 +30,7 @@ public class HistoryScreen extends BasicGameState {
 	public HistoryScreen(int id, Camera camera) {
 		this.camera = camera;
 		try {
-			bg = new Image("data/HistoryScreen.JPG");
+			bg = new Image("data/HistoryScreen.jpg");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

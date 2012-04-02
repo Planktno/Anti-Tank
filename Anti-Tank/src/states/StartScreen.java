@@ -1,5 +1,6 @@
 package states;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -48,6 +49,9 @@ public class StartScreen extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics gr)
 			throws SlickException {
+		
+		gr.setColor(Color.white);
+		
 		float scale = camera.getScale();
 		background.draw(camera.getOffset().getX(), camera.getOffset().getY(), scale);
 		b_start.draw(camera.getOffset().getX()+50*camera.getScale(), camera.getOffset().getY()+450*camera.getScale(), scale);
