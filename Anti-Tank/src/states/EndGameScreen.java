@@ -82,6 +82,8 @@ public class EndGameScreen extends BasicGameState {
 				if(mouseX >= camera.getOffset().getX() + 50*camera.getScale() && mouseX <= camera.getOffset().getX() + 50*camera.getScale() + b_start.getWidth()*camera.getScale()) {
 					b_start=b_start_hover.copy();
 					if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+						PreGameMenuNew pre = (PreGameMenuNew)game.getState(GunsAndHats.PREGAMESTATE);
+						pre.init(gc, game);
 						game.enterState(GunsAndHats.PREGAMESTATE);
 					}
 				} else {

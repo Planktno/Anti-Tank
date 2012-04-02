@@ -75,17 +75,18 @@ public class PreGameMenuNew extends BasicGameState{
 	public PreGameMenuNew (int id, Camera cam) {
 		this.id = id;
 		this.camera = cam;
+	}
+
+	@Override
+	public void init(GameContainer gc, StateBasedGame sb)
+			throws SlickException {
 		worldID = 0;
 		players = new Player[4];
 		player1_tanks = new Tank[4];
 		player2_tanks = new Tank[4];
 		player3_tanks = new Tank[4];
 		player4_tanks = new Tank[4];
-	}
-
-	@Override
-	public void init(GameContainer gc, StateBasedGame sb)
-			throws SlickException {
+		
 		Image sprites = ResourceManager.getInstance().getImage("SPRITES");
 		
 		background = ResourceManager.getInstance().getImage("PREGAMEMENUBACKGROUND");
@@ -382,6 +383,11 @@ public class PreGameMenuNew extends BasicGameState{
 			hats = dispenseHats(playerCount);
 			
 			GameState gs = (GameState) sb.getState(GunsAndHats.GAMESTATE);
+			try{
+				gs.init(gc, sb);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 			gs.startGame(world, newPlayers, hats, gc);
 			sb.enterState(GunsAndHats.GAMESTATE);
 		}
